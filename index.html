@@ -1,35 +1,276 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <title>Frangain - The Cultural Token</title>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Frangain - Coming Soon</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/themify-icons.css" />
+    <link rel="stylesheet" href="css/animate.css" />
+    <link rel="stylesheet" href="css/owl.carousel.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- FIX: Load Font Awesome properly for social icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        padding: 100px;
-        background: #118;
-        color: white;
+      /* FIX: Proper flex layout and spacing for social icons container */
+      .social {
+        display: flex;
+        gap: 14px;
+        margin-top: 10px;
       }
-      h1 {
-        font-size: 48px;
-        margin-bottom: 10px;
+
+      /* FIX: Style social icon links as circular buttons */
+      .social a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background-color: #f0f0f0;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
       }
-      p {
-        font-size: 24px;
-        margin-bottom: 30px;
+
+      /* FIX: Icon size and base color */
+      .social a i {
+        font-size: 20px;
+        color: #000 !important;
+        transition: color 0.3s ease;
       }
-      .footer {
-        margin-top: 50px;
-        font-size: 14px;
-        color: #777;
+
+      /* FIX: Brand colors for each social icon on normal state */
+      .social a.twitter {
+        background-color: #1da1f2; /* Twitter blue */
+      }
+
+      .social a.twitter i {
+        color: white !important;
+      }
+
+      .social a.telegram i {
+        color: #0088cc !important;
+      }
+
+      .social a.instagram i {
+        color: #c13584 !important;
+      }
+
+      .social a.facebook i {
+        color: #1877f2 !important;
+      }
+
+      /* FIX: Hover effect: lighten background and brighten icon color */
+      .social a:hover {
+        background-color: #e0e0e0;
+      }
+
+      .social a:hover i {
+        color: #000 !important;
       }
     </style>
   </head>
+
   <body>
-    <h1>Frangain</h1>
-    <p>Our website is coming soon. Stay tuned!</p>
-    <div class="footer">© 2025 Frangain. All rights reserved.</div>
+    <header class="header-section clearfix">
+      <div class="container-fluid">
+        <a href="index.html" class="site-logo">
+          <img
+            src="img/Frangain.png"
+            alt="Frangain Logo"
+            style="max-height: 60px; width: auto; display: inline-block"
+          />
+        </a>
+        <div class="responsive-bar"><i class="fa fa-bars"></i></div>
+        <a
+          href="https://mirror.xyz/frangain.eth/AWCIwErgdvYZus0PYzUUQE67xK-pq_io0b6nH5_0G4U?referrerAddress=0x3737812213b11B702fa346D7e39f63Ae6d208734"
+          target="_blank"
+          class="site-btn"
+        >
+          Mint the Story
+        </a>
+        <nav class="main-menu">
+          <ul class="menu-list">
+            <li><a href="#about">About</a></li>
+            <li><a href="story-manifesto.html">Story & Manifesto</a></li>
+            <li><a href="whitepaper.html">Whitepaper</a></li>
+            <li><a href="how_to_buy.html">How to Buy</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 hero-text">
+            <h2>Welcome to <span>Frangain</span></h2>
+            <h4>
+              A digital memory of a forgotten coin — reborn for the future.
+            </h4>
+          </div>
+          <div class="col-md-6">
+            <img src="img/laptop.png" class="laptop-image" alt="" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="about-section spad">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 offset-lg-6 about-text">
+            <h2>What is Frangain?</h2>
+            <h5>
+              A symbolic BEP-20 token that revives a cultural memory of Lebanon.
+            </h5>
+            <p>
+              Frangain commemorates the historic Lebanese "Frang" — a coin that
+              once echoed through souks and homes. This project isn’t about
+              speculation, but about honoring a shared heritage. It's a symbol,
+              a digital relic, and a spark for community-led learning and
+              creativity.
+            </p>
+          </div>
+        </div>
+        <div class="about-img">
+          <img src="img/about-img.png" alt="" />
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="features-section spad gradient-bg">
+      <div class="container text-white">
+        <div class="section-title text-center">
+          <h2>Why Frangain Matters</h2>
+          <p>
+            Not just a token — a living memory, built on transparency and trust.
+          </p>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-lg-4 feature">
+            <i class="ti-wallet"></i>
+            <div class="feature-content">
+              <h4>Fair Launch</h4>
+              <p>No presale. No private deals. 100% on-chain and open.</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4 feature">
+            <i class="ti-heart"></i>
+            <div class="feature-content">
+              <h4>Cultural Mission</h4>
+              <p>
+                Designed to educate, commemorate, and celebrate a national
+                memory.
+              </p>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4 feature">
+            <i class="ti-lock"></i>
+            <div class="feature-content">
+              <h4>Liquidity Locked</h4>
+              <p>LP tokens locked for 1 year for full community trust.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="process" class="process-section spad">
+      <div class="container">
+        <div class="section-title text-center">
+          <h2>How to Buy FRANG</h2>
+          <p>Buy FRANG on PancakeSwap using your wallet. It’s easy and safe.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer-section">
+      <div class="container">
+        <div class="row spad">
+          <div class="col-md-6 col-lg-3 footer-widget">
+            <img src="img/Frangain.png" class="mb-4" alt="Frangain" />
+            <p>A token of memory, not speculation.</p>
+          </div>
+          <div class="col-md-6 col-lg-2 offset-lg-1 footer-widget">
+            <h5 class="widget-title">Quick Links</h5>
+            <ul>
+              <li><a href="#about">About</a></li>
+              <li><a href="whitepaper.html">Whitepaper</a></li>
+              <li><a href="story-manifesto.html">The Story</a></li>
+            </ul>
+          </div>
+          <div class="col-md-6 col-lg-2 offset-lg-1 footer-widget">
+            <h5 class="widget-title">Project Resources</h5>
+            <ul>
+              <li><a href="whitepaper.html">Tokenomics</a></li>
+              <li><a href="whitepaper.html">Whitepaper</a></li>
+            </ul>
+          </div>
+
+          <div class="col-md-6 col-lg-3 footer-widget pl-lg-5 pl-3">
+            <h5 class="widget-title">Follow Us</h5>
+
+            <!-- FIX: Use <i> tags for Font Awesome brand icons -->
+            <div class="social">
+              <a
+                href="https://twitter.com/frangainteam"
+                target="_blank"
+                class="twitter"
+              >
+                <i class="fa-brands fa-twitter"></i>
+              </a>
+              <a
+                href="https://t.me/frangainnetwork"
+                target="_blank"
+                class="telegram"
+              >
+                <i class="fa-brands fa-telegram"></i>
+              </a>
+              <a
+                href="https://instagram.com/frangain"
+                target="_blank"
+                class="instagram"
+              >
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+              <a
+                href="https://facebook.com/frangain"
+                target="_blank"
+                class="facebook"
+              >
+                <i class="fa-brands fa-facebook-f"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <div class="row">
+            <div class="col-lg-12 text-center">
+              <p>&copy; 2025 Frangain. All rights reserved.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
   </body>
 </html>
