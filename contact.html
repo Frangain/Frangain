@@ -130,16 +130,15 @@
     <!-- Google Maps -->
     <!-- Map Section Begin -->
     <div class="map">
-      <iframe
-        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAsOwPLUHqJklUfC9NgfjZF45OYuROK6S0&q=Beirut+Lebanon"
-        width="100%"
-        height="450"
-        style="border: 0"
-        allowfullscreen
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-      >
-      </iframe>
+      <!-- Load iframe from external file -->
+      <div id="map-container"></div>
+      <script>
+        fetch("map-frame.html")
+          .then((res) => res.text())
+          .then((html) => {
+            document.getElementById("map-container").innerHTML = html;
+          });
+      </script>
     </div>
     <!-- Map Section End -->
 
