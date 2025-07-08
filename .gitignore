@@ -135,4 +135,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 # Hide map file that contains Google Maps API key
-map-frame.html
+public/map-frame.html
+

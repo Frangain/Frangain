@@ -133,7 +133,7 @@
       <!-- Load iframe from external file -->
       <div id="map-container"></div>
       <script>
-        fetch("map-frame.html")
+        fetch("/map-frame.html")
           .then((res) => res.text())
           .then((html) => {
             document.getElementById("map-container").innerHTML = html;
