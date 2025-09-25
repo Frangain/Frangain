@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- CHANGED: Add ™ in the <title> for browser/tab title -->
+    <!-- KEEP: ™ in title (text usage) -->
     <title>Frangain™ - The Cultural Token</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -83,29 +83,19 @@
         color: #000 !important;
       }
 
-      /* ADDED: Generic ™ styling for inline text usage */
+      /* KEEP: ™ styling for inline text usage */
       .tm {
         font-size: 0.6em;
         vertical-align: super;
         margin-left: 1px;
         line-height: 0;
+        position: relative;
+        top: -0.1em; /* small lift so punctuation stays neat */
       }
 
-      /* ADDED: Small ™ badge placed next to image logos */
-      .tm-badge {
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 1;
-        display: inline-block;
-        transform: translateY(-6px);
-        margin-left: 2px;
-      }
-
-      /* ADDED: Ensure header logo container aligns TM nicely */
-      .site-logo {
-        display: inline-flex;
-        align-items: flex-start;
-      }
+      /* REMOVED: .tm-badge & site-logo flex since we're not showing ™ next to images */
+      /* .tm-badge { ... }  — removed */
+      /* .site-logo { ... } — removed */
     </style>
   </head>
 
@@ -113,14 +103,14 @@
     <header class="header-section clearfix">
       <div class="container-fluid">
         <a href="index.html" class="site-logo">
-          <!-- CHANGED: Keep the image, add a ™ badge right after it -->
+          <!-- CHANGED: revert alt text to neutral (no ™ on image logo) -->
           <img
             src="img/Frangain.png"
-            alt="Frangain™ Logo"
+            alt="Frangain Logo"
             style="max-height: 60px; width: auto; display: inline-block"
           />
-          <!-- ADDED: Visible ™ next to the header image logo -->
-          <span class="tm-badge" aria-hidden="true">™</span>
+          <!-- REMOVED: ™ badge beside the image logo -->
+          <!-- <span class="tm-badge" aria-hidden="true">™</span> -->
         </a>
         <div class="responsive-bar"><i class="fa fa-bars"></i></div>
         <a
@@ -146,7 +136,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-6 hero-text">
-            <!-- CHANGED: Add ™ in the welcome headline -->
+            <!-- KEEP: ™ only on text -->
             <h2>
               Welcome to <span>Frangain<span class="tm">™</span></span>
             </h2>
@@ -165,13 +155,13 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-6 offset-lg-6 about-text">
-            <!-- CHANGED: Add ™ in the section heading -->
+            <!-- FIX: ™ before the ? (keeps punctuation clean) -->
             <h2>What is Frangain<span class="tm">™</span>?</h2>
             <h5>
               A symbolic BEP-20 token that revives a cultural memory of Lebanon.
             </h5>
             <p>
-              <!-- CHANGED: Add ™ in the paragraph when referring to the brand -->
+              <!-- KEEP: ™ on brand mention -->
               Frangain<span class="tm">™</span> commemorates the historic
               Lebanese "Frang" — a coin that once echoed through souks and
               homes. This project isn’t about speculation, but about honoring a
@@ -189,7 +179,7 @@
     <section id="features" class="features-section spad gradient-bg">
       <div class="container text-white">
         <div class="section-title text-center">
-          <!-- CHANGED: Add ™ in "Why Frangain Matters" -->
+          <!-- KEEP: ™ on text heading -->
           <h2>Why Frangain<span class="tm">™</span> Matters</h2>
           <p>
             Not just a token — a living memory, built on transparency and trust.
@@ -227,8 +217,12 @@
     <section id="process" class="process-section spad">
       <div class="container">
         <div class="section-title text-center">
-          <h2>How to Buy FRANG</h2>
-          <p>Buy FRANG on PancakeSwap using your wallet. It’s easy and safe.</p>
+          <!-- CHANGED: add ™ to FRANG in heading and paragraph -->
+          <h2>How to Buy FRANG<span class="tm">™</span></h2>
+          <p>
+            Buy FRANG<span class="tm">™</span> on PancakeSwap using your wallet.
+            It’s easy and safe.
+          </p>
           <p class="mb-4">
             👉 Click the button below to go directly to PancakeSwap:
           </p>
@@ -262,12 +256,10 @@
       <div class="container">
         <div class="row spad">
           <div class="col-md-6 col-lg-3 footer-widget">
-            <!-- CHANGED: Add ™ next to footer image logo + update alt text -->
-            <span>
-              <img src="img/Frangain.png" class="mb-4" alt="Frangain™" />
-              <!-- ADDED: Visible ™ next to the footer image logo -->
-              <span class="tm-badge" aria-hidden="true">™</span>
-            </span>
+            <!-- CHANGED: no ™ beside image; alt back to neutral -->
+            <img src="img/Frangain.png" class="mb-4" alt="Frangain" />
+            <!-- REMOVED: ™ badge that used to sit under/next to logo -->
+            <!-- <span class="tm-badge" aria-hidden="true">™</span> -->
             <p>A token of memory, not speculation.</p>
           </div>
           <div class="col-md-6 col-lg-2 offset-lg-1 footer-widget">
@@ -326,11 +318,11 @@
         <div class="footer-bottom">
           <div class="row">
             <div class="col-lg-12 text-center">
+              <!-- KEEP: ™ on brand in legal line -->
               <p>
                 &copy; 2025 Frangain<span class="tm">™</span>. All rights
                 reserved.
               </p>
-              <!-- CHANGED: Add ™ in the legal line -->
             </div>
           </div>
         </div>
