@@ -25,14 +25,11 @@
     />
 
     <style>
-      /* FIX: Proper flex layout and spacing for social icons container */
       .social {
         display: flex;
         gap: 14px;
         margin-top: 10px;
       }
-
-      /* FIX: Style social icon links as circular buttons */
       .social a {
         display: flex;
         align-items: center;
@@ -44,40 +41,29 @@
         text-decoration: none;
         transition: background-color 0.3s ease;
       }
-
-      /* FIX: Icon size and base color */
       .social a i {
         font-size: 20px;
         color: #000 !important;
         transition: color 0.3s ease;
       }
-
-      /* FIX: Brand colors for each social icon on normal state */
       .social a.twitter {
-        background-color: #1da1f2; /* Twitter blue */
+        background-color: #1da1f2;
       }
-
       .social a.twitter i {
         color: white !important;
       }
-
       .social a.telegram i {
         color: #0088cc !important;
       }
-
       .social a.instagram i {
         color: #c13584 !important;
       }
-
       .social a.facebook i {
         color: #1877f2 !important;
       }
-
-      /* FIX: Hover effect: lighten background and brighten icon color */
       .social a:hover {
         background-color: #e0e0e0;
       }
-
       .social a:hover i {
         color: #000 !important;
       }
@@ -134,7 +120,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-6 offset-lg-6 about-text">
-            <h2>What is Frangain™?</h2>
+            <h2>What is Frangain™&#63;</h2>
             <h5>
               A symbolic BEP-20 token that revives a cultural memory of Lebanon.
             </h5>
@@ -251,8 +237,6 @@
 
           <div class="col-md-6 col-lg-3 footer-widget pl-lg-5 pl-3">
             <h5 class="widget-title">Follow Us</h5>
-
-            <!-- FIX: Use <i> tags for Font Awesome brand icons -->
             <div class="social">
               <a
                 href="https://twitter.com/frangainteam"
