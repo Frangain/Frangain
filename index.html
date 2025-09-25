@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Frangain - The Cultural Token</title>
+    <!-- CHANGED: Add ™ in the <title> for browser/tab title -->
+    <title>Frangain™ - The Cultural Token</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
@@ -81,6 +82,30 @@
       .social a:hover i {
         color: #000 !important;
       }
+
+      /* ADDED: Generic ™ styling for inline text usage */
+      .tm {
+        font-size: 0.6em;
+        vertical-align: super;
+        margin-left: 1px;
+        line-height: 0;
+      }
+
+      /* ADDED: Small ™ badge placed next to image logos */
+      .tm-badge {
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1;
+        display: inline-block;
+        transform: translateY(-6px);
+        margin-left: 2px;
+      }
+
+      /* ADDED: Ensure header logo container aligns TM nicely */
+      .site-logo {
+        display: inline-flex;
+        align-items: flex-start;
+      }
     </style>
   </head>
 
@@ -88,11 +113,14 @@
     <header class="header-section clearfix">
       <div class="container-fluid">
         <a href="index.html" class="site-logo">
+          <!-- CHANGED: Keep the image, add a ™ badge right after it -->
           <img
             src="img/Frangain.png"
-            alt="Frangain Logo"
+            alt="Frangain™ Logo"
             style="max-height: 60px; width: auto; display: inline-block"
           />
+          <!-- ADDED: Visible ™ next to the header image logo -->
+          <span class="tm-badge" aria-hidden="true">™</span>
         </a>
         <div class="responsive-bar"><i class="fa fa-bars"></i></div>
         <a
@@ -118,7 +146,10 @@
       <div class="container">
         <div class="row">
           <div class="col-md-6 hero-text">
-            <h2>Welcome to <span>Frangain</span></h2>
+            <!-- CHANGED: Add ™ in the welcome headline -->
+            <h2>
+              Welcome to <span>Frangain<span class="tm">™</span></span>
+            </h2>
             <h4>
               A digital memory of a forgotten coin — reborn for the future.
             </h4>
@@ -134,16 +165,18 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-6 offset-lg-6 about-text">
-            <h2>What is Frangain?</h2>
+            <!-- CHANGED: Add ™ in the section heading -->
+            <h2>What is Frangain<span class="tm">™</span>?</h2>
             <h5>
               A symbolic BEP-20 token that revives a cultural memory of Lebanon.
             </h5>
             <p>
-              Frangain commemorates the historic Lebanese "Frang" — a coin that
-              once echoed through souks and homes. This project isn’t about
-              speculation, but about honoring a shared heritage. It's a symbol,
-              a digital relic, and a spark for community-led learning and
-              creativity.
+              <!-- CHANGED: Add ™ in the paragraph when referring to the brand -->
+              Frangain<span class="tm">™</span> commemorates the historic
+              Lebanese "Frang" — a coin that once echoed through souks and
+              homes. This project isn’t about speculation, but about honoring a
+              shared heritage. It's a symbol, a digital relic, and a spark for
+              community-led learning and creativity.
             </p>
           </div>
         </div>
@@ -156,7 +189,8 @@
     <section id="features" class="features-section spad gradient-bg">
       <div class="container text-white">
         <div class="section-title text-center">
-          <h2>Why Frangain Matters</h2>
+          <!-- CHANGED: Add ™ in "Why Frangain Matters" -->
+          <h2>Why Frangain<span class="tm">™</span> Matters</h2>
           <p>
             Not just a token — a living memory, built on transparency and trust.
           </p>
@@ -228,7 +262,12 @@
       <div class="container">
         <div class="row spad">
           <div class="col-md-6 col-lg-3 footer-widget">
-            <img src="img/Frangain.png" class="mb-4" alt="Frangain" />
+            <!-- CHANGED: Add ™ next to footer image logo + update alt text -->
+            <span>
+              <img src="img/Frangain.png" class="mb-4" alt="Frangain™" />
+              <!-- ADDED: Visible ™ next to the footer image logo -->
+              <span class="tm-badge" aria-hidden="true">™</span>
+            </span>
             <p>A token of memory, not speculation.</p>
           </div>
           <div class="col-md-6 col-lg-2 offset-lg-1 footer-widget">
@@ -287,7 +326,11 @@
         <div class="footer-bottom">
           <div class="row">
             <div class="col-lg-12 text-center">
-              <p>&copy; 2025 Frangain. All rights reserved.</p>
+              <p>
+                &copy; 2025 Frangain<span class="tm">™</span>. All rights
+                reserved.
+              </p>
+              <!-- CHANGED: Add ™ in the legal line -->
             </div>
           </div>
         </div>
