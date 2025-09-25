@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- KEEP: ™ in title (text usage) -->
-    <title>Frangain™ - The Cultural Token</title>
+    <title>Frangain&trade; - The Cultural Token</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
@@ -82,20 +81,6 @@
       .social a:hover i {
         color: #000 !important;
       }
-
-      /* Fix the question-mark distortion caused by the TM span */
-      .tm {
-        font-size: 0.6em;
-        display: inline-block; /* gives TM its own box */
-        vertical-align: text-top; /* sits neatly above the text */
-        margin-left: 2px;
-        line-height: 1; /* <- critical: avoid squeezing punctuation */
-        /* make sure there is NO: position: relative; top: -...; or line-height: 0 */
-      }
-
-      /* REMOVED: .tm-badge & site-logo flex since we're not showing ™ next to images */
-      /* .tm-badge { ... }  — removed */
-      /* .site-logo { ... } — removed */
     </style>
   </head>
 
@@ -103,14 +88,11 @@
     <header class="header-section clearfix">
       <div class="container-fluid">
         <a href="index.html" class="site-logo">
-          <!-- CHANGED: revert alt text to neutral (no ™ on image logo) -->
           <img
             src="img/Frangain.png"
             alt="Frangain Logo"
             style="max-height: 60px; width: auto; display: inline-block"
           />
-          <!-- REMOVED: ™ badge beside the image logo -->
-          <!-- <span class="tm-badge" aria-hidden="true">™</span> -->
         </a>
         <div class="responsive-bar"><i class="fa fa-bars"></i></div>
         <a
@@ -136,10 +118,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-6 hero-text">
-            <!-- KEEP: ™ only on text -->
-            <h2>
-              Welcome to <span>Frangain<span class="tm">™</span></span>
-            </h2>
+            <h2>Welcome to <span>Frangain&trade;</span></h2>
             <h4>
               A digital memory of a forgotten coin — reborn for the future.
             </h4>
@@ -155,18 +134,16 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-6 offset-lg-6 about-text">
-            <!-- FIX: ™ before the ? (keeps punctuation clean) -->
-            <h2>What is Frangain<span class="tm">™</span>&thinsp;?</h2>
+            <h2>What is Frangain&trade;?</h2>
             <h5>
               A symbolic BEP-20 token that revives a cultural memory of Lebanon.
             </h5>
             <p>
-              <!-- KEEP: ™ on brand mention -->
-              Frangain<span class="tm">™</span> commemorates the historic
-              Lebanese "Frang" — a coin that once echoed through souks and
-              homes. This project isn’t about speculation, but about honoring a
-              shared heritage. It's a symbol, a digital relic, and a spark for
-              community-led learning and creativity.
+              Frangain&trade; commemorates the historic Lebanese "Frang&trade;" —
+              a coin that once echoed through souks and homes. This project isn’t
+              about speculation, but about honoring a shared heritage. It's a
+              symbol, a digital relic, and a spark for community-led learning and
+              creativity.
             </p>
           </div>
         </div>
@@ -176,161 +153,4 @@
       </div>
     </section>
 
-    <section id="features" class="features-section spad gradient-bg">
-      <div class="container text-white">
-        <div class="section-title text-center">
-          <!-- KEEP: ™ on text heading -->
-          <h2>Why Frangain<span class="tm">™</span> Matters</h2>
-          <p>
-            Not just a token — a living memory, built on transparency and trust.
-          </p>
-        </div>
-        <div class="row">
-          <div class="col-md-6 col-lg-4 feature">
-            <i class="ti-wallet"></i>
-            <div class="feature-content">
-              <h4>Fair Launch</h4>
-              <p>No presale. No private deals. 100% on-chain and open.</p>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4 feature">
-            <i class="ti-heart"></i>
-            <div class="feature-content">
-              <h4>Cultural Mission</h4>
-              <p>
-                Designed to educate, commemorate, and celebrate a national
-                memory.
-              </p>
-            </div>
-          </div>
-          <div class="col-md-6 col-lg-4 feature">
-            <i class="ti-lock"></i>
-            <div class="feature-content">
-              <h4>Liquidity Locked</h4>
-              <p>LP tokens locked for 1 year for full community trust.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="process" class="process-section spad">
-      <div class="container">
-        <div class="section-title text-center">
-          <!-- CHANGED: add ™ to FRANG in heading and paragraph -->
-          <h2>How to Buy FRANG<span class="tm">™</span></h2>
-          <p>
-            Buy FRANG<span class="tm">™</span> on PancakeSwap using your wallet.
-            It’s easy and safe.
-          </p>
-          <p class="mb-4">
-            👉 Click the button below to go directly to PancakeSwap:
-          </p>
-          <hr />
-          <!-- 🚀 Swap Button -->
-          <a
-            href="https://pancakeswap.finance/swap?outputCurrency=0xbd8c479557cff992f60c82e2f1b53969705509b1&chainId=56"
-            target="_blank"
-            style="
-              display: inline-block;
-              background-color: #28a745;
-              color: white;
-              padding: 14px 32px;
-              border-radius: 50px;
-              text-decoration: none;
-              font-weight: bold;
-              font-size: 18px;
-              line-height: 1.5;
-              text-align: center;
-              vertical-align: middle;
-              min-width: 260px;
-            "
-          >
-            🚀 Swap on PancakeSwap
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <footer class="footer-section">
-      <div class="container">
-        <div class="row spad">
-          <div class="col-md-6 col-lg-3 footer-widget">
-            <!-- CHANGED: no ™ beside image; alt back to neutral -->
-            <img src="img/Frangain.png" class="mb-4" alt="Frangain" />
-            <!-- REMOVED: ™ badge that used to sit under/next to logo -->
-            <!-- <span class="tm-badge" aria-hidden="true">™</span> -->
-            <p>A token of memory, not speculation.</p>
-          </div>
-          <div class="col-md-6 col-lg-2 offset-lg-1 footer-widget">
-            <h5 class="widget-title">Quick Links</h5>
-            <ul>
-              <li><a href="#about">About</a></li>
-              <li><a href="whitepaper.html">Whitepaper</a></li>
-              <li><a href="story-manifesto.html">The Story</a></li>
-            </ul>
-          </div>
-          <div class="col-md-6 col-lg-2 offset-lg-1 footer-widget">
-            <h5 class="widget-title">Project Resources</h5>
-            <ul>
-              <li><a href="whitepaper.html">Tokenomics</a></li>
-              <li><a href="whitepaper.html">Whitepaper</a></li>
-            </ul>
-          </div>
-
-          <div class="col-md-6 col-lg-3 footer-widget pl-lg-5 pl-3">
-            <h5 class="widget-title">Follow Us</h5>
-
-            <!-- FIX: Use <i> tags for Font Awesome brand icons -->
-            <div class="social">
-              <a
-                href="https://twitter.com/frangainteam"
-                target="_blank"
-                class="twitter"
-              >
-                <i class="fa-brands fa-twitter"></i>
-              </a>
-              <a
-                href="https://t.me/frangainnetwork"
-                target="_blank"
-                class="telegram"
-              >
-                <i class="fa-brands fa-telegram"></i>
-              </a>
-              <a
-                href="https://instagram.com/frangaintoken"
-                target="_blank"
-                class="instagram"
-              >
-                <i class="fa-brands fa-instagram"></i>
-              </a>
-              <a
-                href="https://facebook.com/frangain"
-                target="_blank"
-                class="facebook"
-              >
-                <i class="fa-brands fa-facebook-f"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="footer-bottom">
-          <div class="row">
-            <div class="col-lg-12 text-center">
-              <!-- KEEP: ™ on brand in legal line -->
-              <p>
-                &copy; 2025 Frangain<span class="tm">™</span>. All rights
-                reserved.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
-  </body>
-</html>
+    <section id="features" class="features-section spad
