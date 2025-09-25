@@ -83,14 +83,14 @@
         color: #000 !important;
       }
 
-      /* KEEP: ™ styling for inline text usage */
+      /* Fix the question-mark distortion caused by the TM span */
       .tm {
         font-size: 0.6em;
-        vertical-align: super;
-        margin-left: 1px;
-        line-height: 0;
-        position: relative;
-        top: -0.1em; /* small lift so punctuation stays neat */
+        display: inline-block; /* gives TM its own box */
+        vertical-align: text-top; /* sits neatly above the text */
+        margin-left: 2px;
+        line-height: 1; /* <- critical: avoid squeezing punctuation */
+        /* make sure there is NO: position: relative; top: -...; or line-height: 0 */
       }
 
       /* REMOVED: .tm-badge & site-logo flex since we're not showing ™ next to images */
