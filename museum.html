@@ -1,139 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>The Museum – Frangain™</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The FRANGAIN Memory Museum</title>
 
-    <!-- Global styles from your template -->
-    <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Lato"
-      rel="stylesheet"
-    />
+    <!-- Museum CSS -->
+    <link rel="stylesheet" href="museum.css" />
+
+    <!-- Existing site CSS files -->
     <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/themify-icons.css" />
-    <link rel="stylesheet" href="css/animate.css" />
-    <link rel="stylesheet" href="css/owl.carousel.css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
     <link rel="stylesheet" href="css/style.css" />
-
-    <!-- Museum page CUSTOM styling -->
-    <style>
-      /* --- PAGE BACKGROUND --- */
-      body {
-        background-color: #0f0f0f !important;
-        color: #eaeaea;
-      }
-
-      /* --- HEADER GOLD UNDERLINE --- */
-      .header-section {
-        border-bottom: 2px solid #bfa76f !important;
-        background: transparent !important;
-      }
-
-      .menu-list li a {
-        color: #ffffff !important;
-      }
-
-      /* --- PAGE TITLES --- */
-      .museum-title {
-        color: #bfa76f;
-        font-size: 60px;
-        text-align: center;
-        margin-top: 180px;
-        margin-bottom: 40px;
-        font-family: "Futura", sans-serif;
-      }
-
-      .museum-subtitle {
-        color: #e2e2e2;
-        text-align: center;
-        font-size: 22px;
-        margin-bottom: 70px;
-        max-width: 800px;
-        margin-left: auto;
-        margin-right: auto;
-        line-height: 1.7;
-      }
-
-      /* --- ROOM TITLES --- */
-      .museum-room-title {
-        font-size: 36px;
-        color: #bfa76f;
-        margin-top: 80px;
-        margin-bottom: 25px;
-        font-family: "Futura", sans-serif;
-      }
-
-      /* --- ROOM TEXT BLOCK --- */
-      .museum-block {
-        font-size: 18px;
-        color: #d8d8d8;
-        line-height: 1.85;
-        margin-bottom: 50px;
-        max-width: 900px;
-      }
-
-      /* --- GOLD DIVIDER --- */
-      .museum-divider {
-        height: 2px;
-        width: 100%;
-        background-color: #bfa76f;
-        margin: 50px 0;
-        opacity: 0.25;
-      }
-
-      /* --- FULL-WIDTH CONTENT WRAPPER --- */
-      .museum-wrapper {
-        width: 100%;
-        padding-left: 40px;
-        padding-right: 40px;
-      }
-
-      /* Mobile */
-      @media (max-width: 600px) {
-        .museum-title {
-          font-size: 40px;
-          margin-top: 140px;
-        }
-        .museum-room-title {
-          font-size: 28px;
-        }
-        .museum-block {
-          font-size: 17px;
-        }
-      }
-    </style>
   </head>
 
-  <body>
-    <!-- SAME HEADER -->
-    <header class="header-section clearfix">
+  <body class="museum-page">
+    <!-- HEADER (modified to Museum header style) -->
+    <header class="header-section museum-header clearfix">
       <div class="container-fluid">
         <a href="index.html" class="site-logo">
           <img
             src="img/Frangain.png"
             alt="Frangain Logo"
-            style="max-height: 60px; width: auto"
+            style="max-height: 60px; width: auto; display: inline-block"
           />
         </a>
+
         <div class="responsive-bar"><i class="fa fa-bars"></i></div>
 
         <a
-          href="https://mirror.xyz/frangain.eth"
+          href="https://mirror.xyz/frangain.eth/AWCIwErgdvYZus0PYzUUQE67xK-pq_io0b6nH5_0G4U?referrerAddress=0x3737812213b11B702fa346D7e39f63Ae6d208734"
           target="_blank"
-          class="site-btn"
-          >Mint the Story</a
+          class="site-btn gold-btn"
         >
+          Mint the Story
+        </a>
 
         <nav class="main-menu">
           <ul class="menu-list">
             <li><a href="about.html">About</a></li>
-            <li>
-              <a href="museum.html" style="color: #bfa76f !important"
-                >The Museum</a
-              >
-            </li>
+            <li><a href="museum.html" class="active-museum">The Museum</a></li>
             <li><a href="story-manifesto.html">Story & Manifesto</a></li>
             <li><a href="whitepaper.html">Whitepaper</a></li>
             <li><a href="how_to_buy.html">How to Buy</a></li>
@@ -143,194 +49,411 @@
       </div>
     </header>
 
-    <!-- PAGE CONTENT -->
-    <div class="museum-wrapper">
-      <h1 class="museum-title">The Museum</h1>
+    <!-- HERO SECTION WITH BACKGROUND -->
+    <section class="museum-hero">
+      <h1>THE FRANGAIN MEMORY MUSEUM</h1>
+      <p>A journey through Lebanon’s currency story — room by room.</p>
+    </section>
 
-      <div class="museum-subtitle">
-        A curated journey through Lebanon’s monetary heritage — from Phoenician
-        silver to the digital future.<br />
-        A story told in coins, in memories, and now… in FRANGAIN™.
-      </div>
+    <!-- MUSEUM INTRODUCTION -->
+    <section class="museum-intro">
+      <h2>History Has Many Rooms.<br />Memory Has Only One.</h2>
 
-      <!-- ROOM I -->
-      <h2 class="museum-room-title">Room I — The Phoenician Room</h2>
-      <div class="museum-block">
-        Long before Lebanon had a name, its shores minted stories in silver.
-        Phoenician cities like Tyre, Sidon, and Byblos produced coins portraying
-        ships, kings, and gods. These early coins were more than currency — they
-        were cultural signatures, symbols of maritime power, and the earliest
-        pulse of a people destined to trade with the world.
-      </div>
-      <div class="museum-divider"></div>
-
-      <!-- ROOM II -->
-      <h2 class="museum-room-title">Room II — The Roman Room</h2>
-      <div class="museum-block">
-        Under Roman rule, Lebanon’s economy was woven into the empire’s golden
-        machine. Imperial denarii and aurei flowed through Baalbek and Beirut.
-        Local mints produced coins featuring emperors, eagles, temples —
-        reminders that the region was a vital link in Rome’s eastern provinces.
-        Money was propaganda, power, and prestige.
-      </div>
-      <div class="museum-divider"></div>
-
-      <!-- ROOM III -->
-      <h2 class="museum-room-title">Room III — The Arab-Islamic Room</h2>
-      <div class="museum-block">
-        The Arab-Islamic period introduced dinars and dirhams, marked by
-        calligraphy instead of images. For the first time, currency became a
-        visual language of faith and unity. These coins traveled across
-        continents — proof that Lebanon’s ports remained open doors to economic
-        life and cultural exchange.
-      </div>
-      <div class="museum-divider"></div>
-
-      <!-- ROOM IV -->
-      <h2 class="museum-room-title">Room IV — The Ottoman Room</h2>
-      <div class="museum-block">
-        Under the Ottomans, the Majidi (medjidiye) became a household coin
-        across the Levant. Lebanese families saved them, traded them, gifted
-        them during weddings — a tradition that still echoes in stories today.
-        The economy was fragile, but the coin was familiar, trusted, part of
-        memory.
-      </div>
-      <div class="museum-divider"></div>
-
-      <!-- ROOM V -->
-      <h2 class="museum-room-title">
-        Room V — The Lebanese Lira Room (1930s–1980s)
-      </h2>
-      <div class="museum-block">
-        The birth of the modern Lebanese Lira brought stability and pride. Coins
-        and banknotes included:
+      <p>
+        For thousands of years, the story of Lebanon was written not only in
+        books, but in <strong>coins</strong>. <br /><br />
+        Coins that traveled with Phoenician merchants across the Mediterranean.
+        Coins struck by Roman emperors in Berytus. Coins carried in the pockets
+        of our grandparents during the Golden Lira years. Coins that vanished
+        when the Lira collapsed. Coins that survived only as
+        <strong>memory</strong>. <br /><br />
+        <strong>The FRANGAIN Museum</strong> is a digital sanctuary — a place
+        where Lebanon’s monetary past is preserved, honored, and retold.
         <br /><br />
-        • **خمسة قروش** (5 Piastres) • **عشرة قروش** (10 Piastres) • 25 Piastres
-        — Quarter of a Lira • 50 Piastres — Half a Lira • 1 Lira coin • 5 Liras
-        — banknote • 10 Liras — banknote • 50 Liras — banknote • 100 Liras —
-        later also a coin • 250 Liras — banknote then coin • 500 Liras —
-        banknote then coin
+        Here, every room is a chapter. Every coin is a witness. Every detail is
+        a fragment of who we were, who we became, and what we lost.
         <br /><br />
-        This was the golden era of Lebanese confidence — when the Lira was
-        strong, respected, and part of daily life.
-      </div>
-      <div class="museum-divider"></div>
+        And in the final room,
+        <strong>the story rises again — in FRANGAIN.</strong>
+      </p>
+    </section>
 
-      <!-- ROOM VI -->
-      <h2 class="museum-room-title">Room VI — The Folklore Room</h2>
-      <div class="museum-block">
-        Not all currency exists as metal. Some exist as memory. The “Frang”
-        lived not as a specific coin, but as a cultural expression — a slang
-        carried by families, merchants, and storytellers. It became folklore: a
-        symbol of modest transactions, childhood memories, and a Lebanon that
-        felt simpler.
-      </div>
-      <div class="museum-divider"></div>
-
-      <!-- ROOM VII -->
-      <h2 class="museum-room-title">
-        Room VII — The Collapse Room (1980s & 2019)
-      </h2>
-      <div class="museum-block">
-        Lebanon experienced two major monetary collapses:
-        <br /><br />
-        **• The first:** Early 1980s — when the Lira lost its anchor during
-        conflict and inflation. **• The second:** 2019–today — the unraveling of
-        a century-old financial system, the disappearance of coins and small
-        notes, and the rise of chaos in daily purchasing power.
-        <br /><br />
-        Currency became a victim of history.
-      </div>
-      <div class="museum-divider"></div>
-
-      <!-- ROOM VIII -->
-      <h2 class="museum-room-title">Room VIII — The Future Room: FRANGAIN™</h2>
-      <div class="museum-block">
-        And now begins another chapter. FRANGAIN™ is not a replacement — it is a
-        remembrance. A digital echo of the “Frang” that passed through
-        generations. Not built to speculate, but to preserve. Not created for
-        hype, but for history.
-        <br /><br />
-        The coin remembers. And through FRANGAIN™, the memory rises again.
-      </div>
-
-      <br /><br /><br />
+    <!-- Sticky Side Navigation (desktop) -->
+    <div class="museum-side-nav">
+      <a href="#room1">I</a>
+      <a href="#room2">II</a>
+      <a href="#room3">III</a>
+      <a href="#room4">IV</a>
+      <a href="#room5">V</a>
+      <a href="#room6">VI</a>
+      <a href="#room7">VII</a>
+      <a href="#room8">VIII</a>
     </div>
 
-    <!-- FOOTER (same as template) -->
-    <footer class="footer-section">
-      <div class="container">
-        <div class="row spad">
-          <div class="col-md-6 col-lg-3 footer-widget">
-            <img src="img/Frangain.png" class="mb-4" alt="Frangain" />
-            <p>A token of memory, not speculation.</p>
-          </div>
+    <!-- Mobile Navigation -->
+    <div class="museum-mobile-nav">
+      <span onclick="location.href='#room1'">I</span>
+      <span onclick="location.href='#room2'">II</span>
+      <span onclick="location.href='#room3'">III</span>
+      <span onclick="location.href='#room4'">IV</span>
+      <span onclick="location.href='#room5'">V</span>
+      <span onclick="location.href='#room6'">VI</span>
+      <span onclick="location.href='#room7'">VII</span>
+      <span onclick="location.href='#room8'">VIII</span>
+    </div>
 
-          <div class="col-md-6 col-lg-2 offset-lg-1 footer-widget">
-            <h5 class="widget-title">Quick Links</h5>
-            <ul>
-              <li><a href="about.html">About</a></li>
-              <li><a href="whitepaper.html">Whitepaper</a></li>
-              <li><a href="story-manifesto.html">The Story</a></li>
-            </ul>
-          </div>
+    <!-- ================ ROOMS ================ -->
 
-          <div class="col-md-6 col-lg-2 offset-lg-1 footer-widget">
-            <h5 class="widget-title">Project Resources</h5>
-            <ul>
-              <li><a href="whitepaper.html">Tokenomics</a></li>
-              <li><a href="whitepaper.html">Whitepaper</a></li>
-            </ul>
-          </div>
+    <section id="room1" class="museum-section room-phoenician">
+      <h2>🏺 Room I — The Phoenician Room</h2>
+      <p><strong>“Where money first learned to travel.”</strong></p>
+      <br />
 
-          <div class="col-md-6 col-lg-3 footer-widget pl-lg-5 pl-3">
-            <h5 class="widget-title">Follow Us</h5>
-            <div class="social">
-              <a
-                href="https://twitter.com/frangainteam"
-                target="_blank"
-                class="twitter"
-              >
-                <i class="fa-brands fa-twitter"></i>
-              </a>
-              <a
-                href="https://t.me/frangainnetwork"
-                target="_blank"
-                class="telegram"
-              >
-                <i class="fa-brands fa-telegram"></i>
-              </a>
-              <a
-                href="https://instagram.com/frangaintoken"
-                target="_blank"
-                class="instagram"
-              >
-                <i class="fa-brands fa-instagram"></i>
-              </a>
-              <a
-                href="https://facebook.com/frangain"
-                target="_blank"
-                class="facebook"
-              >
-                <i class="fa-brands fa-facebook-f"></i>
-              </a>
-            </div>
-          </div>
-        </div>
+      <p>Before Lebanon had borders, it had <strong>horizons</strong>.</p>
 
-        <div class="footer-bottom">
-          <div class="row">
-            <div class="col-lg-12 text-center">
-              <p>&copy; 2025 Frangain™. All rights reserved.</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <p>
+        On these coasts, the Phoenicians mastered the art of trade. Their silver
+        coins — stamped with anchors, ships, and sacred symbols — traveled
+        farther than any coin before them.
+      </p>
+
+      <p>
+        They crossed seas. They passed through foreign markets. They carried the
+        identity of a civilization that lived through commerce.
+      </p>
+
+      <p>
+        <strong>These were not just coins.<br />They were ambassadors.</strong>
+      </p>
+
+      <p>
+        In this room, you witness the world’s first global traders — and the
+        earliest heartbeat of Lebanon’s monetary story.
+      </p>
+
+      <img src="museum-images/room1.jpg" alt="Phoenician Coins" />
+    </section>
+
+    <div class="museum-divider"></div>
+
+    <section id="room2" class="museum-section room-roman">
+      <h2>🏛️ Room II — The Roman Room</h2>
+      <p><strong>“When Empire met the Mountains.”</strong></p>
+      <br />
+
+      <p>
+        Under Rome, Lebanon became a world of temples, marketplaces, and
+        <strong>imperial minting houses</strong>.
+      </p>
+
+      <p>
+        Beirut, Tyre, and Sidon produced coins with emperors, eagles,
+        thunderbolts, and ancient divinities.
+      </p>
+
+      <p>
+        A coin here wasn’t only payment — it was
+        <strong>propaganda, art, and storytelling</strong>.
+      </p>
+
+      <p>
+        These coins moved through theatres, busy streets, port markets… through
+        hands that shaped both daily life and empire.
+      </p>
+
+      <p>
+        <strong>Rome imposed its rule — but Lebanon kept its identity.</strong>
+      </p>
+
+      <img src="museum-images/room2.jpg" alt="Roman Coins" />
+    </section>
+
+    <div class="museum-divider"></div>
+
+    <section id="room3" class="museum-section room-ottoman">
+      <h2>🕌 Room III — The Ottoman Room</h2>
+      <p><strong>“Copper, silver, and the quiet centuries.”</strong></p>
+      <br />
+
+      <p>
+        The Ottoman era brought a slower, steadier form of monetary life. Coins
+        were small, humble, engraved in elegant Arabic calligraphy.
+      </p>
+
+      <p>Majidi silver pieces. Kurush. Para.</p>
+
+      <p>
+        These coins lived in the hands of farmers, fishermen, textile workers,
+        caravan traders, and villagers from Tripoli to Tyre.
+      </p>
+
+      <p><strong>This room whispers rather than shouts.</strong></p>
+
+      <p>
+        It reminds us that a currency is not only what is minted — it is the
+        rhythm of everyday survival.
+      </p>
+
+      <img src="museum-images/room3.jpg" alt="Ottoman Coins" />
+    </section>
+
+    <div class="museum-divider"></div>
+
+    <section id="room4" class="museum-section room-mandate">
+      <h2>🇫🇷 Room IV — The Mandate Room</h2>
+      <p><strong>“Between two worlds: the Franc and the Lira.”</strong></p>
+      <br />
+
+      <p>
+        Under the French Mandate, Lebanon stepped into a new monetary chapter.
+        It was the era of <strong>bilingual notes</strong>, mixed influences,
+        and a currency searching for its identity.
+      </p>
+
+      <p>
+        Here emerged the Lebanese–Syrian Pound — shared across borders for a
+        time.
+      </p>
+
+      <p>
+        Banknotes carried Arabic and French. Coins featured cedar trees for the
+        very first time.
+      </p>
+
+      <p>
+        <strong>
+          This room feels like a transition — a moment where Lebanon moved from
+          occupation toward a national monetary future.
+        </strong>
+      </p>
+
+      <p>
+        Two languages.<br />Two worlds.<br />One currency learning to become
+        Lebanese.
+      </p>
+
+      <img src="museum-images/room4.jpg" alt="Mandate Currency" />
+    </section>
+
+    <div class="museum-divider"></div>
+
+    <section id="room5" class="museum-section room-golden">
+      <h2>🇱🇧 Room V — The Golden Room</h2>
+      <p><strong>“The Lebanese Lira in its finest days.”</strong></p>
+      <br />
+
+      <p>
+        From the 1940s to the 1970s, the Lebanese Lira reached its most
+        dignified era — strong, trusted, stable, and respected across the
+        region.
+      </p>
+
+      <p>
+        Banknotes from this era were pieces of art:
+        <br /><span class="gold-bullet">•</span> geometric patterns <br /><span
+          class="gold-bullet"
+          >•</span
+        >
+        cedar trees <br /><span class="gold-bullet">•</span> vivid colors
+        <br /><span class="gold-bullet">•</span> portraits of Lebanon’s beauty
+      </p>
+
+      <p>
+        Children received their first Lira. Families managed budgets with
+        confidence. Shops wrote prices proudly in Lira.
+      </p>
+
+      <p>
+        <strong
+          >This was the Lira at its most beautiful — not only a means of
+          payment, but a symbol of national aspiration.</strong
+        >
+      </p>
+
+      <img src="museum-images/room5.jpg" alt="Golden Era Lebanese Lira" />
+    </section>
+
+    <div class="museum-divider"></div>
+
+    <section id="room6" class="museum-section room-folklore">
+      <h2>🪙 Room VI — The Folklore Room</h2>
+      <p><strong>“The coins that became part of who we are.”</strong></p>
+      <br />
+
+      <p>
+        This room is the heart of the Museum — where memory becomes personal,
+        where currency meets childhood.
+      </p>
+
+      <p><strong>Real Lebanese coins that truly existed:</strong></p>
+      <p>
+        <span class="gold-bullet">•</span> 5 Piastres — خمسة قروش<br />
+        <span class="gold-bullet">•</span> 10 Piastres — عشرة قروش<br />
+        <span class="gold-bullet">•</span> 25 Piastres — ربع ليرة<br />
+        <span class="gold-bullet">•</span> 50 Piastres — نصف ليرة<br />
+        <span class="gold-bullet">•</span> 1 Lira — ليرة واحدة
+      </p>
+
+      <p>
+        Children bought candy with خمسة قروش. Families paid groceries with عشرة
+        قروش. Prices often rounded using ربع ليرة and نصف ليرة. The one Lira was
+        the proud everyday coin.
+      </p>
+
+      <p><strong>Banknotes of daily life (never coins):</strong></p>
+      <p>
+        <span class="gold-bullet">•</span> 5 Liras <br /><span
+          class="gold-bullet"
+          >•</span
+        >
+        10 Liras <br /><span class="gold-bullet">•</span> 25 Liras <br /><span
+          class="gold-bullet"
+          >•</span
+        >
+        50 Liras
+      </p>
+
+      <p>
+        These were folded in wallets, notebooks, shirt pockets, and envelopes
+        from grandparents.
+      </p>
+
+      <p><strong>Transitions of later years:</strong></p>
+      <p>
+        <span class="gold-bullet">•</span> 100 Liras → became a coin<br />
+        <span class="gold-bullet">•</span> 250 Liras → became a coin<br />
+        <span class="gold-bullet">•</span> 500 Liras → became a coin
+      </p>
+
+      <p>
+        These changes mirrored Lebanon’s evolving economy, inflation,
+        resilience, and struggle.
+      </p>
+
+      <p>
+        <strong>
+          And the cultural treasure: “فرنك” It was not a coin — it was a memory.
+        </strong>
+      </p>
+
+      <p>
+        This room is where <strong>FRANGAIN</strong> was born — not from a coin,
+        but from a word that refused to disappear.
+      </p>
+
+      <img src="museum-images/room6.jpg" alt="Lebanese Piastres" />
+    </section>
+
+    <div class="museum-divider"></div>
+
+    <section id="room7" class="museum-section">
+      <h2>💔 Room VII — The Collapse Room</h2>
+      <p>
+        <strong>“When a currency breaks, memory becomes the museum.”</strong>
+      </p>
+      <br />
+
+      <p>Lebanon faced not one collapse — but <strong>two</strong>.</p>
+      <br />
+
+      <p><strong>1️⃣ The First Collapse — Early 1980s</strong></p>
+      <p>
+        Around 1983–1984, inflation began to devour the Lira. Prices rose.
+        Salaries shrank. Families struggled. It was Lebanon’s first encounter
+        with losing trust in its own currency.
+      </p>
+      <br />
+
+      <p><strong>2️⃣ The Second Collapse — 2019 → Today</strong></p>
+      <p>
+        Decades later, a deeper collapse arrived:
+        <br />• Banks froze people’s savings <br />• The Lira lost more than 90%
+        of its value <br />• Prices soared beyond imagination <br />• The
+        financial system cracked <br />• A nation entered one of the worst
+        crises in modern history
+      </p>
+
+      <br />
+      <p>
+        This room is heavy. But it is necessary. Because the Museum is not only
+        about what we had — it is about what we lost, and what we must remember.
+      </p>
+
+      <img src="museum-images/room7.jpg" alt="Lebanese Lira Collapse" />
+    </section>
+
+    <div class="museum-divider"></div>
+
+    <section id="room8" class="museum-section room-future">
+      <h2>✨ Room VIII — The Future Room: FRANGAIN™</h2>
+      <p><strong>“Tomorrow’s memory begins here.”</strong></p>
+      <br />
+
+      <p>
+        This room is the bridge between the Lebanon that was… and the Lebanon
+        that can rise again.
+      </p>
+
+      <p>
+        FRANGAIN is not a replacement for the Lira. It is not political. It is
+        not speculation.
+      </p>
+
+      <p><strong>It is a symbol.</strong></p>
+
+      <p>
+        A digital revival of the Frang — the slang, the memory, the cultural
+        heartbeat of Lebanese daily life.
+      </p>
+
+      <p><strong>A project at the intersection of:</strong></p>
+      <p>
+        <span class="gold-bullet">•</span> heritage<br />
+        <span class="gold-bullet">•</span> technology<br />
+        <span class="gold-bullet">•</span> identity<br />
+        <span class="gold-bullet">•</span> storytelling<br />
+        <span class="gold-bullet">•</span> emotional preservation
+      </p>
+
+      <p>
+        Here, in the final room of the Museum, visitors understand that FRANGAIN
+        is:
+      </p>
+
+      <p>
+        <strong>The Coin Remembers — our heart.</strong><br />
+        <strong>The Guardian of Memory — our shield.</strong>
+      </p>
+
+      <p>
+        A tribute to what Lebanon was… and a promise of what it can still
+        become.
+      </p>
+
+      <img src="museum-images/frangain-coin.jpg" alt="FRANGAIN Coin" />
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="museum-footer">
+      <p>“A nation without memory is a nation without a future.”</p>
     </footer>
 
-    <!-- SCRIPTS -->
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const rooms = document.querySelectorAll(".museum-section");
+
+        function revealRooms() {
+          rooms.forEach((room) => {
+            const rect = room.getBoundingClientRect();
+            if (rect.top < window.innerHeight - 120) {
+              room.classList.add("visible");
+            }
+          });
+        }
+
+        window.addEventListener("scroll", revealRooms);
+        revealRooms();
+      });
+    </script>
   </body>
 </html>
