@@ -11,10 +11,6 @@
   border-bottom: 1px solid rgba(255, 215, 130, 0.15);
 }
 
-.museum-header .site-logo img {
-  filter: brightness(0) invert(1);
-}
-
 .gold-btn {
   background: #bfa76f !important;
   color: #000 !important;
