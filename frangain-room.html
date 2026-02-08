@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Frangain | The Frangain Room</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="img/favicon.ico" rel="shortcut icon" />
+
+    <!-- Fonts & CSS -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
+    <link rel="stylesheet" href="css/themify-icons.css" />
+    <link rel="stylesheet" href="css/owl.carousel.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+      /* Side decorative gradients (same as Story page) */
+      .side-decor-wrapper {
+        position: relative;
+        z-index: 0;
+      }
+
+      .side-decor-wrapper::before,
+      .side-decor-wrapper::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        width: 80px;
+        height: 100vh;
+        opacity: 0.1;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      .side-decor-wrapper::before {
+        left: 0;
+        background: linear-gradient(90deg, #c50404 0%, transparent 100%);
+      }
+
+      .side-decor-wrapper::after {
+        right: 0;
+        background: linear-gradient(270deg, #c50404 0%, transparent 100%);
+      }
+
+      /* Room styles */
+      .frangain-room {
+        text-align: center;
+      }
+
+      .room-intro {
+        margin: 30px auto 60px;
+        font-size: 16px;
+        color: #555;
+        line-height: 1.9;
+        max-width: 620px;
+      }
+
+      .room-choices {
+        display: flex;
+        flex-direction: column;
+        gap: 26px;
+      }
+
+      .room-choice {
+        display: block;
+        padding: 30px;
+        border: 1px solid #eee;
+        border-radius: 6px;
+        text-decoration: none;
+        color: inherit;
+        background: #fff;
+        transition:
+          background 0.2s ease,
+          border-color 0.2s ease;
+      }
+
+      .room-choice:hover {
+        background-color: #fafafa;
+        border-color: #e6e6e6;
+      }
+
+      .room-choice h3 {
+        margin-bottom: 10px;
+        font-weight: 600;
+      }
+
+      .room-choice p {
+        margin: 0;
+        color: #666;
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
+      .room-choice.disabled {
+        opacity: 0.45;
+        cursor: default;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="side-decor-wrapper">
+      <!-- Preloader -->
+      <div id="preloder"><div class="loader"></div></div>
+
+      <!-- Header -->
+      <header class="header-section clearfix">
+        <div class="container-fluid">
+          <nav class="main-menu">
+            <ul class="menu-list">
+              <li><a href="/" style="color: #000">Home</a></li>
+              <li><a href="about.html" style="color: #000">About</a></li>
+              <li>
+                <a href="museum.html" style="color: #bfa76f !important">
+                  The Museum
+                </a>
+              </li>
+              <li><a href="frangain-room.html">The Frangain Room</a></li>
+              <li><a href="story-manifesto.html">Story & Manifesto</a></li>
+              <li><a href="whitepaper.html">Whitepaper</a></li>
+              <li><a href="how_to_buy.html">How to Buy</a></li>
+              <li><a href="contact.html">Contact</a></li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+
+      <!-- Page Info -->
+      <section class="page-info-section">
+        <div class="container">
+          <h2>The Frangain Room</h2>
+          <div class="site-beradcamb">
+            <a href="index.html">Home</a>
+            <span><i class="fa fa-angle-right"></i> The Frangain Room</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Content -->
+      <section class="blog-page spad">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-10">
+              <div class="blog-item bi-feature">
+                <div class="blog-text">
+                  <div class="frangain-room">
+                    <h1>The Frangain Room</h1>
+
+                    <p class="room-intro">
+                      You’ve entered a quiet room.<br />
+                      Nothing here moves fast. Nothing asks for your
+                      attention.<br />
+                      You choose what to explore.
+                    </p>
+
+                    <div class="room-choices">
+                      <a href="story-manifesto.html" class="room-choice">
+                        <h3>The Story</h3>
+                        <p>
+                          A sequence of scenes.<br />
+                          Read slowly. Nothing disappears.
+                        </p>
+                      </a>
+
+                      <a href="#" class="room-choice">
+                        <h3>The Small Game</h3>
+                        <p>
+                          No score. No pressure.<br />
+                          Just a moment of interaction.
+                        </p>
+                      </a>
+
+                      <a href="#" class="room-choice">
+                        <h3>Did You Know?</h3>
+                        <p>
+                          One forgotten detail.<br />
+                          Revealed one visit at a time.
+                        </p>
+                      </a>
+
+                      <div class="room-choice disabled">
+                        <h3>A Door Left Closed</h3>
+                        <p>Not everything needs to exist yet.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="footer-section">
+        <div class="container">
+          <div class="row spad">
+            <div class="col-md-6 col-lg-3 footer-widget">
+              <img
+                src="img/Frangain.png"
+                class="mb-4"
+                alt="Frangain"
+                style="max-height: 60px"
+              />
+              <p>A token of memory, not speculation.</p>
+            </div>
+
+            <div class="col-md-6 col-lg-2 offset-lg-1 footer-widget">
+              <h5 class="widget-title">Quick Links</h5>
+              <ul>
+                <li><a href="about.html">About</a></li>
+                <li><a href="whitepaper.html">Whitepaper</a></li>
+                <li><a href="story-manifesto.html">The Story</a></li>
+              </ul>
+            </div>
+
+            <div class="col-md-6 col-lg-2 offset-lg-1 footer-widget">
+              <h5 class="widget-title">Project Resources</h5>
+              <ul>
+                <li><a href="whitepaper.html">Tokenomics</a></li>
+                <li><a href="whitepaper.html">Whitepaper</a></li>
+              </ul>
+            </div>
+
+            <div class="col-md-6 col-lg-3 footer-widget pl-lg-5 pl-3">
+              <h5 class="widget-title">Follow Us</h5>
+              <div class="social">
+                <a href="https://twitter.com/frangainteam" target="_blank"
+                  ><i class="fa fa-twitter"></i
+                ></a>
+                <a href="https://t.me/frangainnetwork" target="_blank"
+                  ><i class="fa fa-paper-plane"></i
+                ></a>
+                <a href="https://instagram.com/frangaintoken" target="_blank"
+                  ><i class="fa fa-instagram"></i
+                ></a>
+                <a href="https://facebook.com/frangain" target="_blank"
+                  ><i class="fa fa-facebook"></i
+                ></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- JS -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

@@ -72,7 +72,9 @@
 .museum-intro {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 1.3s ease, transform 1.3s ease;
+  transition:
+    opacity 1.3s ease,
+    transform 1.3s ease;
 }
 
 .museum-intro.visible {
@@ -127,7 +129,9 @@
 .museum-section {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 1.2s ease, transform 1.2s ease;
+  transition:
+    opacity 1.2s ease,
+    transform 1.2s ease;
 }
 
 .museum-section.visible {
