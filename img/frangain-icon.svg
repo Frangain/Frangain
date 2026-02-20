@@ -1,0 +1,16 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<svg width="32" height="32" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Outer Coin -->
+  <circle cx="50" cy="50" r="48" fill="#D4AF37" stroke="#B9962C" stroke-width="4"></circle>
+
+  <!-- Inner Circle -->
+  <circle cx="50" cy="50" r="40" fill="#E6C65C"></circle>
+
+  <!-- Number 1 -->
+  <text x="50" y="42" text-anchor="middle" font-family="Georgia, serif" font-size="32" font-weight="bold" fill="#B9962C">1</text>
+
+  <!-- FRANG Text -->
+  <text x="50" y="70" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#8C6B1F">FRANG</text>
+
+</svg>
