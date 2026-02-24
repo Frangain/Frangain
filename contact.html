@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <title>Frangain | Contact</title>
@@ -11,16 +11,51 @@
     />
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link
-  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  rel="stylesheet"
-/>
-
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="css/themify-icons.css" />
     <link rel="stylesheet" href="css/owl.carousel.css" />
     <link rel="stylesheet" href="css/style.css" />
+
+    <!-- Page-specific fixes -->
+    <style>
+      /* Make menu visible on this page */
+      .main-menu ul li a {
+        color: #000 !important;
+      }
+
+      .main-menu ul li a:hover {
+        color: #bfa76f !important;
+      }
+
+      /* Improve spacing */
+      .contact-left ul li,
+      .contact-message ul li {
+        margin-bottom: 14px;
+        line-height: 1.8;
+      }
+
+      .contact-left ul,
+      .contact-message ul {
+        padding-left: 20px;
+      }
+
+      /* Make long contract wrap nicely */
+      .contact-message a {
+        word-break: break-all;
+      }
+
+      /* Slight visual polish */
+      .contact-message {
+        background: #f9f9f9;
+        padding: 25px;
+        border-radius: 8px;
+      }
+    </style>
   </head>
+
   <body>
-    <!-- Page Preloder -->
     <div id="preloder"><div class="loader"></div></div>
 
     <!-- Header -->
@@ -41,13 +76,9 @@
         >
         <nav class="main-menu">
           <ul class="menu-list">
-            <li><a href="/" style="color:#000;">Home</a></li>
-            <li><a href="about.html" style="color:#000;">About</a></li>
-            <li>
-              <a href="museum.html" style="color: #bfa76f !important">
-                The Museum
-              </a>
-            </li>
+            <li><a href="/">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="museum.html">The Museum</a></li>
             <li><a href="frangain-room.html">The Frangain Room</a></li>
             <li><a href="story-manifesto.html">Story & Manifesto</a></li>
             <li><a href="whitepaper.html">Whitepaper</a></li>
@@ -58,10 +89,10 @@
       </div>
     </header>
 
-    <!-- Page info section -->
+    <!-- Page info -->
     <section class="page-info-section">
       <div class="container">
-        <h2>Contact Us</h2>
+        <h2>Contact & Project Information</h2>
         <div class="site-beradcamb">
           <a href="index.html">Home</a>
           <span><i class="fa fa-angle-right"></i> Contact</span>
@@ -69,89 +100,83 @@
       </div>
     </section>
 
-    <!-- Contact Section Begin -->
+    <!-- Contact Section -->
     <section class="contact-section spad">
       <div class="container">
         <div class="row">
-          <!-- Left Column: Contact Information -->
+          <!-- Left Column -->
           <div class="col-lg-6">
             <div class="contact-left">
-              <div class="contact-information">
-                <h2>Contact Information</h2>
-                <ul>
-                  <li>
-                    <img src="img/placeholder-copy.png" alt="" />
-                    <span>152 Road Street, Beirut, LB</span>
-                  </li>
-                  <li>
-                    <img src="img/phone-copy.png" alt="" />
-                    <span>+961 (71)672282</span>
-                  </li>
-                  <li>
-                    <img src="img/envelop.png" alt="" />
-                    <span>frangain@frangain.com</span>
-                  </li>
-                  <li>
-                    <img src="img/clock-copy.png" alt="" />
-                    <span>Everyday: 06:00 - 22:00</span>
-                  </li>
-                </ul>
-              </div>
+              <h2>Official Contact</h2>
+              <ul>
+                <li>
+                  <i class="fa fa-envelope"></i>
+                  <span>
+                    <a href="mailto:frangain@frangain.com">
+                      frangain@frangain.com
+                    </a>
+                  </span>
+                </li>
+
+                <li>
+                  <i class="fa fa-globe"></i>
+                  <span>
+                    Website:
+                    <a href="https://frangain.com" target="_blank">
+                      https://frangain.com
+                    </a>
+                  </span>
+                </li>
+
+                <li>
+                  <i class="fa fa-link"></i>
+                  <span>BNB Smart Chain (BEP-20)</span>
+                </li>
+              </ul>
+
+              <p style="margin-top: 20px">
+                Frangain is a cultural token project dedicated to preserving the
+                historical memory of the Lebanese "Frang" coin in a digital
+                form. The project focuses on heritage, symbolism, and
+                educational awareness in the crypto space.
+              </p>
             </div>
           </div>
 
-          <!-- Right Column: Static Contact Message -->
+          <!-- Right Column -->
           <div class="col-lg-6">
             <div class="contact-message">
-              <h5>Contact Us</h5>
-              <p>
-                We’d love to hear from you! For any inquiries or assistance,
-                please use the contact details on the left or visit us during
-                business hours.
-              </p>
+              <h5>Token Information</h5>
               <ul>
+                <li><strong>Token Name:</strong> Frangain</li>
+                <li><strong>Symbol:</strong> FRANG</li>
+                <li><strong>Network:</strong> BNB Smart Chain (BEP-20)</li>
+                <li><strong>Total Supply:</strong> 100,000,000 FRANG</li>
                 <li>
-                  <img src="img/placeholder-copy.png" alt="" />&emsp;
-                  <strong>Address:</strong> 152 Road Street, Beirut, LB
+                  <strong>Contract Address:</strong><br />
+                  <a
+                    href="https://bscscan.com/token/0xBd8c479557CFF992f60c82e2f1B53969705509B1"
+                    target="_blank"
+                  >
+                    0xBd8c479557CFF992f60c82e2f1B53969705509B1
+                  </a>
                 </li>
                 <li>
-                  <img src="img/phone-copy.png" alt="" />&emsp;
-                  <strong>Phone:</strong> +961 (71)672282
-                </li>
-                <li>
-                  <img src="img/envelop.png" alt="" />&emsp;
-                  <strong>Email:</strong> frangain@frangain.com
-                </li>
-                <li>
-                  <img src="img/clock-copy.png" alt="" />&emsp;
-                  <strong>Business Hours:</strong> Everyday: 09:00 - 22:00
+                  <strong>Liquidity:</strong> Initial liquidity added and LP
+                  tokens locked.
                 </li>
               </ul>
-              <p>
-                Thank you for supporting FRANGAIN — a token of memory, not
-                speculation.
+
+              <p style="margin-top: 20px">
+                The contract source code is verified on BscScan. Frangain is a
+                symbolic cultural token and is not positioned as an investment
+                instrument.
               </p>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <!-- Contact Section End -->
-
-    <!-- Google Maps -->
-    <!-- Map Section Begin -->
-    <!-- <div class="map">
-      <div id="map-container"></div>
-      <script>
-        fetch("/map-frame.html")
-          .then((res) => res.text())
-          .then((html) => {
-            document.getElementById("map-container").innerHTML = html;
-          });
-      </script>
-    </div> 
-  -->
-    <!-- Map Section End -->
 
     <!-- Footer -->
     <footer class="footer-section">
@@ -159,9 +184,9 @@
         <div class="row spad">
           <div class="col-md-6 col-lg-3 footer-widget">
             <img src="img/Frangain.png" class="mb-4" alt="Frangain" />
-
             <p>A token of memory, not speculation.</p>
           </div>
+
           <div class="col-md-6 col-lg-2 offset-lg-1 footer-widget">
             <h5 class="widget-title">Quick Links</h5>
             <ul>
@@ -170,37 +195,28 @@
               <li><a href="story-manifesto.html">The Story</a></li>
             </ul>
           </div>
-          <div class="col-md-6 col-lg-2 offset-lg-1 footer-widget">
-            <h5 class="widget-title">Project Resources</h5>
-            <ul>
-              <li><a href="whitepaper.html">Tokenomics</a></li>
-              <li><a href="whitepaper.html">Whitepaper</a></li>
-            </ul>
-          </div>
-          <div class="col-md-6 col-lg-3 footer-widget pl-lg-5 pl-3">
-  <h5 class="widget-title">Follow Us</h5>
-  <div class="social">
-    <a href="https://twitter.com/frangainteam" class="facebook">
-      <i class="fab fa-twitter"></i>
-    </a>
-    <a href="https://t.me/frangainnetwork" class="google">
-      <i class="fab fa-telegram"></i>
-    </a>
-    <a href="https://instagram.com/frangaintoken" class="instagram">
-      <i class="fab fa-instagram"></i>
-    </a>
-    <a href="https://facebook.com/frangainteam" class="twitter">
-      <i class="fab fa-facebook-f"></i>
-    </a>
-  </div>
-</div>
 
+          <div class="col-md-6 col-lg-3 footer-widget pl-lg-5 pl-3">
+            <h5 class="widget-title">Follow Us</h5>
+            <div class="social">
+              <a href="https://twitter.com/frangainteam"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a href="https://t.me/frangainnetwork"
+                ><i class="fab fa-telegram"></i
+              ></a>
+              <a href="https://instagram.com/frangaintoken"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a href="https://facebook.com/frangainteam"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+            </div>
           </div>
         </div>
       </div>
     </footer>
 
-    <!-- JS -->
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
