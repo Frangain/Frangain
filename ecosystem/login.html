@@ -1,0 +1,317 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <title>Frangain | Sign In</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../img/favicon.ico" rel="shortcut icon" />
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../css/themify-icons.css" />
+    <link rel="stylesheet" href="../css/owl.carousel.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <style>
+      .login-page {
+        min-height: 100vh;
+        padding: 120px 0 80px;
+        background: #f3f7f9 url("../img/page-info-bg.png") no-repeat right top / cover;
+      }
+
+      .login-panel {
+        max-width: 520px;
+        margin: 0 auto;
+        padding: 42px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 23px 49px rgba(33, 54, 61, 0.12);
+      }
+
+      .login-panel h1 {
+        margin-bottom: 12px;
+        font-size: 38px;
+      }
+
+      .login-panel p {
+        margin-bottom: 28px;
+      }
+
+      .login-form label {
+        display: block;
+        margin-bottom: 8px;
+        color: #20509e;
+        font-family: "Futura", sans-serif;
+      }
+
+      .login-form input[type="email"],
+      .login-form input[type="password"],
+      .login-form input[type="text"] {
+        width: 100%;
+        height: 50px;
+        border: 1px solid #ebebeb;
+        border-radius: 4px;
+        padding: 0 16px;
+        color: #20509e;
+        font-size: 16px;
+      }
+
+      .login-form input:focus {
+        border-color: #16d0c5;
+      }
+
+      .field-group {
+        margin-bottom: 18px;
+      }
+
+      .password-field {
+        position: relative;
+      }
+
+      .password-field input {
+        padding-right: 52px;
+      }
+
+      .toggle-password {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        width: 32px;
+        height: 32px;
+        border: 0;
+        background: transparent;
+        color: #75849a;
+        cursor: pointer;
+        transform: translateY(-50%);
+      }
+
+      .remember-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin: 8px 0 22px;
+      }
+
+      .remember-row label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 0;
+        color: #75849a;
+        font-family: "Lato", sans-serif;
+      }
+
+      .remember-row input {
+        width: auto;
+        height: auto;
+      }
+
+      .remember-row a,
+      .create-link a {
+        color: #16d0c5;
+        font-family: "Futura", sans-serif;
+      }
+
+      .form-error {
+        min-height: 20px;
+        margin-top: 6px;
+        color: #d93025;
+        font-size: 14px;
+      }
+
+      .form-message {
+        display: none;
+        margin-bottom: 20px;
+        padding: 14px 16px;
+        border-radius: 4px;
+        line-height: 1.6;
+      }
+
+      .form-message.error {
+        display: block;
+        background: #fff4f4;
+        color: #9f1c1c;
+        border: 1px solid #f0b5b5;
+      }
+
+      .login-actions .site-btn {
+        width: 100%;
+        border: 0;
+      }
+
+      .create-link {
+        margin-top: 22px;
+        text-align: center;
+      }
+
+      @media only screen and (max-width: 767px) {
+        .login-page {
+          padding: 130px 15px 60px;
+        }
+
+        .login-panel {
+          padding: 28px 20px;
+        }
+
+        .login-panel h1 {
+          font-size: 32px;
+        }
+
+        .remember-row {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="header-section clearfix">
+      <div class="container-fluid">
+        <a href="../index.html" class="site-logo">
+          <img src="../img/frangain-icon.svg" alt="Frangain Logo" style="max-height: 60px; width: auto; display: inline-block" />
+        </a>
+        <div class="responsive-bar"><i class="fa fa-bars"></i></div>
+        <nav class="main-menu">
+          <ul class="menu-list">
+            <li><a href="/" style="color: #000">Home</a></li>
+            <li><a href="../about.html" style="color: #000">About</a></li>
+            <li><a href="../story-manifesto.html">Story & Manifesto</a></li>
+            <li><a href="../whitepaper.html">Whitepaper</a></li>
+            <li><a href="../how_to_buy.html">How to Buy</a></li>
+            <li><a href="../contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="login-page">
+      <div class="container">
+        <div class="login-panel">
+          <h1>Sign In</h1>
+          <p>Access your FRANGAIN Ecosystem account.</p>
+
+          <div id="formMessage" class="form-message" role="status" aria-live="polite"></div>
+
+          <form id="loginForm" class="login-form" novalidate>
+            <div class="field-group">
+              <label for="email">Email Address</label>
+              <input id="email" name="email" type="email" autocomplete="email" required />
+              <div id="emailError" class="form-error"></div>
+            </div>
+
+            <div class="field-group">
+              <label for="password">Password</label>
+              <div class="password-field">
+                <input id="password" name="password" type="password" autocomplete="current-password" required />
+                <button class="toggle-password" type="button" aria-label="Show password">
+                  <i class="fa fa-eye"></i>
+                </button>
+              </div>
+              <div id="passwordError" class="form-error"></div>
+            </div>
+
+            <div class="remember-row">
+              <label for="rememberMe">
+                <input id="rememberMe" name="rememberMe" type="checkbox" />
+                Remember Me
+              </label>
+              <a href="#" aria-disabled="true">Forgot Password?</a>
+            </div>
+
+            <div class="login-actions">
+              <button id="submitButton" class="site-btn sb-gradients" type="submit">Sign In</button>
+            </div>
+          </form>
+
+          <div class="create-link">
+            New to FRANGAIN? <a href="register.html">Create Account</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/owl.carousel.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+      (function () {
+        var form = document.getElementById('loginForm');
+        var formMessage = document.getElementById('formMessage');
+        var submitButton = document.getElementById('submitButton');
+        var fields = ['email', 'password'];
+
+        function clearErrors() {
+          fields.forEach(function (field) {
+            document.getElementById(field + 'Error').textContent = '';
+          });
+          formMessage.className = 'form-message';
+          formMessage.textContent = '';
+        }
+
+        function setErrorMessage(message) {
+          formMessage.className = 'form-message error';
+          formMessage.textContent = message;
+        }
+
+        function showErrors(errors) {
+          Object.keys(errors || {}).forEach(function (field) {
+            var target = document.getElementById(field + 'Error');
+            if (target) {
+              target.textContent = errors[field];
+            }
+          });
+        }
+
+        document.querySelector('.toggle-password').addEventListener('click', function () {
+          var input = document.getElementById('password');
+          var icon = this.querySelector('i');
+          var isHidden = input.type === 'password';
+
+          input.type = isHidden ? 'text' : 'password';
+          this.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+          icon.className = isHidden ? 'fa fa-eye-slash' : 'fa fa-eye';
+        });
+
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+          clearErrors();
+          submitButton.disabled = true;
+          submitButton.textContent = 'Signing In...';
+
+          fetch('/api/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email: document.getElementById('email').value,
+              password: document.getElementById('password').value,
+            }),
+          })
+            .then(function (response) {
+              return response.json().then(function (data) {
+                return { ok: response.ok, data: data };
+              });
+            })
+            .then(function (result) {
+              if (!result.ok) {
+                showErrors(result.data.errors);
+                setErrorMessage(result.data.message || 'Login failed. Please check your information.');
+                return;
+              }
+
+              window.location.href = result.data.data.redirectTo || 'dashboard.html';
+            })
+            .catch(function () {
+              setErrorMessage('Login failed. Please try again later.');
+            })
+            .finally(function () {
+              submitButton.disabled = false;
+              submitButton.textContent = 'Sign In';
+            });
+        });
+      })();
+    </script>
+  </body>
+</html>

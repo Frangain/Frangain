@@ -1,0 +1,313 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <title>Frangain | Create Account</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="../img/favicon.ico" rel="shortcut icon" />
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../css/themify-icons.css" />
+    <link rel="stylesheet" href="../css/owl.carousel.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <style>
+      .register-page {
+        min-height: 100vh;
+        padding: 120px 0 80px;
+        background: #f3f7f9 url("../img/page-info-bg.png") no-repeat right top / cover;
+      }
+
+      .register-panel {
+        max-width: 560px;
+        margin: 0 auto;
+        padding: 42px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 23px 49px rgba(33, 54, 61, 0.12);
+      }
+
+      .register-panel h1 {
+        margin-bottom: 12px;
+        font-size: 38px;
+      }
+
+      .register-panel p {
+        margin-bottom: 28px;
+      }
+
+      .register-form label {
+        display: block;
+        margin-bottom: 8px;
+        color: #20509e;
+        font-family: "Futura", sans-serif;
+      }
+
+      .register-form input {
+        width: 100%;
+        height: 50px;
+        border: 1px solid #ebebeb;
+        border-radius: 4px;
+        padding: 0 16px;
+        color: #20509e;
+        font-size: 16px;
+      }
+
+      .register-form input:focus {
+        border-color: #16d0c5;
+      }
+
+      .field-group {
+        margin-bottom: 18px;
+      }
+
+      .password-field {
+        position: relative;
+      }
+
+      .password-field input {
+        padding-right: 52px;
+      }
+
+      .toggle-password {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        width: 32px;
+        height: 32px;
+        border: 0;
+        background: transparent;
+        color: #75849a;
+        cursor: pointer;
+        transform: translateY(-50%);
+      }
+
+      .form-error {
+        min-height: 20px;
+        margin-top: 6px;
+        color: #d93025;
+        font-size: 14px;
+      }
+
+      .form-message {
+        display: none;
+        margin-bottom: 20px;
+        padding: 14px 16px;
+        border-radius: 4px;
+        line-height: 1.6;
+      }
+
+      .form-message.success {
+        display: block;
+        background: #eefaf7;
+        color: #20509e;
+        border: 1px solid #16d0c5;
+      }
+
+      .form-message.error {
+        display: block;
+        background: #fff4f4;
+        color: #9f1c1c;
+        border: 1px solid #f0b5b5;
+      }
+
+      .register-actions {
+        margin-top: 8px;
+      }
+
+      .register-actions .site-btn {
+        width: 100%;
+        border: 0;
+      }
+
+      .signin-link {
+        margin-top: 22px;
+        text-align: center;
+      }
+
+      .signin-link a {
+        color: #16d0c5;
+        font-family: "Futura", sans-serif;
+      }
+
+      @media only screen and (max-width: 767px) {
+        .register-page {
+          padding: 130px 15px 60px;
+        }
+
+        .register-panel {
+          padding: 28px 20px;
+        }
+
+        .register-panel h1 {
+          font-size: 32px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="header-section clearfix">
+      <div class="container-fluid">
+        <a href="../index.html" class="site-logo">
+          <img src="../img/frangain-icon.svg" alt="Frangain Logo" style="max-height: 60px; width: auto; display: inline-block" />
+        </a>
+        <div class="responsive-bar"><i class="fa fa-bars"></i></div>
+        <nav class="main-menu">
+          <ul class="menu-list">
+            <li><a href="/" style="color: #000">Home</a></li>
+            <li><a href="../about.html" style="color: #000">About</a></li>
+            <li><a href="../story-manifesto.html">Story & Manifesto</a></li>
+            <li><a href="../whitepaper.html">Whitepaper</a></li>
+            <li><a href="../how_to_buy.html">How to Buy</a></li>
+            <li><a href="../contact.html">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="register-page">
+      <div class="container">
+        <div class="register-panel">
+          <h1>Create Account</h1>
+          <p>Join the FRANGAIN Ecosystem and prepare your Memory Reserve.</p>
+
+          <div id="formMessage" class="form-message" role="status" aria-live="polite"></div>
+
+          <form id="registerForm" class="register-form" novalidate>
+            <div class="field-group">
+              <label for="username">Username</label>
+              <input id="username" name="username" type="text" autocomplete="username" required />
+              <div id="usernameError" class="form-error"></div>
+            </div>
+
+            <div class="field-group">
+              <label for="email">Email Address</label>
+              <input id="email" name="email" type="email" autocomplete="email" required />
+              <div id="emailError" class="form-error"></div>
+            </div>
+
+            <div class="field-group">
+              <label for="password">Password</label>
+              <div class="password-field">
+                <input id="password" name="password" type="password" autocomplete="new-password" required />
+                <button class="toggle-password" type="button" data-target="password" aria-label="Show password">
+                  <i class="fa fa-eye"></i>
+                </button>
+              </div>
+              <div id="passwordError" class="form-error"></div>
+            </div>
+
+            <div class="field-group">
+              <label for="confirmPassword">Confirm Password</label>
+              <div class="password-field">
+                <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" required />
+                <button class="toggle-password" type="button" data-target="confirmPassword" aria-label="Show confirm password">
+                  <i class="fa fa-eye"></i>
+                </button>
+              </div>
+              <div id="confirmPasswordError" class="form-error"></div>
+            </div>
+
+            <div class="register-actions">
+              <button id="submitButton" class="site-btn sb-gradients" type="submit">Create Account</button>
+            </div>
+          </form>
+
+          <div class="signin-link">
+            Already have an account? <a href="login.html">Sign In</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="../js/jquery-3.2.1.min.js"></script>
+    <script src="../js/owl.carousel.min.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+      (function () {
+        var form = document.getElementById('registerForm');
+        var formMessage = document.getElementById('formMessage');
+        var submitButton = document.getElementById('submitButton');
+        var fieldNames = ['username', 'email', 'password', 'confirmPassword'];
+
+        function setMessage(type, message) {
+          formMessage.className = 'form-message ' + type;
+          formMessage.textContent = message;
+        }
+
+        function clearErrors() {
+          fieldNames.forEach(function (name) {
+            document.getElementById(name + 'Error').textContent = '';
+          });
+          formMessage.className = 'form-message';
+          formMessage.textContent = '';
+        }
+
+        function showErrors(errors) {
+          Object.keys(errors || {}).forEach(function (name) {
+            var errorTarget = document.getElementById(name + 'Error');
+            if (errorTarget) {
+              errorTarget.textContent = errors[name];
+            }
+          });
+        }
+
+        document.querySelectorAll('.toggle-password').forEach(function (button) {
+          button.addEventListener('click', function () {
+            var input = document.getElementById(button.getAttribute('data-target'));
+            var icon = button.querySelector('i');
+            var isHidden = input.type === 'password';
+
+            input.type = isHidden ? 'text' : 'password';
+            button.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+            icon.className = isHidden ? 'fa fa-eye-slash' : 'fa fa-eye';
+          });
+        });
+
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+          clearErrors();
+          submitButton.disabled = true;
+          submitButton.textContent = 'Creating Account...';
+
+          fetch('/api/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              username: document.getElementById('username').value,
+              email: document.getElementById('email').value,
+              password: document.getElementById('password').value,
+              confirmPassword: document.getElementById('confirmPassword').value,
+            }),
+          })
+            .then(function (response) {
+              return response.json().then(function (data) {
+                return { ok: response.ok, data: data };
+              });
+            })
+            .then(function (result) {
+              if (!result.ok) {
+                showErrors(result.data.errors);
+                setMessage('error', result.data.message || 'Registration failed. Please check your information.');
+                return;
+              }
+
+              form.reset();
+              setMessage('success', 'Welcome to the FRANGAIN Ecosystem. Your account has been created successfully. Please verify your email to activate your account.');
+            })
+            .catch(function () {
+              setMessage('error', 'Registration failed. Please try again later.');
+            })
+            .finally(function () {
+              submitButton.disabled = false;
+              submitButton.textContent = 'Create Account';
+            });
+        });
+      })();
+    </script>
+  </body>
+</html>
+
