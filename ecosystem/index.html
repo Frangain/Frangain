@@ -30,9 +30,23 @@
       }
 
       .portal-hero p {
-        max-width: 560px;
+        max-width: 620px;
         margin-bottom: 34px;
         font-size: 22px;
+      }
+
+      .hero-subtitle {
+        display: grid;
+        gap: 10px;
+        max-width: 620px;
+        margin-bottom: 34px;
+      }
+
+      .hero-subtitle span {
+        display: block;
+        color: #75849a;
+        font-size: 22px;
+        line-height: 1.45;
       }
 
       .portal-actions {
@@ -60,18 +74,80 @@
         box-shadow: 0 23px 49px rgba(33, 54, 61, 0.14);
       }
 
-      .portal-visual img {
-        display: block;
-        max-width: 240px;
-        margin: 0 auto 24px;
+      .dashboard-preview {
+        position: relative;
+        margin-top: 30px;
+        padding: 30px;
+        background: rgba(255, 255, 255, 0.94);
+        border-radius: 8px;
+        box-shadow: 0 23px 49px rgba(33, 54, 61, 0.14);
       }
 
-      .portal-stat {
+      .dashboard-topline {
         display: flex;
+        align-items: center;
         justify-content: space-between;
         gap: 18px;
-        padding: 14px 0;
-        border-top: 1px solid #ebebeb;
+        padding-bottom: 18px;
+        border-bottom: 1px solid #ebebeb;
+      }
+
+      .dashboard-user strong {
+        display: block;
+        color: #20509e;
+        font-family: "Futura", sans-serif;
+        font-size: 22px;
+      }
+
+      .dashboard-user span,
+      .dashboard-metric span {
+        color: #75849a;
+        font-size: 14px;
+      }
+
+      .dashboard-badge {
+        padding: 8px 14px;
+        border-radius: 50px;
+        background: rgba(22, 208, 197, 0.12);
+        color: #20509e;
+        font-family: "Futura", sans-serif;
+        font-size: 13px;
+        white-space: nowrap;
+      }
+
+      .dashboard-metrics {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 22px;
+      }
+
+      .dashboard-metric {
+        padding: 18px;
+        background: #f3f7f9;
+        border-radius: 8px;
+        border: 1px solid #ebebeb;
+      }
+
+      .dashboard-metric strong {
+        display: block;
+        margin-top: 6px;
+        color: #20509e;
+        font-family: "Futura", sans-serif;
+        font-size: 24px;
+      }
+
+      .dashboard-metric.featured {
+        grid-column: span 2;
+        background: linear-gradient(to right, rgba(62, 43, 206, 0.08), rgba(45, 211, 170, 0.16));
+        border-color: rgba(22, 208, 197, 0.45);
+      }
+
+      .dashboard-note {
+        margin-top: 18px;
+        color: #75849a;
+        font-size: 14px;
+        line-height: 1.5;
       }
 
       .portal-section {
@@ -99,6 +175,34 @@
         margin-bottom: 18px;
         color: #16d0c5;
         font-size: 42px;
+      }
+
+      .join-card {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .join-card:before {
+        position: absolute;
+        content: "";
+        width: 4px;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: #16d0c5;
+      }
+
+      .join-card .checkmark {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        margin-bottom: 18px;
+        border-radius: 50%;
+        background: rgba(22, 208, 197, 0.12);
+        color: #16d0c5;
+        font-family: "Futura", sans-serif;
       }
 
       .roadmap-list {
@@ -164,6 +268,11 @@
         margin-bottom: 8px;
       }
 
+      .reserve-highlight {
+        color: #16d0c5;
+        font-family: "Futura", sans-serif;
+      }
+
       @media only screen and (max-width: 991px) {
         .portal-hero h1 {
           font-size: 48px;
@@ -184,8 +293,17 @@
           font-size: 40px;
         }
 
-        .portal-hero p {
+        .portal-hero p,
+        .hero-subtitle span {
           font-size: 18px;
+        }
+
+        .dashboard-metrics {
+          grid-template-columns: 1fr;
+        }
+
+        .dashboard-metric.featured {
+          grid-column: span 1;
         }
 
         .portal-actions {
@@ -230,18 +348,33 @@
           <div class="col-lg-7">
             <div class="portal-eyebrow">The Coin Remembers</div>
             <h1>FRANGAIN <span>Ecosystem</span></h1>
-            <p>The gateway to Memory Mining.</p>
+            <div class="hero-subtitle">
+              <span>Mine FRANG through Memory Mining.</span>
+              <span>Build your personal FRANG Reserve.</span>
+              <span>Become part of the Circle of Trust.</span>
+            </div>
             <div class="portal-actions">
               <a href="/ecosystem/register.html" class="site-btn sb-gradients">Create Account</a>
               <a href="/ecosystem/login.html" class="site-btn secondary-action">Sign In</a>
             </div>
           </div>
           <div class="col-lg-5">
-            <div class="portal-visual">
-              <img src="../img/Frangain.png" alt="Frangain Ecosystem" />
-              <div class="portal-stat"><strong>Memory Reserve</strong><span>Account foundation</span></div>
-              <div class="portal-stat"><strong>Mining Rate</strong><span>Future growth engine</span></div>
-              <div class="portal-stat"><strong>Circle of Trust</strong><span>Community layer</span></div>
+            <div class="dashboard-preview" aria-label="Visual dashboard preview">
+              <div class="dashboard-topline">
+                <div class="dashboard-user">
+                  <strong>Username</strong>
+                  <span>FRANGAIN Ecosystem account</span>
+                </div>
+                <div class="dashboard-badge">Preview</div>
+              </div>
+              <div class="dashboard-metrics">
+                <div class="dashboard-metric featured"><span>Memory Reserve</span><strong>12,480 FRANG</strong></div>
+                <div class="dashboard-metric"><span>Mining Rate</span><strong>1.0x</strong></div>
+                <div class="dashboard-metric"><span>Today's Mining</span><strong>24 FRANG</strong></div>
+                <div class="dashboard-metric"><span>Circle of Trust</span><strong>3 Members</strong></div>
+                <div class="dashboard-metric"><span>Total FRANG Mined</span><strong>18,920</strong></div>
+              </div>
+              <div class="dashboard-note">A non-functional preview of the future User Dashboard experience.</div>
             </div>
           </div>
         </div>
@@ -251,18 +384,34 @@
     <section class="portal-section">
       <div class="container">
         <div class="section-title text-center">
+          <h2>Why Join the FRANGAIN Ecosystem?</h2>
+          <p>Join the ecosystem to mine FRANG, accumulate FRANG over time, and build a personal FRANG Reserve.</p>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-lg-4 mb-4"><div class="portal-card join-card"><span class="checkmark">✓</span><h4>Mine FRANG through Memory Mining</h4><p>Start from an account foundation designed around future Mining Sessions.</p></div></div>
+          <div class="col-md-6 col-lg-4 mb-4"><div class="portal-card join-card"><span class="checkmark">✓</span><h4>Accumulate FRANG over time</h4><p>Build long-term progress as the FRANGAIN Ecosystem expands.</p></div></div>
+          <div class="col-md-6 col-lg-4 mb-4"><div class="portal-card join-card"><span class="checkmark">✓</span><h4>Build your FRANG Reserve</h4><p>Your future FRANG Reserve will represent accumulated ecosystem activity.</p></div></div>
+          <div class="col-md-6 col-lg-4 mb-4"><div class="portal-card join-card"><span class="checkmark">✓</span><h4>Join the Circle of Trust</h4><p>Prepare for the community layer that will connect FRANGAIN supporters.</p></div></div>
+          <div class="col-md-6 col-lg-4 mb-4"><div class="portal-card join-card"><span class="checkmark">✓</span><h4>Unlock future ecosystem rewards</h4><p>Follow the roadmap as new account features are approved and released.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="portal-section alt">
+      <div class="container">
+        <div class="section-title text-center">
           <h2>What is Memory Mining?</h2>
-          <p>Memory Mining is the FRANGAIN Ecosystem concept for earning symbolic progress through participation, consistency, and community presence.</p>
+          <p>Memory Mining is the mechanism for mining FRANG, accumulating FRANG over time, and building your personal <span class="reserve-highlight">FRANG Reserve</span>.</p>
         </div>
         <div class="row">
           <div class="col-md-4 mb-4">
-            <div class="portal-card"><i class="ti-time"></i><h4>Daily Presence</h4><p>Future Mining Sessions will be designed around regular participation, not speculation.</p></div>
+            <div class="portal-card"><i class="ti-time"></i><h4>Daily Presence</h4><p>Future Mining Sessions will let users mine FRANG through regular participation, not speculation.</p></div>
           </div>
           <div class="col-md-4 mb-4">
-            <div class="portal-card"><i class="ti-server"></i><h4>Memory Reserve</h4><p>The Memory Reserve will represent a user's accumulated ecosystem progress once the feature is activated.</p></div>
+            <div class="portal-card"><i class="ti-server"></i><h4>Memory Reserve</h4><p>The FRANG Reserve will represent accumulated FRANG progress once the feature is activated.</p></div>
           </div>
           <div class="col-md-4 mb-4">
-            <div class="portal-card"><i class="ti-pulse"></i><h4>Mining Rate</h4><p>The Mining Rate will define how Memory Mining evolves over time inside the account experience.</p></div>
+            <div class="portal-card"><i class="ti-pulse"></i><h4>Mining Rate</h4><p>The Mining Rate will define how quickly users mine FRANG inside the account experience.</p></div>
           </div>
         </div>
       </div>
@@ -293,7 +442,7 @@
         <div class="roadmap-list">
           <div class="roadmap-item completed"><span class="roadmap-status">Completed</span><h4>Registration</h4></div>
           <div class="roadmap-item completed"><span class="roadmap-status">Completed</span><h4>Login</h4></div>
-          <div class="roadmap-item"><span class="roadmap-status">Planned</span><h4>Dashboard</h4></div>
+          <div class="roadmap-item"><span class="roadmap-status">Planned</span><h4>User Dashboard</h4></div>
           <div class="roadmap-item"><span class="roadmap-status">Planned</span><h4>Memory Mining</h4></div>
           <div class="roadmap-item"><span class="roadmap-status">Planned</span><h4>Circle of Trust</h4></div>
           <div class="roadmap-item"><span class="roadmap-status">Planned</span><h4>Withdrawals</h4></div>
@@ -309,7 +458,7 @@
         </div>
         <div class="row justify-content-center">
           <div class="col-lg-9">
-            <div class="faq-item"><h4>What is Memory Mining?</h4><p>Memory Mining is the planned participation system for the FRANGAIN Ecosystem. It is not active on this portal page.</p></div>
+            <div class="faq-item"><h4>What is Memory Mining?</h4><p>Memory Mining is the planned mechanism for users to mine FRANG and build their FRANG Reserve. It is not active on this portal page.</p></div>
             <div class="faq-item"><h4>Is FRANGAIN free?</h4><p>Creating an ecosystem account is designed to be simple and accessible. Token purchases remain separate from account registration.</p></div>
             <div class="faq-item"><h4>Do I need crypto experience?</h4><p>No. The ecosystem is being built to introduce concepts clearly and gradually.</p></div>
             <div class="faq-item"><h4>What is the Circle of Trust?</h4><p>It is the planned community layer for trusted participation and future social features.</p></div>

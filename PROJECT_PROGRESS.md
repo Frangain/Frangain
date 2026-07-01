@@ -195,6 +195,32 @@ Milestone 5 should be defined and approved before additional ecosystem functiona
 
 ---
 
+## Milestone 4.6 - Ecosystem Portal Final Polish
+
+Status:
+
+Completed ✅
+
+Files Modified:
+
+- `ecosystem/index.html`
+- `PROJECT_PROGRESS.md`
+
+Completed Work:
+
+- Strengthened the Ecosystem Portal hero messaging around mining FRANG, building a FRANG Reserve, and joining the Circle of Trust.
+- Replaced the right-side hero card with a realistic non-functional dashboard preview.
+- Added a new "Why Join the FRANGAIN Ecosystem?" section immediately after the hero.
+- Updated portal wording to emphasize FRANG as the reward and Memory Mining as the mechanism.
+- Renamed the roadmap item from Dashboard to User Dashboard.
+- Preserved existing authentication, backend, database, API, registration, login, dashboard, JWT, and MongoDB functionality.
+
+Next Milestone:
+
+Milestone 5 should be defined and approved before additional ecosystem functionality is added.
+
+---
+
 ## Future Rule
 
 At the end of every completed milestone, automatically update PROJECT_PROGRESS.md with:
