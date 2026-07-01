@@ -12,44 +12,600 @@
     <link rel="stylesheet" href="../css/owl.carousel.css" />
     <link rel="stylesheet" href="../css/style.css" />
     <style>
-      .dashboard-placeholder {
+      body {
         min-height: 100vh;
-        padding: 150px 15px 80px;
-        background: #f3f7f9 url("../img/page-info-bg.png") no-repeat right top / cover;
-        text-align: center;
+        background: #f3f7f9;
       }
 
-      .dashboard-placeholder h1 {
+      .dashboard-shell {
+        display: grid;
+        grid-template-columns: 280px minmax(0, 1fr);
+        min-height: 100vh;
+      }
+
+      .dashboard-sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        padding: 28px 24px;
+        background: #fff;
+        box-shadow: 0 14px 43px rgba(33, 54, 61, 0.12);
+        z-index: 5;
+      }
+
+      .dashboard-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 34px;
+      }
+
+      .dashboard-brand img {
+        width: 46px;
+        height: 46px;
+      }
+
+      .dashboard-brand strong {
+        display: block;
+        color: #20509e;
+        font-family: "Futura", sans-serif;
+        font-size: 18px;
+      }
+
+      .dashboard-brand span {
+        color: #75849a;
+        font-size: 13px;
+      }
+
+      .dashboard-nav a,
+      .dashboard-nav button {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        margin-bottom: 8px;
+        padding: 13px 14px;
+        border: 0;
+        border-radius: 8px;
+        background: transparent;
+        color: #20509e;
+        cursor: pointer;
+        font-family: "Futura", sans-serif;
+        text-align: left;
+      }
+
+      .dashboard-nav a:hover,
+      .dashboard-nav button:hover,
+      .dashboard-nav a.active {
+        background: #f3f7f9;
+        color: #16d0c5;
+      }
+
+      .dashboard-main {
+        min-width: 0;
+      }
+
+      .dashboard-topbar {
+        position: sticky;
+        top: 0;
+        z-index: 4;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 22px 34px;
+        background: rgba(243, 247, 249, 0.94);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid #e5edf2;
+      }
+
+      .dashboard-topbar h1 {
+        margin-bottom: 4px;
+        font-size: 34px;
+      }
+
+      .dashboard-topbar p {
+        margin: 0;
+      }
+
+      .mobile-menu-toggle {
+        display: none;
+        border: 0;
+        background: #fff;
+        color: #20509e;
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        box-shadow: 0 8px 20px rgba(33, 54, 61, 0.12);
+      }
+
+      .dashboard-content {
+        padding: 34px;
+      }
+
+      .dashboard-card {
+        height: 100%;
+        padding: 26px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 18px 36px rgba(33, 54, 61, 0.1);
+      }
+
+      .profile-card {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 22px;
+        align-items: center;
+      }
+
+      .profile-avatar {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 88px;
+        height: 88px;
+        border-radius: 50%;
+        background: linear-gradient(to right, #3e2bce, #2dd3aa);
+        color: #fff;
+        font-family: "Futura", sans-serif;
+        font-size: 34px;
+      }
+
+      .profile-details h2 {
+        margin-bottom: 8px;
+        font-size: 30px;
+      }
+
+      .profile-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px 20px;
+        margin-top: 16px;
+      }
+
+      .profile-meta span {
+        color: #75849a;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 18px;
+        margin: 26px 0;
+      }
+
+      .stat-card {
+        padding: 22px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 18px 36px rgba(33, 54, 61, 0.1);
+      }
+
+      .stat-card i {
+        color: #16d0c5;
+        font-size: 28px;
+      }
+
+      .stat-card span {
+        display: block;
+        margin: 14px 0 6px;
+        color: #75849a;
+        font-size: 14px;
+      }
+
+      .stat-card strong {
+        color: #20509e;
+        font-family: "Futura", sans-serif;
+        font-size: 26px;
+      }
+
+      .section-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+        gap: 24px;
+        margin-bottom: 24px;
+      }
+
+      .dashboard-card h3 {
         margin-bottom: 18px;
-        font-size: 48px;
+        font-size: 25px;
       }
 
-      .dashboard-placeholder h2 {
-        margin-bottom: 18px;
-        font-size: 36px;
+      .status-pill {
+        display: inline-block;
+        margin-bottom: 16px;
+        padding: 8px 14px;
+        border-radius: 50px;
+        background: rgba(22, 208, 197, 0.12);
+        color: #20509e;
+        font-family: "Futura", sans-serif;
       }
 
-      .dashboard-placeholder p {
-        font-size: 20px;
+      .mining-progress {
+        height: 14px;
+        margin: 18px 0;
+        overflow: hidden;
+        border-radius: 50px;
+        background: #edf3f6;
+      }
+
+      .mining-progress span {
+        display: block;
+        width: 42%;
+        height: 100%;
+        background: linear-gradient(to right, #3e2bce, #2dd3aa);
+      }
+
+      .disabled-action {
+        opacity: 0.72;
+        cursor: not-allowed;
+      }
+
+      .info-list {
+        list-style: none;
+      }
+
+      .info-list li {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 13px 0;
+        border-bottom: 1px solid #ebebeb;
+        color: #75849a;
+      }
+
+      .info-list strong {
+        color: #20509e;
+      }
+
+      .timeline {
+        list-style: none;
+        position: relative;
+      }
+
+      .timeline li {
+        position: relative;
+        padding: 0 0 22px 28px;
+        color: #75849a;
+      }
+
+      .timeline li:before {
+        position: absolute;
+        content: "";
+        width: 10px;
+        height: 10px;
+        left: 0;
+        top: 7px;
+        border-radius: 50%;
+        background: #16d0c5;
+      }
+
+      .timeline strong {
+        display: block;
+        color: #20509e;
+        font-family: "Futura", sans-serif;
+      }
+
+      .quick-actions {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .quick-action {
+        display: block;
+        padding: 22px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 18px 36px rgba(33, 54, 61, 0.1);
+        color: #20509e;
+        font-family: "Futura", sans-serif;
+      }
+
+      .quick-action i {
+        display: block;
+        margin-bottom: 16px;
+        color: #16d0c5;
+        font-size: 30px;
+      }
+
+      .dashboard-loading {
+        position: fixed;
+        inset: 0;
+        z-index: 99;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        color: #20509e;
+        font-family: "Futura", sans-serif;
+      }
+
+      body.dashboard-ready .dashboard-loading {
+        display: none;
+      }
+
+      .dashboard-mobile-nav {
+        display: none;
+      }
+
+      @media only screen and (max-width: 1199px) {
+        .stats-grid,
+        .quick-actions {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      @media only screen and (max-width: 991px) {
+        .dashboard-shell {
+          display: block;
+        }
+
+        .dashboard-sidebar {
+          display: none;
+        }
+
+        .mobile-menu-toggle {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .dashboard-mobile-nav {
+          display: none;
+          padding: 12px 20px 20px;
+          background: #fff;
+          box-shadow: 0 14px 30px rgba(33, 54, 61, 0.12);
+        }
+
+        .dashboard-mobile-nav.open {
+          display: block;
+        }
+
+        .dashboard-mobile-nav a,
+        .dashboard-mobile-nav button {
+          display: block;
+          width: 100%;
+          padding: 12px 0;
+          border: 0;
+          background: transparent;
+          color: #20509e;
+          font-family: "Futura", sans-serif;
+          text-align: left;
+        }
+
+        .section-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media only screen and (max-width: 767px) {
+        .dashboard-topbar,
+        .dashboard-content {
+          padding: 20px 15px;
+        }
+
+        .profile-card {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+
+        .profile-avatar {
+          margin: 0 auto;
+        }
+
+        .stats-grid,
+        .quick-actions {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
 
   <body>
-    <header class="header-section clearfix">
-      <div class="container-fluid">
-        <a href="../index.html" class="site-logo">
-          <img src="../img/frangain-icon.svg" alt="Frangain Logo" style="max-height: 60px; width: auto; display: inline-block" />
-        </a>
-      </div>
-    </header>
+    <div class="dashboard-loading">Loading FRANGAIN Ecosystem...</div>
 
-    <main class="dashboard-placeholder">
-      <div class="container">
-        <h1>FRANGAIN Ecosystem</h1>
-        <h2>Dashboard</h2>
-        <p>Coming in the next milestone...</p>
-      </div>
-    </main>
+    <div class="dashboard-shell">
+      <aside class="dashboard-sidebar">
+        <a href="/ecosystem/" class="dashboard-brand">
+          <img src="../img/frangain-icon.svg" alt="Frangain" />
+          <span><strong>FRANGAIN</strong><span>Ecosystem</span></span>
+        </a>
+        <nav class="dashboard-nav">
+          <a href="#overview" class="active"><i class="fa fa-th-large"></i> Overview</a>
+          <a href="#mining"><i class="fa fa-bolt"></i> Memory Mining</a>
+          <a href="#circle"><i class="fa fa-users"></i> Circle of Trust</a>
+          <a href="#activity"><i class="fa fa-history"></i> Recent Activity</a>
+          <a href="../whitepaper.html"><i class="fa fa-file-text-o"></i> Whitepaper</a>
+          <a href="../how_to_buy.html"><i class="fa fa-shopping-cart"></i> How to Buy FRANG</a>
+          <button id="logoutButton" type="button"><i class="fa fa-sign-out"></i> Logout</button>
+        </nav>
+      </aside>
+
+      <main class="dashboard-main">
+        <header class="dashboard-topbar">
+          <button id="mobileMenuToggle" class="mobile-menu-toggle" type="button" aria-label="Open dashboard menu">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div>
+            <h1>FRANGAIN Ecosystem</h1>
+            <p>The Coin Remembers. Your dashboard is ready.</p>
+          </div>
+          <a href="/ecosystem/" class="site-btn sb-gradients">Portal</a>
+        </header>
+
+        <nav id="mobileNav" class="dashboard-mobile-nav">
+          <a href="#overview">Overview</a>
+          <a href="#mining">Memory Mining</a>
+          <a href="#circle">Circle of Trust</a>
+          <a href="#activity">Recent Activity</a>
+          <a href="../whitepaper.html">Whitepaper</a>
+          <a href="../how_to_buy.html">How to Buy FRANG</a>
+          <button id="mobileLogoutButton" type="button">Logout</button>
+        </nav>
+
+        <div class="dashboard-content">
+          <section id="overview" class="dashboard-card profile-card">
+            <div id="profileAvatar" class="profile-avatar">F</div>
+            <div class="profile-details">
+              <h2 id="profileUsername">Username</h2>
+              <p id="profileEmail">email@example.com</p>
+              <div class="profile-meta">
+                <span>Account Created: <strong id="profileCreatedAt">Loading...</strong></span>
+                <span>Status: <strong>Email Verified</strong></span>
+              </div>
+            </div>
+          </section>
+
+          <section class="stats-grid" aria-label="FRANG statistics">
+            <div class="stat-card"><i class="ti-server"></i><span>Memory Reserve</span><strong>12,480 FRANG</strong></div>
+            <div class="stat-card"><i class="ti-pulse"></i><span>Mining Rate</span><strong>1.0x</strong></div>
+            <div class="stat-card"><i class="ti-bolt"></i><span>Today's Mining</span><strong>24 FRANG</strong></div>
+            <div class="stat-card"><i class="ti-cup"></i><span>Total FRANG Mined</span><strong>18,920</strong></div>
+            <div class="stat-card"><i class="ti-user"></i><span>Circle Members</span><strong>3</strong></div>
+          </section>
+
+          <section class="section-grid">
+            <div id="mining" class="dashboard-card">
+              <span class="status-pill">Current Mining Status: Preview Only</span>
+              <h3>Memory Mining Panel</h3>
+              <p>Mine FRANG through Memory Mining once the feature is activated in a future milestone.</p>
+              <ul class="info-list">
+                <li><span>Mining Rate</span><strong>1.0x</strong></li>
+                <li><span>Mining Session</span><strong>Not started</strong></li>
+                <li><span>Mining Progress</span><strong>Placeholder</strong></li>
+              </ul>
+              <div class="mining-progress"><span></span></div>
+              <button class="site-btn sb-gradients disabled-action" type="button" disabled>Start Mining Coming Soon</button>
+            </div>
+
+            <div id="circle" class="dashboard-card">
+              <h3>Circle of Trust</h3>
+              <p>Build your Circle of Trust when the community layer is activated.</p>
+              <ul class="info-list">
+                <li><span>Current Members</span><strong>3</strong></li>
+                <li><span>Invitation</span><strong>Coming Soon</strong></li>
+                <li><span>Status</span><strong>Informational</strong></li>
+              </ul>
+              <p>The Circle of Trust is a future community feature. No referral logic is active.</p>
+            </div>
+          </section>
+
+          <section class="section-grid">
+            <div id="activity" class="dashboard-card">
+              <h3>Recent Activity</h3>
+              <ul class="timeline">
+                <li><strong>Account Created</strong>Your FRANGAIN Ecosystem account was created.</li>
+                <li><strong>Registration Complete</strong>Your profile entered the ecosystem.</li>
+                <li><strong>Future Mining Session</strong>Mining Sessions will appear here later.</li>
+                <li><strong>Future Reward</strong>Rewards will appear only after a future approved milestone.</li>
+              </ul>
+            </div>
+
+            <div class="dashboard-card">
+              <h3>Account Guidance</h3>
+              <p>Your dashboard currently displays profile information and placeholder FRANG statistics. Real mining, rewards, Circle of Trust logic, withdrawals, and wallet features are not active yet.</p>
+            </div>
+          </section>
+
+          <section class="quick-actions" aria-label="Quick actions">
+            <a class="quick-action" href="#mining"><i class="fa fa-bolt"></i>Start Mining</a>
+            <a class="quick-action" href="#circle"><i class="fa fa-users"></i>Circle of Trust</a>
+            <a class="quick-action" href="../whitepaper.html"><i class="fa fa-file-text-o"></i>Whitepaper</a>
+            <a class="quick-action" href="../how_to_buy.html"><i class="fa fa-shopping-cart"></i>How to Buy FRANG</a>
+            <a class="quick-action" href="../contact.html"><i class="fa fa-life-ring"></i>Support</a>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      (function () {
+        var profileUsername = document.getElementById('profileUsername');
+        var profileEmail = document.getElementById('profileEmail');
+        var profileCreatedAt = document.getElementById('profileCreatedAt');
+        var profileAvatar = document.getElementById('profileAvatar');
+        var mobileNav = document.getElementById('mobileNav');
+
+        function redirectToLogin() {
+          window.location.href = '/ecosystem/login.html';
+        }
+
+        function formatDate(value) {
+          if (!value) {
+            return 'Not available';
+          }
+
+          var date = new Date(value);
+          if (Number.isNaN(date.getTime())) {
+            return 'Not available';
+          }
+
+          return date.toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          });
+        }
+
+        function renderUser(user) {
+          var username = user.username || 'FRANGAIN User';
+          profileUsername.textContent = username;
+          profileEmail.textContent = user.email || 'Email unavailable';
+          profileCreatedAt.textContent = formatDate(user.createdAt);
+          profileAvatar.textContent = username.slice(0, 1).toUpperCase();
+          document.body.classList.add('dashboard-ready');
+        }
+
+        function loadUser() {
+          fetch('/api/me', {
+            method: 'GET',
+            credentials: 'same-origin',
+          })
+            .then(function (response) {
+              if (response.status === 401) {
+                redirectToLogin();
+                return null;
+              }
+
+              return response.json().then(function (data) {
+                return { ok: response.ok, data: data };
+              });
+            })
+            .then(function (result) {
+              if (!result) {
+                return;
+              }
+
+              if (!result.ok || !result.data.success) {
+                redirectToLogin();
+                return;
+              }
+
+              renderUser(result.data.data.user);
+            })
+            .catch(function () {
+              redirectToLogin();
+            });
+        }
+
+        function logout() {
+          fetch('/api/logout', {
+            method: 'POST',
+            credentials: 'same-origin',
+          }).finally(function () {
+            redirectToLogin();
+          });
+        }
+
+        document.getElementById('logoutButton').addEventListener('click', logout);
+        document.getElementById('mobileLogoutButton').addEventListener('click', logout);
+        document.getElementById('mobileMenuToggle').addEventListener('click', function () {
+          mobileNav.classList.toggle('open');
+        });
+
+        loadUser();
+      })();
+    </script>
   </body>
 </html>
