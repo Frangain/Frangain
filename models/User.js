@@ -123,7 +123,7 @@ async function createUser(db, userData) {
     username: userData.username,
     email: userData.email,
     password: userData.password,
-    emailVerified: false,
+    emailVerified: true,
     memoryReserve: 0,
     miningRate: 1.0,
     circleMembers: 0,

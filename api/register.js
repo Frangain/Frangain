@@ -88,7 +88,7 @@ module.exports = async function registerHandler(req, res) {
 
     return res.status(201).json({
       success: true,
-      message: 'Welcome to the FRANGAIN Ecosystem. Your account has been created successfully. Please verify your email to activate your account.',
+      message: 'Welcome to the FRANGAIN Ecosystem. Your account has been created successfully.',
       user,
     });
   } catch (error) {
