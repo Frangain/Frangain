@@ -689,9 +689,9 @@
           <section class="stats-grid" aria-label="FRANG statistics">
             <div class="stat-card"><i class="ti-server"></i><span>Memory Reserve</span><strong id="memoryReserveValue">12,480 FRANG</strong></div>
             <div class="stat-card"><i class="ti-pulse"></i><span>Mining Rate</span><strong id="miningRateValue">1.0x</strong></div>
-            <div class="stat-card"><i class="ti-bolt"></i><span>Today's Mining</span><strong id="todaysMiningValue">24 FRANG</strong></div>
+            <div class="stat-card"><i class="ti-bolt"></i><span>Current Session</span><strong id="currentSessionValue">0 FRANG</strong></div>
             <div class="stat-card"><i class="ti-cup"></i><span>Total FRANG Mined</span><strong id="totalFrangMinedValue">18,920</strong></div>
-            <div class="stat-card"><i class="ti-user"></i><span>Circle Members</span><strong>3</strong></div>
+            <div class="stat-card"><i class="ti-user"></i><span>Circle of Trust</span><strong id="circleOfTrustValue">0</strong></div>
           </section>
 
           <section class="section-grid">
@@ -713,7 +713,7 @@
               <h3>Circle of Trust</h3>
               <p>Build your Circle of Trust when the community layer is activated.</p>
               <ul class="info-list">
-                <li><span>Current Members</span><strong>3</strong></li>
+                <li><span>Current Members</span><strong id="circleCurrentMembersValue">0</strong></li>
                 <li><span>Invitation</span><strong>Coming Soon</strong></li>
                 <li><span>Status</span><strong>Informational</strong></li>
               </ul>
@@ -780,12 +780,15 @@
         var miningProgressBar = document.getElementById('miningProgressBar');
         var memoryReserveValue = document.getElementById('memoryReserveValue');
         var miningRateValue = document.getElementById('miningRateValue');
-        var todaysMiningValue = document.getElementById('todaysMiningValue');
+        var currentSessionValue = document.getElementById('currentSessionValue');
         var totalFrangMinedValue = document.getElementById('totalFrangMinedValue');
+        var circleOfTrustValue = document.getElementById('circleOfTrustValue');
+        var circleCurrentMembersValue = document.getElementById('circleCurrentMembersValue');
         var activityTimeline = document.getElementById('activityTimeline');
         var miningCountdownTimer = null;
         var miningSessionDurationMs = 24 * 60 * 60 * 1000;
         var miningActionMode = 'start';
+        var circleOfTrustMembers = 0;
 
         function redirectToLogin() {
           window.location.href = '/ecosystem/login.html';
@@ -815,6 +818,13 @@
           }) + ' FRANG';
         }
 
+        function formatCurrentSessionFrang(value) {
+          var amount = Number(value) || 0;
+          return amount.toLocaleString(undefined, {
+            maximumFractionDigits: 4,
+          }) + ' FRANG';
+        }
+
         function formatMiningRate(value) {
           var rate = Number(value) || 1;
           return rate.toLocaleString(undefined, {
@@ -828,8 +838,20 @@
 
           memoryReserveValue.textContent = formatFrang(user.memoryReserve);
           miningRateValue.textContent = formatMiningRate(miningRate);
-          todaysMiningValue.textContent = formatFrang(24 * miningRate);
           totalFrangMinedValue.textContent = formatFrang(user.totalFrangMined);
+          circleOfTrustValue.textContent = String(circleOfTrustMembers);
+          circleCurrentMembersValue.textContent = String(circleOfTrustMembers);
+        }
+
+        function calculateCurrentSessionReward(elapsedMs, miningRate) {
+          var boundedElapsedMs = Math.max(0, Math.min(miningSessionDurationMs, elapsedMs));
+          var rate = Number(miningRate) || 1;
+
+          return (boundedElapsedMs / miningSessionDurationMs) * 24 * rate;
+        }
+
+        function setCurrentSessionReward(value) {
+          currentSessionValue.textContent = formatCurrentSessionFrang(value);
         }
 
         function addClaimActivity(reward, claimedAt) {
@@ -880,6 +902,7 @@
           miningStatus.textContent = 'Ready';
           miningSessionState.textContent = 'Not Started';
           miningProgressState.textContent = '0%';
+          setCurrentSessionReward(0);
           setMiningProgress(0);
           startMiningButton.textContent = 'Start Mining';
           startMiningButton.disabled = false;
@@ -887,12 +910,13 @@
           miningActionMode = 'start';
         }
 
-        function renderCompletedMiningState() {
+        function renderCompletedMiningState(miningRate) {
           clearMiningCountdown();
 
           miningStatus.textContent = 'Ready to Claim';
           miningSessionState.textContent = 'Completed';
           miningProgressState.textContent = '100%';
+          setCurrentSessionReward(24 * (Number(miningRate) || 1));
           setMiningProgress(100);
           startMiningButton.textContent = 'Claim Mining Reward';
           startMiningButton.disabled = false;
@@ -900,20 +924,21 @@
           miningActionMode = 'claim';
         }
 
-        function updateActiveMiningState(startedAt) {
+        function updateActiveMiningState(startedAt, miningRate) {
           var elapsedMs = Date.now() - startedAt.getTime();
           var remainingMs = miningSessionDurationMs - elapsedMs;
 
           if (remainingMs <= 0) {
-            renderCompletedMiningState();
+            renderCompletedMiningState(miningRate);
             return;
           }
 
           miningStatus.textContent = 'Mining in Progress';
           miningSessionState.textContent = formatRemainingTime(remainingMs);
           miningProgressState.textContent = Math.min(100, Math.max(0, (elapsedMs / miningSessionDurationMs) * 100)).toFixed(2) + '%';
+          setCurrentSessionReward(calculateCurrentSessionReward(elapsedMs, miningRate));
           setMiningProgress((elapsedMs / miningSessionDurationMs) * 100);
-          startMiningButton.textContent = 'Mining Session Started';
+          startMiningButton.textContent = 'Mining in Progress';
           startMiningButton.disabled = true;
           startMiningButton.classList.add('disabled-action');
           miningActionMode = 'active';
@@ -934,11 +959,11 @@
             return;
           }
 
-          updateActiveMiningState(startedAt);
+          updateActiveMiningState(startedAt, user.miningRate);
 
           if (startMiningButton.disabled) {
             miningCountdownTimer = setInterval(function () {
-              updateActiveMiningState(startedAt);
+              updateActiveMiningState(startedAt, user.miningRate);
             }, 1000);
           }
         }
