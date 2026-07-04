@@ -3,6 +3,16 @@
 const USERNAME_PATTERN = /^[A-Za-z0-9_]{3,20}$/;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const MEMORY_MINING_DEFAULTS = {
+  memoryReserve: 0,
+  totalFrangMined: 0,
+  miningRate: 1.0,
+  miningActive: false,
+  miningStartedAt: null,
+  lastClaimAt: null,
+  lastMiningCompletedAt: null,
+};
+
 function getUsersCollection(db) {
   return db.collection('users');
 }
@@ -100,14 +110,61 @@ async function findUserById(db, id) {
   return getUsersCollection(db).findOne({ _id: new ObjectId(id) });
 }
 
+async function startMiningSession(db, id, startedAt = new Date()) {
+  if (!ObjectId.isValid(id)) {
+    return {
+      matched: false,
+      alreadyActive: false,
+      user: null,
+    };
+  }
+
+  const users = getUsersCollection(db);
+  const userId = new ObjectId(id);
+  const updateResult = await users.updateOne(
+    {
+      _id: userId,
+      miningActive: { $ne: true },
+    },
+    {
+      $set: {
+        miningActive: true,
+        miningStartedAt: startedAt,
+        updatedAt: startedAt,
+      },
+    }
+  );
+
+  if (updateResult.modifiedCount === 1) {
+    return {
+      matched: true,
+      alreadyActive: false,
+      user: await users.findOne({ _id: userId }),
+    };
+  }
+
+  const existingUser = await users.findOne({ _id: userId });
+
+  return {
+    matched: Boolean(existingUser),
+    alreadyActive: Boolean(existingUser && existingUser.miningActive === true),
+    user: existingUser,
+  };
+}
+
 function sanitizeUser(user) {
   return {
     id: user._id ? user._id.toString() : user.id.toString(),
     username: user.username,
     email: user.email,
     emailVerified: user.emailVerified,
-    memoryReserve: user.memoryReserve,
-    miningRate: user.miningRate,
+    memoryReserve: user.memoryReserve ?? MEMORY_MINING_DEFAULTS.memoryReserve,
+    totalFrangMined: user.totalFrangMined ?? MEMORY_MINING_DEFAULTS.totalFrangMined,
+    miningRate: user.miningRate ?? MEMORY_MINING_DEFAULTS.miningRate,
+    miningActive: user.miningActive ?? MEMORY_MINING_DEFAULTS.miningActive,
+    miningStartedAt: user.miningStartedAt ?? MEMORY_MINING_DEFAULTS.miningStartedAt,
+    lastClaimAt: user.lastClaimAt ?? MEMORY_MINING_DEFAULTS.lastClaimAt,
+    lastMiningCompletedAt: user.lastMiningCompletedAt ?? MEMORY_MINING_DEFAULTS.lastMiningCompletedAt,
     circleMembers: user.circleMembers,
     miningBonus: user.miningBonus,
     totalMined: user.totalMined,
@@ -124,8 +181,7 @@ async function createUser(db, userData) {
     email: userData.email,
     password: userData.password,
     emailVerified: true,
-    memoryReserve: 0,
-    miningRate: 1.0,
+    ...MEMORY_MINING_DEFAULTS,
     circleMembers: 0,
     miningBonus: 0,
     totalMined: 0,
@@ -148,6 +204,7 @@ module.exports = {
   normalizeLoginInput,
   normalizeUserInput,
   sanitizeUser,
+  startMiningSession,
   validateLoginInput,
   validateRegistrationInput,
 };

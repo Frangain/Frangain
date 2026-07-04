@@ -348,6 +348,22 @@
         cursor: not-allowed;
       }
 
+      .mining-message {
+        min-height: 22px;
+        margin: 12px 0 0;
+        color: #75849a;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .mining-message.success {
+        color: #20509e;
+      }
+
+      .mining-message.error {
+        color: #d9534f;
+      }
+
       .info-list {
         list-style: none;
       }
@@ -688,7 +704,8 @@
                 <li><span>Mining Progress</span><strong>Placeholder</strong></li>
               </ul>
               <div class="mining-progress"><span></span></div>
-              <button class="site-btn sb-gradients disabled-action" type="button" disabled>Start Mining Coming Soon</button>
+              <button id="startMiningButton" class="site-btn sb-gradients" type="button">Start Mining</button>
+              <p id="miningMessage" class="mining-message" role="status" aria-live="polite"></p>
             </div>
 
             <div id="circle" class="dashboard-card">
@@ -754,6 +771,8 @@
         var userMenuButton = document.getElementById('userMenuButton');
         var topbarAvatar = document.getElementById('topbarAvatar');
         var topbarUsername = document.getElementById('topbarUsername');
+        var startMiningButton = document.getElementById('startMiningButton');
+        var miningMessage = document.getElementById('miningMessage');
 
         function redirectToLogin() {
           window.location.href = '/ecosystem/login.html';
@@ -784,6 +803,13 @@
           profileAvatar.textContent = username.slice(0, 1).toUpperCase();
           topbarUsername.textContent = username;
           topbarAvatar.textContent = username.slice(0, 1).toUpperCase();
+
+          if (user.miningActive) {
+            startMiningButton.textContent = 'Mining Session Started';
+            startMiningButton.disabled = true;
+            startMiningButton.classList.add('disabled-action');
+          }
+
           document.body.classList.add('dashboard-ready');
         }
 
@@ -828,9 +854,52 @@
           });
         }
 
+        function showMiningMessage(message, type) {
+          miningMessage.textContent = message;
+          miningMessage.className = 'mining-message' + (type ? ' ' + type : '');
+        }
+
+        function startMining() {
+          startMiningButton.disabled = true;
+          startMiningButton.classList.add('disabled-action');
+          showMiningMessage('Starting your Mining Session...', '');
+
+          fetch('/api/mining/start', {
+            method: 'POST',
+            credentials: 'same-origin',
+          })
+            .then(function (response) {
+              return response.json().then(function (data) {
+                return { ok: response.ok, status: response.status, data: data };
+              });
+            })
+            .then(function (result) {
+              if (result.status === 401) {
+                redirectToLogin();
+                return;
+              }
+
+              if (!result.ok || !result.data.success) {
+                startMiningButton.disabled = false;
+                startMiningButton.classList.remove('disabled-action');
+                showMiningMessage(result.data.message || 'Unable to start Memory Mining right now.', 'error');
+                return;
+              }
+
+              startMiningButton.textContent = 'Mining Session Started';
+              showMiningMessage('Your Mining Session has started.', 'success');
+            })
+            .catch(function () {
+              startMiningButton.disabled = false;
+              startMiningButton.classList.remove('disabled-action');
+              showMiningMessage('Unable to start Memory Mining right now.', 'error');
+            });
+        }
+
         document.getElementById('logoutButton').addEventListener('click', logout);
         document.getElementById('mobileLogoutButton').addEventListener('click', logout);
         document.getElementById('topbarLogoutButton').addEventListener('click', logout);
+        startMiningButton.addEventListener('click', startMining);
         document.getElementById('mobileMenuToggle').addEventListener('click', function () {
           mobileNav.classList.toggle('open');
         });
