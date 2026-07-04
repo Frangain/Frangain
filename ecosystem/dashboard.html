@@ -100,12 +100,109 @@
       }
 
       .dashboard-topbar h1 {
-        margin-bottom: 4px;
-        font-size: 34px;
+        margin-bottom: 6px;
+        color: #20509e;
+        font-size: 42px;
+        line-height: 1.08;
+        letter-spacing: 0;
       }
 
       .dashboard-topbar p {
         margin: 0;
+        color: #75849a;
+        font-size: 16px;
+        line-height: 1.55;
+      }
+
+      .topbar-user {
+        position: relative;
+        flex: 0 0 auto;
+      }
+
+      .topbar-user-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 11px;
+        min-width: 0;
+        padding: 8px 12px 8px 8px;
+        border: 1px solid #e5edf2;
+        border-radius: 8px;
+        background: #fff;
+        color: #20509e;
+        box-shadow: 0 10px 24px rgba(33, 54, 61, 0.1);
+        cursor: pointer;
+        font-family: "Futura", sans-serif;
+      }
+
+      .topbar-user-button:hover,
+      .topbar-user.open .topbar-user-button {
+        border-color: rgba(22, 208, 197, 0.46);
+        color: #16d0c5;
+      }
+
+      .topbar-avatar {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        flex: 0 0 38px;
+        border-radius: 50%;
+        background: linear-gradient(to right, #3e2bce, #2dd3aa);
+        color: #fff;
+        font-size: 16px;
+      }
+
+      .topbar-username {
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .topbar-user-menu {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        width: 210px;
+        padding: 8px;
+        border: 1px solid #e5edf2;
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: 0 18px 38px rgba(33, 54, 61, 0.16);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-6px);
+        transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+        z-index: 20;
+      }
+
+      .topbar-user.open .topbar-user-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .topbar-user-menu a,
+      .topbar-user-menu button {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding: 11px 12px;
+        border: 0;
+        border-radius: 8px;
+        background: transparent;
+        color: #20509e;
+        cursor: pointer;
+        font-family: "Futura", sans-serif;
+        text-align: left;
+      }
+
+      .topbar-user-menu a:hover,
+      .topbar-user-menu button:hover {
+        background: #f3f7f9;
+        color: #16d0c5;
       }
 
       .mobile-menu-toggle {
@@ -134,26 +231,36 @@
       .profile-card {
         display: grid;
         grid-template-columns: auto minmax(0, 1fr);
-        gap: 22px;
+        gap: 28px;
         align-items: center;
+        padding: 17px 32px;
       }
 
       .profile-avatar {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 88px;
-        height: 88px;
+        width: 106px;
+        height: 106px;
         border-radius: 50%;
         background: linear-gradient(to right, #3e2bce, #2dd3aa);
         color: #fff;
         font-family: "Futura", sans-serif;
-        font-size: 34px;
+        font-size: 40px;
       }
 
       .profile-details h2 {
-        margin-bottom: 8px;
-        font-size: 30px;
+        margin-bottom: 14px;
+        color: #20509e;
+        font-size: 36px;
+        font-weight: 700;
+        line-height: 1.05;
+      }
+
+      .profile-details p {
+        margin-bottom: 0;
+        color: #75849a;
+        font-size: 16px;
       }
 
       .profile-meta {
@@ -261,29 +368,66 @@
       .timeline {
         list-style: none;
         position: relative;
+        margin: 0;
+        padding: 4px 0 0;
       }
 
       .timeline li {
+        display: grid;
+        grid-template-columns: 42px minmax(0, 1fr);
+        gap: 14px;
         position: relative;
-        padding: 0 0 22px 28px;
+        padding: 0 0 24px;
         color: #75849a;
       }
 
       .timeline li:before {
         position: absolute;
         content: "";
-        width: 10px;
-        height: 10px;
-        left: 0;
-        top: 7px;
+        left: 20px;
+        top: 42px;
+        bottom: -2px;
+        width: 2px;
+        background: #e5edf2;
+      }
+
+      .timeline li:last-child {
+        padding-bottom: 0;
+      }
+
+      .timeline li:last-child:before {
+        display: none;
+      }
+
+      .timeline-icon {
+        position: relative;
+        z-index: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
         border-radius: 50%;
-        background: #16d0c5;
+        background: rgba(22, 208, 197, 0.12);
+        color: #16d0c5;
+        font-size: 17px;
       }
 
       .timeline strong {
         display: block;
+        margin-bottom: 5px;
         color: #20509e;
         font-family: "Futura", sans-serif;
+        font-size: 17px;
+      }
+
+      .timeline span {
+        display: block;
+        line-height: 1.55;
+      }
+
+      .timeline .timeline-icon {
+        display: inline-flex;
       }
 
       .quick-actions {
@@ -293,20 +437,53 @@
       }
 
       .quick-action {
-        display: block;
-        padding: 22px;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 14px;
+        align-items: center;
+        min-height: 104px;
+        padding: 20px;
         background: #fff;
+        border: 1px solid transparent;
         border-radius: 8px;
         box-shadow: 0 18px 36px rgba(33, 54, 61, 0.1);
         color: #20509e;
         font-family: "Futura", sans-serif;
+        transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+      }
+
+      .quick-action:hover {
+        transform: translateY(-3px);
+        border-color: rgba(22, 208, 197, 0.36);
+        box-shadow: 0 24px 42px rgba(33, 54, 61, 0.14);
+        color: #20509e;
       }
 
       .quick-action i {
-        display: block;
-        margin-bottom: 16px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        margin: 0;
+        border-radius: 50%;
+        background: rgba(22, 208, 197, 0.12);
         color: #16d0c5;
-        font-size: 30px;
+        font-size: 22px;
+      }
+
+      .quick-action strong {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 17px;
+      }
+
+      .quick-action span {
+        display: block;
+        color: #75849a;
+        font-family: "Lato", sans-serif;
+        font-size: 13px;
+        line-height: 1.35;
       }
 
       .dashboard-loading {
@@ -385,8 +562,32 @@
           padding: 20px 15px;
         }
 
+        .dashboard-topbar {
+          flex-wrap: wrap;
+        }
+
+        .dashboard-topbar h1 {
+          font-size: 32px;
+        }
+
+        .topbar-user {
+          width: 100%;
+        }
+
+        .topbar-user-button {
+          width: 100%;
+          justify-content: space-between;
+        }
+
+        .topbar-user-menu {
+          left: 0;
+          right: auto;
+          width: 100%;
+        }
+
         .profile-card {
           grid-template-columns: 1fr;
+          padding: 20px 24px;
           text-align: center;
         }
 
@@ -431,7 +632,18 @@
             <h1>FRANGAIN Ecosystem</h1>
             <p>The Coin Remembers. Your dashboard is ready.</p>
           </div>
-          <a href="/ecosystem/" class="site-btn sb-gradients">Portal</a>
+          <div id="topbarUser" class="topbar-user">
+            <button id="userMenuButton" class="topbar-user-button" type="button" aria-haspopup="true" aria-expanded="false">
+              <span id="topbarAvatar" class="topbar-avatar">F</span>
+              <span id="topbarUsername" class="topbar-username">Username</span>
+              <i class="fa fa-angle-down"></i>
+            </button>
+            <div id="userDropdown" class="topbar-user-menu" aria-label="User menu">
+              <a href="#overview"><i class="fa fa-user-o"></i> My Profile</a>
+              <a href="#overview"><i class="fa fa-cog"></i> Settings</a>
+              <button id="topbarLogoutButton" type="button"><i class="fa fa-sign-out"></i> Logout</button>
+            </div>
+          </div>
         </header>
 
         <nav id="mobileNav" class="dashboard-mobile-nav">
@@ -495,10 +707,22 @@
             <div id="activity" class="dashboard-card">
               <h3>Recent Activity</h3>
               <ul class="timeline">
-                <li><strong>Account Created</strong>Your FRANGAIN Ecosystem account was created.</li>
-                <li><strong>Registration Complete</strong>Your profile entered the ecosystem.</li>
-                <li><strong>Future Mining Session</strong>Mining Sessions will appear here later.</li>
-                <li><strong>Future Reward</strong>Rewards will appear only after a future approved milestone.</li>
+                <li>
+                  <span class="timeline-icon"><i class="fa fa-user-plus"></i></span>
+                  <span><strong>Account Created</strong><span>Your FRANGAIN Ecosystem account was created.</span></span>
+                </li>
+                <li>
+                  <span class="timeline-icon"><i class="fa fa-check-circle-o"></i></span>
+                  <span><strong>Registration Complete</strong><span>Your profile entered the ecosystem.</span></span>
+                </li>
+                <li>
+                  <span class="timeline-icon"><i class="fa fa-bolt"></i></span>
+                  <span><strong>Future Mining Session</strong><span>Mining Sessions will appear here later.</span></span>
+                </li>
+                <li>
+                  <span class="timeline-icon"><i class="fa fa-diamond"></i></span>
+                  <span><strong>Future Reward</strong><span>Rewards will appear only after a future approved milestone.</span></span>
+                </li>
               </ul>
             </div>
 
@@ -509,11 +733,11 @@
           </section>
 
           <section class="quick-actions" aria-label="Quick actions">
-            <a class="quick-action" href="#mining"><i class="fa fa-bolt"></i>Start Mining</a>
-            <a class="quick-action" href="#circle"><i class="fa fa-users"></i>Circle of Trust</a>
-            <a class="quick-action" href="../whitepaper.html"><i class="fa fa-file-text-o"></i>Whitepaper</a>
-            <a class="quick-action" href="../how_to_buy.html"><i class="fa fa-shopping-cart"></i>How to Buy FRANG</a>
-            <a class="quick-action" href="../contact.html"><i class="fa fa-life-ring"></i>Support</a>
+            <a class="quick-action" href="#mining"><i class="fa fa-bolt"></i><span><strong>Start Mining</strong><span>Preview the mining panel</span></span></a>
+            <a class="quick-action" href="#circle"><i class="fa fa-users"></i><span><strong>Circle of Trust</strong><span>View community status</span></span></a>
+            <a class="quick-action" href="../whitepaper.html"><i class="fa fa-file-text-o"></i><span><strong>Whitepaper</strong><span>Read the FRANGAIN vision</span></span></a>
+            <a class="quick-action" href="../how_to_buy.html"><i class="fa fa-shopping-cart"></i><span><strong>How to Buy FRANG</strong><span>Open the buying guide</span></span></a>
+            <a class="quick-action" href="../contact.html"><i class="fa fa-life-ring"></i><span><strong>Support</strong><span>Contact the team</span></span></a>
           </section>
         </div>
       </main>
@@ -526,6 +750,10 @@
         var profileCreatedAt = document.getElementById('profileCreatedAt');
         var profileAvatar = document.getElementById('profileAvatar');
         var mobileNav = document.getElementById('mobileNav');
+        var topbarUser = document.getElementById('topbarUser');
+        var userMenuButton = document.getElementById('userMenuButton');
+        var topbarAvatar = document.getElementById('topbarAvatar');
+        var topbarUsername = document.getElementById('topbarUsername');
 
         function redirectToLogin() {
           window.location.href = '/ecosystem/login.html';
@@ -554,6 +782,8 @@
           profileEmail.textContent = user.email || 'Email unavailable';
           profileCreatedAt.textContent = formatDate(user.createdAt);
           profileAvatar.textContent = username.slice(0, 1).toUpperCase();
+          topbarUsername.textContent = username;
+          topbarAvatar.textContent = username.slice(0, 1).toUpperCase();
           document.body.classList.add('dashboard-ready');
         }
 
@@ -600,8 +830,21 @@
 
         document.getElementById('logoutButton').addEventListener('click', logout);
         document.getElementById('mobileLogoutButton').addEventListener('click', logout);
+        document.getElementById('topbarLogoutButton').addEventListener('click', logout);
         document.getElementById('mobileMenuToggle').addEventListener('click', function () {
           mobileNav.classList.toggle('open');
+        });
+        userMenuButton.addEventListener('click', function (event) {
+          event.stopPropagation();
+          var isOpen = topbarUser.classList.toggle('open');
+          userMenuButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+        document.addEventListener('click', function () {
+          topbarUser.classList.remove('open');
+          userMenuButton.setAttribute('aria-expanded', 'false');
+        });
+        document.getElementById('userDropdown').addEventListener('click', function (event) {
+          event.stopPropagation();
         });
 
         loadUser();
