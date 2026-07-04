@@ -338,9 +338,10 @@
 
       .mining-progress span {
         display: block;
-        width: 42%;
+        width: 0;
         height: 100%;
         background: linear-gradient(to right, #3e2bce, #2dd3aa);
+        transition: width 0.4s ease;
       }
 
       .disabled-action {
@@ -686,24 +687,24 @@
           </section>
 
           <section class="stats-grid" aria-label="FRANG statistics">
-            <div class="stat-card"><i class="ti-server"></i><span>Memory Reserve</span><strong>12,480 FRANG</strong></div>
-            <div class="stat-card"><i class="ti-pulse"></i><span>Mining Rate</span><strong>1.0x</strong></div>
-            <div class="stat-card"><i class="ti-bolt"></i><span>Today's Mining</span><strong>24 FRANG</strong></div>
-            <div class="stat-card"><i class="ti-cup"></i><span>Total FRANG Mined</span><strong>18,920</strong></div>
+            <div class="stat-card"><i class="ti-server"></i><span>Memory Reserve</span><strong id="memoryReserveValue">12,480 FRANG</strong></div>
+            <div class="stat-card"><i class="ti-pulse"></i><span>Mining Rate</span><strong id="miningRateValue">1.0x</strong></div>
+            <div class="stat-card"><i class="ti-bolt"></i><span>Today's Mining</span><strong id="todaysMiningValue">24 FRANG</strong></div>
+            <div class="stat-card"><i class="ti-cup"></i><span>Total FRANG Mined</span><strong id="totalFrangMinedValue">18,920</strong></div>
             <div class="stat-card"><i class="ti-user"></i><span>Circle Members</span><strong>3</strong></div>
           </section>
 
           <section class="section-grid">
             <div id="mining" class="dashboard-card">
-              <span class="status-pill">Current Mining Status: Preview Only</span>
+              <span class="status-pill">Current Mining Status: <strong id="miningStatus">Ready</strong></span>
               <h3>Memory Mining Panel</h3>
               <p>Mine FRANG through Memory Mining once the feature is activated in a future milestone.</p>
               <ul class="info-list">
                 <li><span>Mining Rate</span><strong>1.0x</strong></li>
-                <li><span>Mining Session</span><strong>Not started</strong></li>
-                <li><span>Mining Progress</span><strong>Placeholder</strong></li>
+                <li><span>Mining Session</span><strong id="miningSessionState">Not Started</strong></li>
+                <li><span>Mining Progress</span><strong id="miningProgressState">Waiting to Start</strong></li>
               </ul>
-              <div class="mining-progress"><span></span></div>
+              <div class="mining-progress"><span id="miningProgressBar"></span></div>
               <button id="startMiningButton" class="site-btn sb-gradients" type="button">Start Mining</button>
               <p id="miningMessage" class="mining-message" role="status" aria-live="polite"></p>
             </div>
@@ -723,7 +724,7 @@
           <section class="section-grid">
             <div id="activity" class="dashboard-card">
               <h3>Recent Activity</h3>
-              <ul class="timeline">
+              <ul id="activityTimeline" class="timeline">
                 <li>
                   <span class="timeline-icon"><i class="fa fa-user-plus"></i></span>
                   <span><strong>Account Created</strong><span>Your FRANGAIN Ecosystem account was created.</span></span>
@@ -745,12 +746,12 @@
 
             <div class="dashboard-card">
               <h3>Account Guidance</h3>
-              <p>Your dashboard currently displays profile information and placeholder FRANG statistics. Real mining, rewards, Circle of Trust logic, withdrawals, and wallet features are not active yet.</p>
+              <p>Your dashboard currently displays profile information, FRANG statistics, and Memory Mining session status. Circle of Trust logic, withdrawals, and wallet features are not active yet.</p>
             </div>
           </section>
 
           <section class="quick-actions" aria-label="Quick actions">
-            <a class="quick-action" href="#mining"><i class="fa fa-bolt"></i><span><strong>Start Mining</strong><span>Preview the mining panel</span></span></a>
+            <a class="quick-action" href="#mining"><i class="fa fa-bolt"></i><span><strong>Start Mining</strong><span>Open the mining panel</span></span></a>
             <a class="quick-action" href="#circle"><i class="fa fa-users"></i><span><strong>Circle of Trust</strong><span>View community status</span></span></a>
             <a class="quick-action" href="../whitepaper.html"><i class="fa fa-file-text-o"></i><span><strong>Whitepaper</strong><span>Read the FRANGAIN vision</span></span></a>
             <a class="quick-action" href="../how_to_buy.html"><i class="fa fa-shopping-cart"></i><span><strong>How to Buy FRANG</strong><span>Open the buying guide</span></span></a>
@@ -773,6 +774,18 @@
         var topbarUsername = document.getElementById('topbarUsername');
         var startMiningButton = document.getElementById('startMiningButton');
         var miningMessage = document.getElementById('miningMessage');
+        var miningStatus = document.getElementById('miningStatus');
+        var miningSessionState = document.getElementById('miningSessionState');
+        var miningProgressState = document.getElementById('miningProgressState');
+        var miningProgressBar = document.getElementById('miningProgressBar');
+        var memoryReserveValue = document.getElementById('memoryReserveValue');
+        var miningRateValue = document.getElementById('miningRateValue');
+        var todaysMiningValue = document.getElementById('todaysMiningValue');
+        var totalFrangMinedValue = document.getElementById('totalFrangMinedValue');
+        var activityTimeline = document.getElementById('activityTimeline');
+        var miningCountdownTimer = null;
+        var miningSessionDurationMs = 24 * 60 * 60 * 1000;
+        var miningActionMode = 'start';
 
         function redirectToLogin() {
           window.location.href = '/ecosystem/login.html';
@@ -795,6 +808,141 @@
           });
         }
 
+        function formatFrang(value) {
+          var amount = Number(value) || 0;
+          return amount.toLocaleString(undefined, {
+            maximumFractionDigits: 2,
+          }) + ' FRANG';
+        }
+
+        function formatMiningRate(value) {
+          var rate = Number(value) || 1;
+          return rate.toLocaleString(undefined, {
+            minimumFractionDigits: 1,
+            maximumFractionDigits: 2,
+          }) + 'x';
+        }
+
+        function updateFrangStats(user) {
+          var miningRate = Number(user.miningRate) || 1;
+
+          memoryReserveValue.textContent = formatFrang(user.memoryReserve);
+          miningRateValue.textContent = formatMiningRate(miningRate);
+          todaysMiningValue.textContent = formatFrang(24 * miningRate);
+          totalFrangMinedValue.textContent = formatFrang(user.totalFrangMined);
+        }
+
+        function addClaimActivity(reward, claimedAt) {
+          var item = document.createElement('li');
+          var icon = document.createElement('span');
+          var content = document.createElement('span');
+          var title = document.createElement('strong');
+          var details = document.createElement('span');
+          var date = new Date(claimedAt);
+          var formattedDate = Number.isNaN(date.getTime()) ? 'just now' : date.toLocaleString();
+
+          icon.className = 'timeline-icon';
+          icon.innerHTML = '<i class="fa fa-diamond"></i>';
+          title.textContent = 'Mining Reward Claimed';
+          details.textContent = formatFrang(reward) + ' claimed on ' + formattedDate + '.';
+
+          content.appendChild(title);
+          content.appendChild(details);
+          item.appendChild(icon);
+          item.appendChild(content);
+          activityTimeline.insertBefore(item, activityTimeline.firstChild);
+        }
+
+        function clearMiningCountdown() {
+          if (miningCountdownTimer) {
+            clearInterval(miningCountdownTimer);
+            miningCountdownTimer = null;
+          }
+        }
+
+        function formatRemainingTime(milliseconds) {
+          var maxDisplaySeconds = miningSessionDurationMs / 1000 - 1;
+          var totalSeconds = Math.min(maxDisplaySeconds, Math.max(0, Math.ceil(milliseconds / 1000) - 1));
+          var hours = Math.floor(totalSeconds / 3600);
+          var minutes = Math.floor((totalSeconds % 3600) / 60);
+          var seconds = totalSeconds % 60;
+
+          return hours + 'h ' + minutes + 'm ' + seconds + 's remaining';
+        }
+
+        function setMiningProgress(percent) {
+          miningProgressBar.style.width = Math.max(0, Math.min(100, percent)) + '%';
+        }
+
+        function renderInactiveMiningState() {
+          clearMiningCountdown();
+
+          miningStatus.textContent = 'Ready';
+          miningSessionState.textContent = 'Not Started';
+          miningProgressState.textContent = '0%';
+          setMiningProgress(0);
+          startMiningButton.textContent = 'Start Mining';
+          startMiningButton.disabled = false;
+          startMiningButton.classList.remove('disabled-action');
+          miningActionMode = 'start';
+        }
+
+        function renderCompletedMiningState() {
+          clearMiningCountdown();
+
+          miningStatus.textContent = 'Ready to Claim';
+          miningSessionState.textContent = 'Completed';
+          miningProgressState.textContent = '100%';
+          setMiningProgress(100);
+          startMiningButton.textContent = 'Claim Mining Reward';
+          startMiningButton.disabled = false;
+          startMiningButton.classList.remove('disabled-action');
+          miningActionMode = 'claim';
+        }
+
+        function updateActiveMiningState(startedAt) {
+          var elapsedMs = Date.now() - startedAt.getTime();
+          var remainingMs = miningSessionDurationMs - elapsedMs;
+
+          if (remainingMs <= 0) {
+            renderCompletedMiningState();
+            return;
+          }
+
+          miningStatus.textContent = 'Mining in Progress';
+          miningSessionState.textContent = formatRemainingTime(remainingMs);
+          miningProgressState.textContent = Math.min(100, Math.max(0, (elapsedMs / miningSessionDurationMs) * 100)).toFixed(2) + '%';
+          setMiningProgress((elapsedMs / miningSessionDurationMs) * 100);
+          startMiningButton.textContent = 'Mining Session Started';
+          startMiningButton.disabled = true;
+          startMiningButton.classList.add('disabled-action');
+          miningActionMode = 'active';
+        }
+
+        function renderMiningState(user) {
+          clearMiningCountdown();
+
+          if (!user || user.miningActive !== true) {
+            renderInactiveMiningState();
+            return;
+          }
+
+          var startedAt = new Date(user.miningStartedAt);
+
+          if (Number.isNaN(startedAt.getTime())) {
+            renderInactiveMiningState();
+            return;
+          }
+
+          updateActiveMiningState(startedAt);
+
+          if (startMiningButton.disabled) {
+            miningCountdownTimer = setInterval(function () {
+              updateActiveMiningState(startedAt);
+            }, 1000);
+          }
+        }
+
         function renderUser(user) {
           var username = user.username || 'FRANGAIN User';
           profileUsername.textContent = username;
@@ -804,11 +952,8 @@
           topbarUsername.textContent = username;
           topbarAvatar.textContent = username.slice(0, 1).toUpperCase();
 
-          if (user.miningActive) {
-            startMiningButton.textContent = 'Mining Session Started';
-            startMiningButton.disabled = true;
-            startMiningButton.classList.add('disabled-action');
-          }
+          updateFrangStats(user);
+          renderMiningState(user);
 
           document.body.classList.add('dashboard-ready');
         }
@@ -860,6 +1005,11 @@
         }
 
         function startMining() {
+          if (miningActionMode === 'claim') {
+            claimMiningReward();
+            return;
+          }
+
           startMiningButton.disabled = true;
           startMiningButton.classList.add('disabled-action');
           showMiningMessage('Starting your Mining Session...', '');
@@ -886,13 +1036,51 @@
                 return;
               }
 
-              startMiningButton.textContent = 'Mining Session Started';
+              renderMiningState(result.data.data.user);
               showMiningMessage('Your Mining Session has started.', 'success');
             })
             .catch(function () {
               startMiningButton.disabled = false;
               startMiningButton.classList.remove('disabled-action');
               showMiningMessage('Unable to start Memory Mining right now.', 'error');
+            });
+        }
+
+        function claimMiningReward() {
+          startMiningButton.disabled = true;
+          startMiningButton.classList.add('disabled-action');
+          showMiningMessage('Claiming your Mining Reward...', '');
+
+          fetch('/api/mining/claim', {
+            method: 'POST',
+            credentials: 'same-origin',
+          })
+            .then(function (response) {
+              return response.json().then(function (data) {
+                return { ok: response.ok, status: response.status, data: data };
+              });
+            })
+            .then(function (result) {
+              if (result.status === 401) {
+                redirectToLogin();
+                return;
+              }
+
+              if (!result.ok || !result.data.success) {
+                startMiningButton.disabled = false;
+                startMiningButton.classList.remove('disabled-action');
+                showMiningMessage(result.data.message || 'Unable to claim Mining Reward right now.', 'error');
+                return;
+              }
+
+              renderUser(result.data.data.user);
+              addClaimActivity(result.data.data.reward, result.data.data.claimedAt);
+              showMiningMessage('Mining Reward claimed successfully.', 'success');
+            })
+            .catch(function () {
+              startMiningButton.disabled = false;
+              startMiningButton.classList.remove('disabled-action');
+              showMiningMessage('Unable to claim Mining Reward right now.', 'error');
             });
         }
 

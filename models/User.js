@@ -1,5 +1,7 @@
 ﻿const { ObjectId } = require('mongodb');
 
+const { calculateMiningReward, hasMiningSessionCompleted } = require('../lib/mining');
+
 const USERNAME_PATTERN = /^[A-Za-z0-9_]{3,20}$/;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -152,6 +154,89 @@ async function startMiningSession(db, id, startedAt = new Date()) {
   };
 }
 
+async function claimMiningReward(db, id, claimedAt = new Date()) {
+  if (!ObjectId.isValid(id)) {
+    return {
+      matched: false,
+      claimable: false,
+      reason: 'not_found',
+      reward: 0,
+      user: null,
+    };
+  }
+
+  const users = getUsersCollection(db);
+  const userId = new ObjectId(id);
+  const user = await users.findOne({ _id: userId });
+
+  if (!user) {
+    return {
+      matched: false,
+      claimable: false,
+      reason: 'not_found',
+      reward: 0,
+      user: null,
+    };
+  }
+
+  if (user.miningActive !== true || !user.miningStartedAt) {
+    return {
+      matched: true,
+      claimable: false,
+      reason: 'not_active',
+      reward: 0,
+      user,
+    };
+  }
+
+  if (!hasMiningSessionCompleted(user.miningStartedAt, claimedAt)) {
+    return {
+      matched: true,
+      claimable: false,
+      reason: 'not_completed',
+      reward: 0,
+      user,
+    };
+  }
+
+  const reward = calculateMiningReward(user.miningRate);
+
+  const updateResult = await users.updateOne(
+    { _id: userId, miningActive: true },
+    {
+      $inc: {
+        memoryReserve: reward,
+        totalFrangMined: reward,
+      },
+      $set: {
+        miningActive: false,
+        miningStartedAt: null,
+        lastClaimAt: claimedAt,
+        lastMiningCompletedAt: claimedAt,
+        updatedAt: claimedAt,
+      },
+    }
+  );
+
+  if (updateResult.modifiedCount !== 1) {
+    return {
+      matched: true,
+      claimable: false,
+      reason: 'not_active',
+      reward: 0,
+      user: await users.findOne({ _id: userId }),
+    };
+  }
+
+  return {
+    matched: true,
+    claimable: true,
+    reason: null,
+    reward,
+    user: await users.findOne({ _id: userId }),
+  };
+}
+
 function sanitizeUser(user) {
   return {
     id: user._id ? user._id.toString() : user.id.toString(),
@@ -196,6 +281,7 @@ async function createUser(db, userData) {
 }
 
 module.exports = {
+  claimMiningReward,
   createUser,
   ensureUserIndexes,
   findUserByEmail,
