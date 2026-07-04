@@ -681,7 +681,7 @@
               <p id="profileEmail">email@example.com</p>
               <div class="profile-meta">
                 <span>Account Created: <strong id="profileCreatedAt">Loading...</strong></span>
-                <span>Status: <strong>Email Verified</strong></span>
+                <span>Status: <strong>Registered</strong></span>
               </div>
             </div>
           </section>
@@ -821,7 +821,8 @@
         function formatCurrentSessionFrang(value) {
           var amount = Number(value) || 0;
           return amount.toLocaleString(undefined, {
-            maximumFractionDigits: 4,
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
           }) + ' FRANG';
         }
 
