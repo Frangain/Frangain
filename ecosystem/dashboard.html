@@ -788,6 +788,7 @@
         var miningCountdownTimer = null;
         var miningSessionDurationMs = 24 * 60 * 60 * 1000;
         var miningActionMode = 'start';
+        var miningCompletionInProgress = false;
         var circleOfTrustMembers = 0;
 
         function redirectToLogin() {
@@ -855,19 +856,19 @@
           currentSessionValue.textContent = formatCurrentSessionFrang(value);
         }
 
-        function addClaimActivity(reward, claimedAt) {
+        function addMiningCompletedActivity(reward, completedAt) {
           var item = document.createElement('li');
           var icon = document.createElement('span');
           var content = document.createElement('span');
           var title = document.createElement('strong');
           var details = document.createElement('span');
-          var date = new Date(claimedAt);
+          var date = new Date(completedAt);
           var formattedDate = Number.isNaN(date.getTime()) ? 'just now' : date.toLocaleString();
 
           icon.className = 'timeline-icon';
           icon.innerHTML = '<i class="fa fa-diamond"></i>';
-          title.textContent = 'Mining Reward Claimed';
-          details.textContent = formatFrang(reward) + ' claimed on ' + formattedDate + '.';
+          title.textContent = 'Mining Completed';
+          details.textContent = formatFrang(reward) + ' completed on ' + formattedDate + '.';
 
           content.appendChild(title);
           content.appendChild(details);
@@ -897,11 +898,11 @@
           miningProgressBar.style.width = Math.max(0, Math.min(100, percent)) + '%';
         }
 
-        function renderInactiveMiningState() {
+        function renderInactiveMiningState(sessionLabel) {
           clearMiningCountdown();
 
           miningStatus.textContent = 'Ready';
-          miningSessionState.textContent = 'Not Started';
+          miningSessionState.textContent = sessionLabel || 'Not Started';
           miningProgressState.textContent = '0%';
           setCurrentSessionReward(0);
           setMiningProgress(0);
@@ -914,15 +915,15 @@
         function renderCompletedMiningState(miningRate) {
           clearMiningCountdown();
 
-          miningStatus.textContent = 'Ready to Claim';
+          miningStatus.textContent = 'Ready';
           miningSessionState.textContent = 'Completed';
           miningProgressState.textContent = '100%';
           setCurrentSessionReward(24 * (Number(miningRate) || 1));
           setMiningProgress(100);
-          startMiningButton.textContent = 'Claim Mining Reward';
-          startMiningButton.disabled = false;
-          startMiningButton.classList.remove('disabled-action');
-          miningActionMode = 'claim';
+          startMiningButton.textContent = 'Start Mining';
+          startMiningButton.disabled = true;
+          startMiningButton.classList.add('disabled-action');
+          miningActionMode = 'completing';
         }
 
         function updateActiveMiningState(startedAt, miningRate) {
@@ -931,6 +932,7 @@
 
           if (remainingMs <= 0) {
             renderCompletedMiningState(miningRate);
+            completeMiningSession();
             return;
           }
 
@@ -947,9 +949,10 @@
 
         function renderMiningState(user) {
           clearMiningCountdown();
+          miningCompletionInProgress = false;
 
           if (!user || user.miningActive !== true) {
-            renderInactiveMiningState();
+            renderInactiveMiningState(user && user.lastMiningCompletedAt ? 'Completed' : 'Not Started');
             return;
           }
 
@@ -1031,11 +1034,6 @@
         }
 
         function startMining() {
-          if (miningActionMode === 'claim') {
-            claimMiningReward();
-            return;
-          }
-
           startMiningButton.disabled = true;
           startMiningButton.classList.add('disabled-action');
           showMiningMessage('Starting your Mining Session...', '');
@@ -1072,12 +1070,15 @@
             });
         }
 
-        function claimMiningReward() {
-          startMiningButton.disabled = true;
-          startMiningButton.classList.add('disabled-action');
-          showMiningMessage('Claiming your Mining Reward...', '');
+        function completeMiningSession() {
+          if (miningCompletionInProgress) {
+            return;
+          }
 
-          fetch('/api/mining/claim', {
+          miningCompletionInProgress = true;
+          showMiningMessage('Completing your Mining Session...', '');
+
+          fetch('/api/mining/complete', {
             method: 'POST',
             credentials: 'same-origin',
           })
@@ -1093,20 +1094,18 @@
               }
 
               if (!result.ok || !result.data.success) {
-                startMiningButton.disabled = false;
-                startMiningButton.classList.remove('disabled-action');
-                showMiningMessage(result.data.message || 'Unable to claim Mining Reward right now.', 'error');
+                miningCompletionInProgress = false;
+                showMiningMessage(result.data.message || 'Unable to complete Mining Session right now.', 'error');
                 return;
               }
 
               renderUser(result.data.data.user);
-              addClaimActivity(result.data.data.reward, result.data.data.claimedAt);
-              showMiningMessage('Mining Reward claimed successfully.', 'success');
+              addMiningCompletedActivity(result.data.data.reward, result.data.data.completedAt);
+              showMiningMessage('Mining Session completed automatically.', 'success');
             })
             .catch(function () {
-              startMiningButton.disabled = false;
-              startMiningButton.classList.remove('disabled-action');
-              showMiningMessage('Unable to claim Mining Reward right now.', 'error');
+              miningCompletionInProgress = false;
+              showMiningMessage('Unable to complete Mining Session right now.', 'error');
             });
         }
 

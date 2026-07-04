@@ -154,11 +154,11 @@ async function startMiningSession(db, id, startedAt = new Date()) {
   };
 }
 
-async function claimMiningReward(db, id, claimedAt = new Date()) {
+async function completeMiningSession(db, id, completedAt = new Date()) {
   if (!ObjectId.isValid(id)) {
     return {
       matched: false,
-      claimable: false,
+      completed: false,
       reason: 'not_found',
       reward: 0,
       user: null,
@@ -172,7 +172,7 @@ async function claimMiningReward(db, id, claimedAt = new Date()) {
   if (!user) {
     return {
       matched: false,
-      claimable: false,
+      completed: false,
       reason: 'not_found',
       reward: 0,
       user: null,
@@ -182,17 +182,17 @@ async function claimMiningReward(db, id, claimedAt = new Date()) {
   if (user.miningActive !== true || !user.miningStartedAt) {
     return {
       matched: true,
-      claimable: false,
+      completed: false,
       reason: 'not_active',
       reward: 0,
       user,
     };
   }
 
-  if (!hasMiningSessionCompleted(user.miningStartedAt, claimedAt)) {
+  if (!hasMiningSessionCompleted(user.miningStartedAt, completedAt)) {
     return {
       matched: true,
-      claimable: false,
+      completed: false,
       reason: 'not_completed',
       reward: 0,
       user,
@@ -211,9 +211,9 @@ async function claimMiningReward(db, id, claimedAt = new Date()) {
       $set: {
         miningActive: false,
         miningStartedAt: null,
-        lastClaimAt: claimedAt,
-        lastMiningCompletedAt: claimedAt,
-        updatedAt: claimedAt,
+        lastClaimAt: completedAt,
+        lastMiningCompletedAt: completedAt,
+        updatedAt: completedAt,
       },
     }
   );
@@ -221,7 +221,7 @@ async function claimMiningReward(db, id, claimedAt = new Date()) {
   if (updateResult.modifiedCount !== 1) {
     return {
       matched: true,
-      claimable: false,
+      completed: false,
       reason: 'not_active',
       reward: 0,
       user: await users.findOne({ _id: userId }),
@@ -230,7 +230,7 @@ async function claimMiningReward(db, id, claimedAt = new Date()) {
 
   return {
     matched: true,
-    claimable: true,
+    completed: true,
     reason: null,
     reward,
     user: await users.findOne({ _id: userId }),
@@ -281,7 +281,7 @@ async function createUser(db, userData) {
 }
 
 module.exports = {
-  claimMiningReward,
+  completeMiningSession,
   createUser,
   ensureUserIndexes,
   findUserByEmail,
