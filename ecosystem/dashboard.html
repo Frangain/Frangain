@@ -4,6 +4,9 @@
     <title>Frangain | Dashboard</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#20509e" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/img/pwa-icon-192.png" />
     <link href="../img/favicon.ico" rel="shortcut icon" />
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" />
     <link rel="stylesheet" href="../css/bootstrap.min.css" />
@@ -761,6 +764,7 @@
       </main>
     </div>
 
+    <script src="../js/pwa.js"></script>
     <script>
       (function () {
         var profileUsername = document.getElementById('profileUsername');
@@ -1005,11 +1009,17 @@
               }
 
               return response.json().then(function (data) {
-                return { ok: response.ok, data: data };
+                return { ok: response.ok, status: response.status, data: data };
               });
             })
             .then(function (result) {
               if (!result) {
+                return;
+              }
+
+              if (result.status === 503 && !navigator.onLine) {
+                document.body.classList.add('dashboard-ready');
+                showMiningMessage(result.data.message || 'An internet connection is required for this FRANGAIN Ecosystem action.', 'error');
                 return;
               }
 
@@ -1026,6 +1036,11 @@
         }
 
         function logout() {
+          if (!navigator.onLine) {
+            showMiningMessage('An internet connection is required to sign out of the FRANGAIN Ecosystem.', 'error');
+            return;
+          }
+
           fetch('/api/logout', {
             method: 'POST',
             credentials: 'same-origin',

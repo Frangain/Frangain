@@ -4,6 +4,9 @@
     <title>Frangain | Create Account</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#20509e" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/img/pwa-icon-192.png" />
     <link href="../img/favicon.ico" rel="shortcut icon" />
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" />
     <link rel="stylesheet" href="../css/bootstrap.min.css" />
@@ -225,12 +228,26 @@
     <script src="../js/jquery-3.2.1.min.js"></script>
     <script src="../js/owl.carousel.min.js"></script>
     <script src="../js/main.js"></script>
+    <script src="../js/pwa.js"></script>
     <script>
       (function () {
         var form = document.getElementById('registerForm');
         var formMessage = document.getElementById('formMessage');
         var submitButton = document.getElementById('submitButton');
         var fieldNames = ['username', 'email', 'password', 'confirmPassword'];
+
+        function redirectAuthenticatedUser() {
+          fetch('/api/me', {
+            method: 'GET',
+            credentials: 'same-origin',
+          })
+            .then(function (response) {
+              if (response.ok) {
+                window.location.href = '/ecosystem/dashboard.html';
+              }
+            })
+            .catch(function () {});
+        }
 
         function setMessage(type, message) {
           formMessage.className = 'form-message ' + type;
@@ -274,6 +291,7 @@
 
           fetch('/api/register', {
             method: 'POST',
+            credentials: 'same-origin',
             headers: {
               'Content-Type': 'application/json',
             },
@@ -297,7 +315,7 @@
               }
 
               form.reset();
-              setMessage('success', 'Welcome to the FRANGAIN Ecosystem. Your account has been created successfully. You can now sign in.');
+              setMessage('success', result.data.message || 'Welcome to the FRANGAIN Ecosystem. Your account has been created successfully. You can now sign in.');
             })
             .catch(function () {
               setMessage('error', 'Registration failed. Please try again later.');
@@ -307,6 +325,8 @@
               submitButton.textContent = 'Create Account';
             });
         });
+
+        redirectAuthenticatedUser();
       })();
     </script>
   </body>

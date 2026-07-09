@@ -4,6 +4,9 @@
     <title>Frangain | Sign In</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#20509e" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/img/pwa-icon-192.png" />
     <link href="../img/favicon.ico" rel="shortcut icon" />
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" />
     <link rel="stylesheet" href="../css/bootstrap.min.css" />
@@ -134,9 +137,31 @@
         border: 1px solid #f0b5b5;
       }
 
+      .form-message.success {
+        display: block;
+        background: #eefaf7;
+        color: #20509e;
+        border: 1px solid #16d0c5;
+      }
+
       .login-actions .site-btn {
         width: 100%;
         border: 0;
+      }
+
+      .resend-verification {
+        display: none;
+        width: 100%;
+        margin: 0 0 18px;
+        border: 0;
+        background: transparent;
+        color: #16d0c5;
+        cursor: pointer;
+        font-family: "Futura", sans-serif;
+      }
+
+      .resend-verification.visible {
+        display: block;
       }
 
       .create-link {
@@ -193,6 +218,7 @@
           <p>Access your FRANGAIN Ecosystem account.</p>
 
           <div id="formMessage" class="form-message" role="status" aria-live="polite"></div>
+          <button id="resendVerificationButton" class="resend-verification" type="button">Resend verification email</button>
 
           <form id="loginForm" class="login-form" novalidate>
             <div class="field-group">
@@ -214,7 +240,7 @@
 
             <div class="remember-row">
               <label for="rememberMe">
-                <input id="rememberMe" name="rememberMe" type="checkbox" />
+                <input id="rememberMe" name="rememberMe" type="checkbox" checked disabled />
                 Remember Me
               </label>
               <a href="#" aria-disabled="true">Forgot Password?</a>
@@ -235,12 +261,32 @@
     <script src="../js/jquery-3.2.1.min.js"></script>
     <script src="../js/owl.carousel.min.js"></script>
     <script src="../js/main.js"></script>
+    <script src="../js/pwa.js"></script>
     <script>
       (function () {
         var form = document.getElementById('loginForm');
         var formMessage = document.getElementById('formMessage');
         var submitButton = document.getElementById('submitButton');
+        var resendVerificationButton = document.getElementById('resendVerificationButton');
         var fields = ['email', 'password'];
+        var verificationEmail = '';
+
+        function redirectToDashboard() {
+          window.location.href = '/ecosystem/dashboard.html';
+        }
+
+        function redirectAuthenticatedUser() {
+          fetch('/api/me', {
+            method: 'GET',
+            credentials: 'same-origin',
+          })
+            .then(function (response) {
+              if (response.ok) {
+                redirectToDashboard();
+              }
+            })
+            .catch(function () {});
+        }
 
         function clearErrors() {
           fields.forEach(function (field) {
@@ -248,10 +294,16 @@
           });
           formMessage.className = 'form-message';
           formMessage.textContent = '';
+          resendVerificationButton.className = 'resend-verification';
         }
 
         function setErrorMessage(message) {
           formMessage.className = 'form-message error';
+          formMessage.textContent = message;
+        }
+
+        function setSuccessMessage(message) {
+          formMessage.className = 'form-message success';
           formMessage.textContent = message;
         }
 
@@ -262,6 +314,11 @@
               target.textContent = errors[field];
             }
           });
+        }
+
+        function showResendVerification(email) {
+          verificationEmail = email || document.getElementById('email').value;
+          resendVerificationButton.className = 'resend-verification visible';
         }
 
         document.querySelector('.toggle-password').addEventListener('click', function () {
@@ -282,6 +339,7 @@
 
           fetch('/api/login', {
             method: 'POST',
+            credentials: 'same-origin',
             headers: {
               'Content-Type': 'application/json',
             },
@@ -299,10 +357,13 @@
               if (!result.ok) {
                 showErrors(result.data.errors);
                 setErrorMessage(result.data.message || 'Login failed. Please check your information.');
+                if (result.data.data && result.data.data.allowResend) {
+                  showResendVerification(result.data.data.email);
+                }
                 return;
               }
 
-              window.location.href = result.data.data.redirectTo || 'dashboard.html';
+              window.location.href = result.data.data.redirectTo || '/ecosystem/dashboard.html';
             })
             .catch(function () {
               setErrorMessage('Login failed. Please try again later.');
@@ -312,6 +373,44 @@
               submitButton.textContent = 'Sign In';
             });
         });
+
+        resendVerificationButton.addEventListener('click', function () {
+          resendVerificationButton.disabled = true;
+          resendVerificationButton.textContent = 'Sending...';
+
+          fetch('/api/resend-verification', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email: verificationEmail || document.getElementById('email').value,
+            }),
+          })
+            .then(function (response) {
+              return response.json().then(function (data) {
+                return { ok: response.ok, data: data };
+              });
+            })
+            .then(function (result) {
+              if (!result.ok) {
+                setErrorMessage(result.data.message || 'Unable to resend verification email.');
+                return;
+              }
+
+              setSuccessMessage(result.data.message || 'Verification email sent. Please check your inbox.');
+            })
+            .catch(function () {
+              setErrorMessage('Unable to resend verification email. Please try again later.');
+            })
+            .finally(function () {
+              resendVerificationButton.disabled = false;
+              resendVerificationButton.textContent = 'Resend verification email';
+            });
+        });
+
+        redirectAuthenticatedUser();
       })();
     </script>
   </body>

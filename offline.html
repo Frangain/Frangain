@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Frangain | Offline</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#20509e" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/img/pwa-icon-192.png" />
+    <link href="/img/favicon.ico" rel="shortcut icon" />
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/css/themify-icons.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <style>
+      .offline-page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding: 80px 0;
+        background: #f3f7f9 url("/img/page-info-bg.png") no-repeat right top / cover;
+      }
+
+      .offline-panel {
+        max-width: 620px;
+        margin: 0 auto;
+        padding: 44px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 23px 49px rgba(33, 54, 61, 0.12);
+        text-align: center;
+      }
+
+      .offline-panel img {
+        width: 78px;
+        margin-bottom: 24px;
+      }
+
+      .offline-panel h1 {
+        margin-bottom: 16px;
+      }
+
+      .offline-panel p {
+        margin-bottom: 28px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="offline-page">
+      <div class="container">
+        <div class="offline-panel">
+          <img src="/img/frangain-icon.svg" alt="FRANGAIN" />
+          <h1>FRANGAIN is ready offline</h1>
+          <p>Previously visited pages are available for browsing. Connect to the internet to sign in, register, start Memory Mining, or update your FRANGAIN Ecosystem account.</p>
+          <a href="/ecosystem/" class="site-btn sb-gradients">Open Ecosystem</a>
+        </div>
+      </div>
+    </main>
+    <script src="/js/pwa.js"></script>
+  </body>
+</html>

@@ -4,6 +4,9 @@
     <title>Frangain | Ecosystem Portal</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#20509e" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/img/pwa-icon-192.png" />
     <link href="../img/favicon.ico" rel="shortcut icon" />
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" />
     <link rel="stylesheet" href="../css/bootstrap.min.css" />
@@ -258,14 +261,47 @@
       .store-card {
         min-width: 230px;
         padding: 24px 30px;
+        border: 0;
         background: #fff;
         border-radius: 8px;
         box-shadow: 0 18px 36px rgba(33, 54, 61, 0.1);
+        color: #75849a;
+        cursor: pointer;
+        font: inherit;
         text-align: center;
+        transition: all 0.25s ease;
       }
 
       .store-card h4 {
         margin-bottom: 8px;
+        color: #20509e;
+      }
+
+      .store-card:hover,
+      .store-card:focus {
+        transform: translateY(-4px);
+        box-shadow: 0 23px 49px rgba(33, 54, 61, 0.14);
+        outline: none;
+      }
+
+      .pwa-install-action[hidden],
+      .store-card[hidden] {
+        display: none;
+      }
+
+      .pwa-status {
+        min-height: 24px;
+        margin-top: 18px;
+        color: #75849a;
+        font-size: 15px;
+      }
+
+      .pwa-status.success {
+        color: #16d0c5;
+      }
+
+      .pwa-status.error {
+        color: #f44336;
       }
 
       .reserve-highlight {
@@ -356,7 +392,9 @@
             <div class="portal-actions">
               <a href="/ecosystem/register.html" class="site-btn sb-gradients">Create Account</a>
               <a href="/ecosystem/login.html" class="site-btn secondary-action">Sign In</a>
+              <button type="button" class="site-btn secondary-action pwa-install-action" data-pwa-install hidden>Install FRANGAIN</button>
             </div>
+            <div class="pwa-status" data-pwa-status role="status" aria-live="polite"></div>
           </div>
           <div class="col-lg-5">
             <div class="dashboard-preview" aria-label="Visual dashboard preview">
@@ -462,7 +500,7 @@
             <div class="faq-item"><h4>Is FRANGAIN free?</h4><p>Creating an ecosystem account is designed to be simple and accessible. Token purchases remain separate from account registration.</p></div>
             <div class="faq-item"><h4>Do I need crypto experience?</h4><p>No. The ecosystem is being built to introduce concepts clearly and gradually.</p></div>
             <div class="faq-item"><h4>What is the Circle of Trust?</h4><p>It is the planned community layer for trusted participation and future social features.</p></div>
-            <div class="faq-item"><h4>When will the mobile application be available?</h4><p>The mobile application is planned for a later milestone and is currently marked Coming Soon.</p></div>
+            <div class="faq-item"><h4>How do I install FRANGAIN?</h4><p>Use the Install FRANGAIN action when your browser supports native installation. On iPhone, use Share and Add to Home Screen.</p></div>
           </div>
         </div>
       </div>
@@ -479,13 +517,14 @@
     <section class="portal-section">
       <div class="container text-center">
         <div class="section-title text-center">
-          <h2>Download App</h2>
-          <p>The FRANGAIN mobile experience is planned for a future milestone.</p>
+          <h2>Install App</h2>
+          <p>Install the FRANGAIN Ecosystem on your device for faster access and offline browsing of visited pages.</p>
         </div>
         <div class="app-coming-soon">
-          <div class="store-card"><h4>Android</h4><p>Coming Soon</p></div>
-          <div class="store-card"><h4>iPhone</h4><p>Coming Soon</p></div>
+          <button type="button" class="store-card" data-pwa-install data-ios-label="Add to Home Screen" hidden><h4>Android</h4><p>Install FRANGAIN</p></button>
+          <button type="button" class="store-card" data-pwa-install data-ios-label="Add to Home Screen" hidden><h4>iPhone</h4><p>Add to Home Screen</p></button>
         </div>
+        <div class="pwa-status" data-pwa-status role="status" aria-live="polite"></div>
       </div>
     </section>
 
@@ -534,5 +573,6 @@
     <script src="../js/jquery-3.2.1.min.js"></script>
     <script src="../js/owl.carousel.min.js"></script>
     <script src="../js/main.js"></script>
+    <script src="../js/pwa.js"></script>
   </body>
 </html>
