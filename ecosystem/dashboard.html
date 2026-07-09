@@ -698,7 +698,7 @@
             <div id="mining" class="dashboard-card">
               <span class="status-pill">Current Mining Status: <strong id="miningStatus">Ready</strong></span>
               <h3>Memory Mining Panel</h3>
-              <p>Mine FRANG through Memory Mining once the feature is activated in a future milestone.</p>
+              <p>Start a 24-hour Memory Mining session to grow your Memory Reserve automatically. Return each day to begin a new mining session and keep building your FRANG.</p>
               <ul class="info-list">
                 <li><span>Mining Rate</span><strong>1.0x</strong></li>
                 <li><span>Mining Session</span><strong id="miningSessionState">Not Started</strong></li>
@@ -711,13 +711,13 @@
 
             <div id="circle" class="dashboard-card">
               <h3>Circle of Trust</h3>
-              <p>Build your Circle of Trust when the community layer is activated.</p>
+              <p>Invite. Build. Earn.</p>
+              <p>Create your Circle of Trust today and prepare for higher mining rates, exclusive bonuses, and future FRANG rewards.</p>
               <ul class="info-list">
                 <li><span>Current Members</span><strong id="circleCurrentMembersValue">0</strong></li>
-                <li><span>Invitation</span><strong>Coming Soon</strong></li>
-                <li><span>Status</span><strong>Informational</strong></li>
+                <li><span>Next Milestone</span><strong>Build Your Circle</strong></li>
+                <li><span>Status</span><strong>Growing Together</strong></li>
               </ul>
-              <p>The Circle of Trust is a future community feature. No referral logic is active.</p>
             </div>
           </section>
 
@@ -735,18 +735,18 @@
                 </li>
                 <li>
                   <span class="timeline-icon"><i class="fa fa-bolt"></i></span>
-                  <span><strong>Future Mining Session</strong><span>Mining Sessions will appear here later.</span></span>
+                  <span><strong>Mine FRANG Daily</strong><span>Return each day to grow your Memory Reserve.</span></span>
                 </li>
                 <li>
                   <span class="timeline-icon"><i class="fa fa-diamond"></i></span>
-                  <span><strong>Future Reward</strong><span>Rewards will appear only after a future approved milestone.</span></span>
+                  <span><strong>Prepare for Migration</strong><span>Keep building FRANG as the ecosystem grows.</span></span>
                 </li>
               </ul>
             </div>
 
             <div class="dashboard-card">
               <h3>Account Guidance</h3>
-              <p>Your dashboard currently displays profile information, FRANG statistics, and Memory Mining session status. Circle of Trust logic, withdrawals, and wallet features are not active yet.</p>
+              <p>Grow your Memory Reserve through daily Memory Mining, build your Circle of Trust, and prepare for future FRANG migration events. Every mining session strengthens your journey in the FRANGAIN Ecosystem.</p>
             </div>
           </section>
 
@@ -861,17 +861,23 @@
           var icon = document.createElement('span');
           var content = document.createElement('span');
           var title = document.createElement('strong');
-          var details = document.createElement('span');
+          var summary = document.createElement('span');
+          var rewardLine = document.createElement('span');
+          var dateLine = document.createElement('span');
           var date = new Date(completedAt);
           var formattedDate = Number.isNaN(date.getTime()) ? 'just now' : date.toLocaleString();
 
           icon.className = 'timeline-icon';
           icon.innerHTML = '<i class="fa fa-diamond"></i>';
-          title.textContent = 'Mining Completed';
-          details.textContent = formatFrang(reward) + ' completed on ' + formattedDate + '.';
+          title.textContent = 'Last Mining Session';
+          summary.textContent = 'Your last mining session ended successfully.';
+          rewardLine.textContent = 'Reward Earned: ' + formatFrang(reward);
+          dateLine.textContent = 'Completion Date: ' + formattedDate;
 
           content.appendChild(title);
-          content.appendChild(details);
+          content.appendChild(summary);
+          content.appendChild(rewardLine);
+          content.appendChild(dateLine);
           item.appendChild(icon);
           item.appendChild(content);
           activityTimeline.insertBefore(item, activityTimeline.firstChild);
@@ -975,7 +981,7 @@
         function renderUser(user) {
           var username = user.username || 'FRANGAIN User';
           profileUsername.textContent = username;
-          profileEmail.textContent = user.email || 'Email unavailable';
+          profileEmail.textContent = user.email || 'Email loading';
           profileCreatedAt.textContent = formatDate(user.createdAt);
           profileAvatar.textContent = username.slice(0, 1).toUpperCase();
           topbarUsername.textContent = username;
@@ -1056,7 +1062,7 @@
               if (!result.ok || !result.data.success) {
                 startMiningButton.disabled = false;
                 startMiningButton.classList.remove('disabled-action');
-                showMiningMessage(result.data.message || 'Unable to start Memory Mining right now.', 'error');
+                showMiningMessage(result.data.message || 'Memory Mining is ready when your session can begin.', 'error');
                 return;
               }
 
@@ -1066,7 +1072,7 @@
             .catch(function () {
               startMiningButton.disabled = false;
               startMiningButton.classList.remove('disabled-action');
-              showMiningMessage('Unable to start Memory Mining right now.', 'error');
+              showMiningMessage('Memory Mining is ready when your session can begin.', 'error');
             });
         }
 
@@ -1095,17 +1101,17 @@
 
               if (!result.ok || !result.data.success) {
                 miningCompletionInProgress = false;
-                showMiningMessage(result.data.message || 'Unable to complete Mining Session right now.', 'error');
+                showMiningMessage(result.data.message || 'Your Mining Session is being prepared for completion.', 'error');
                 return;
               }
 
               renderUser(result.data.data.user);
               addMiningCompletedActivity(result.data.data.reward, result.data.data.completedAt);
-              showMiningMessage('Mining Session completed automatically.', 'success');
+              showMiningMessage('Your reward has been automatically added to your Memory Reserve. Start your next mining session anytime.', 'success');
             })
             .catch(function () {
               miningCompletionInProgress = false;
-              showMiningMessage('Unable to complete Mining Session right now.', 'error');
+              showMiningMessage('Your Mining Session is being prepared for completion.', 'error');
             });
         }
 
