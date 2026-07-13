@@ -1,18 +1,7 @@
-const CACHE_VERSION = 'frangain-pwa-v1';
+const CACHE_VERSION = 'frangain-pwa-v2';
+const CACHE_PREFIX = 'frangain-pwa-';
 const OFFLINE_URL = '/offline.html';
-const CORE_ASSETS = [
-  '/',
-  '/index.html',
-  '/about.html',
-  '/whitepaper.html',
-  '/how_to_buy.html',
-  '/story-manifesto.html',
-  '/contact.html',
-  '/ecosystem/',
-  '/ecosystem/index.html',
-  '/ecosystem/login.html',
-  '/ecosystem/register.html',
-  '/ecosystem/dashboard.html',
+const APP_SHELL_ASSETS = [
   OFFLINE_URL,
   '/manifest.webmanifest',
   '/css/bootstrap.min.css',
@@ -33,6 +22,23 @@ const CORE_ASSETS = [
   '/img/hero-bg.png',
   '/img/page-info-bg.png'
 ];
+const HTML_CONTENT_TYPE = 'text/html';
+const STATIC_ASSET_EXTENSIONS = [
+  '.css',
+  '.js',
+  '.png',
+  '.jpg',
+  '.jpeg',
+  '.svg',
+  '.ico',
+  '.webp',
+  '.gif',
+  '.woff',
+  '.woff2',
+  '.ttf',
+  '.eot',
+  '.otf'
+];
 
 function offlineApiResponse() {
   return new Response(
@@ -51,11 +57,69 @@ function offlineApiResponse() {
   );
 }
 
+function isSuccessfulResponse(response) {
+  return response && response.ok && (response.type === 'basic' || response.type === 'default');
+}
+
+function isHtmlRequest(request) {
+  return request.mode === 'navigate' || (request.headers.get('accept') || '').includes(HTML_CONTENT_TYPE);
+}
+
+function isStaticAsset(pathname) {
+  return STATIC_ASSET_EXTENSIONS.some(function (extension) {
+    return pathname.endsWith(extension);
+  });
+}
+
+function fetchFresh(request) {
+  return fetch(request, { cache: 'reload' });
+}
+
+function cacheResponse(request, response) {
+  if (!isSuccessfulResponse(response)) {
+    return Promise.resolve();
+  }
+
+  return caches.open(CACHE_VERSION).then(function (cache) {
+    return cache.put(request, response.clone());
+  });
+}
+
+function networkFirst(request) {
+  return fetchFresh(request)
+    .then(function (response) {
+      return cacheResponse(request, response).then(function () {
+        return response;
+      });
+    })
+    .catch(function () {
+      return caches.match(request).then(function (cachedResponse) {
+        return cachedResponse || caches.match(OFFLINE_URL);
+      });
+    });
+}
+
+function staleWhileRevalidate(request) {
+  return caches.match(request).then(function (cachedResponse) {
+    const networkFetch = fetchFresh(request)
+      .then(function (response) {
+        return cacheResponse(request, response).then(function () {
+          return response;
+        });
+      })
+      .catch(function () {
+        return cachedResponse;
+      });
+
+    return cachedResponse || networkFetch;
+  });
+}
+
 self.addEventListener('install', function (event) {
   event.waitUntil(
     caches.open(CACHE_VERSION).then(function (cache) {
       return Promise.all(
-        CORE_ASSETS.map(function (asset) {
+        APP_SHELL_ASSETS.map(function (asset) {
           return cache.add(asset).catch(function () {
             return null;
           });
@@ -72,7 +136,7 @@ self.addEventListener('activate', function (event) {
       return Promise.all(
         cacheNames
           .filter(function (cacheName) {
-            return cacheName !== CACHE_VERSION;
+            return cacheName.startsWith(CACHE_PREFIX) && cacheName !== CACHE_VERSION;
           })
           .map(function (cacheName) {
             return caches.delete(cacheName);
@@ -104,40 +168,15 @@ self.addEventListener('fetch', function (event) {
     return;
   }
 
-  if (request.mode === 'navigate') {
-    event.respondWith(
-      fetch(request)
-        .then(function (response) {
-          const responseCopy = response.clone();
-          caches.open(CACHE_VERSION).then(function (cache) {
-            cache.put(request, responseCopy);
-          });
-          return response;
-        })
-        .catch(function () {
-          return caches.match(request).then(function (cachedResponse) {
-            return cachedResponse || caches.match(OFFLINE_URL);
-          });
-        })
-    );
+  if (isHtmlRequest(request)) {
+    event.respondWith(networkFirst(request));
     return;
   }
 
-  event.respondWith(
-    caches.match(request).then(function (cachedResponse) {
-      const networkFetch = fetch(request)
-        .then(function (response) {
-          const responseCopy = response.clone();
-          caches.open(CACHE_VERSION).then(function (cache) {
-            cache.put(request, responseCopy);
-          });
-          return response;
-        })
-        .catch(function () {
-          return cachedResponse;
-        });
+  if (isStaticAsset(requestUrl.pathname)) {
+    event.respondWith(staleWhileRevalidate(request));
+    return;
+  }
 
-      return cachedResponse || networkFetch;
-    })
-  );
+  event.respondWith(networkFirst(request));
 });
