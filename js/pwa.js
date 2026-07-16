@@ -4,6 +4,7 @@
   var statusTargets = Array.prototype.slice.call(document.querySelectorAll('[data-pwa-status]'));
   var offlineMessage = 'An internet connection is required for this FRANGAIN Ecosystem action.';
   var isIos = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+  var isChromiumInstallBrowser = /(chrome|chromium|crios|edg|opr|samsungbrowser)/i.test(window.navigator.userAgent) && !isIos;
   var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
   var originalFetch = window.fetch ? window.fetch.bind(window) : null;
 
@@ -113,7 +114,9 @@
   });
 
   installButtons.forEach(function (button) {
-    button.addEventListener('click', function () {
+    button.addEventListener('click', function (event) {
+      event.preventDefault();
+
       if (isStandalone) {
         markInstalled();
         return;
@@ -134,6 +137,11 @@
 
       if (isIos) {
         showIosGuidance();
+        return;
+      }
+
+      if (isChromiumInstallBrowser) {
+        setStatus('Install FRANGAIN is preparing. Please try again in a moment.', '');
         return;
       }
 
