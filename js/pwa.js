@@ -5,7 +5,6 @@
   var offlineMessage = 'An internet connection is required for this FRANGAIN Ecosystem action.';
   var isIos = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
   var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-  var supportsProgrammaticInstall = 'onbeforeinstallprompt' in window;
   var originalFetch = window.fetch ? window.fetch.bind(window) : null;
 
   function setStatus(message, type) {
@@ -18,12 +17,6 @@
   function showInstallButtons() {
     installButtons.forEach(function (button) {
       button.hidden = false;
-    });
-  }
-
-  function hideInstallButtons() {
-    installButtons.forEach(function (button) {
-      button.hidden = true;
     });
   }
 
@@ -135,7 +128,6 @@
             setStatus('You can install FRANGAIN anytime from this page.', '');
           }
           deferredInstallPrompt = null;
-          hideInstallButtons();
         });
         return;
       }
@@ -164,7 +156,7 @@
     markInstalled();
   } else if (isIos) {
     showIosGuidance();
-  } else if (!supportsProgrammaticInstall) {
+  } else {
     showInstallButtons();
   }
 })();
