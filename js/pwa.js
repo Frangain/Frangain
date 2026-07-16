@@ -1,5 +1,5 @@
 (function () {
-  var deferredInstallPrompt = null;
+  var installPromptEvent = null;
   var installButtons = Array.prototype.slice.call(document.querySelectorAll('[data-pwa-install]'));
   var statusTargets = Array.prototype.slice.call(document.querySelectorAll('[data-pwa-status]'));
   var offlineMessage = 'An internet connection is required for this FRANGAIN Ecosystem action.';
@@ -18,6 +18,7 @@
   function showInstallButtons() {
     installButtons.forEach(function (button) {
       button.hidden = false;
+      button.disabled = false;
     });
   }
 
@@ -27,11 +28,11 @@
     });
   }
 
-  function setInstallLabel(button, label) {
-    var paragraph = button.querySelector('p');
+  function setButtonLabel(button, label) {
+    var labelTarget = button.querySelector('p');
 
-    if (paragraph) {
-      paragraph.textContent = label;
+    if (labelTarget) {
+      labelTarget.textContent = label;
       return;
     }
 
@@ -39,21 +40,24 @@
   }
 
   function markInstalled() {
-    installButtons.forEach(function (button) {
-      button.hidden = true;
-    });
+    hideInstallButtons();
     setStatus('FRANGAIN is installed on this device.', 'success');
   }
 
-  function showIosGuidance() {
+  function showIosInstallHelp() {
     showInstallButtons();
     installButtons.forEach(function (button) {
-      setInstallLabel(button, button.getAttribute('data-ios-label') || 'Add to Home Screen');
+      setButtonLabel(button, button.getAttribute('data-ios-label') || 'Add to Home Screen');
     });
     setStatus('On iPhone, use Share, then Add to Home Screen to install FRANGAIN.', '');
   }
 
-  function isApiRequest(resource) {
+  function showUnsupportedInstallHelp() {
+    showInstallButtons();
+    setStatus('Use your browser menu to install FRANGAIN on this device.', '');
+  }
+
+  function isApiUrl(resource) {
     var url = '';
 
     if (typeof resource === 'string') {
@@ -93,17 +97,20 @@
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
-      navigator.serviceWorker.register('/sw.js').then(function (registration) {
-        registration.update();
-      }).catch(function () {
-        setStatus('Offline browsing will be available after your next online visit.', 'error');
-      });
+      navigator.serviceWorker
+        .register('/sw.js')
+        .then(function (registration) {
+          registration.update();
+        })
+        .catch(function () {
+          setStatus('Offline browsing will be available after your next successful online visit.', 'error');
+        });
     });
   }
 
   if (originalFetch) {
     window.fetch = function (resource, options) {
-      if (!navigator.onLine && isApiRequest(resource)) {
+      if (!navigator.onLine && isApiUrl(resource)) {
         setStatus(offlineMessage, 'error');
         return offlineApiResponse();
       }
@@ -114,9 +121,9 @@
 
   window.addEventListener('beforeinstallprompt', function (event) {
     event.preventDefault();
-    deferredInstallPrompt = event;
+    installPromptEvent = event;
     showInstallButtons();
-    setStatus('Install FRANGAIN for faster access to the Ecosystem.', '');
+    setStatus('Install FRANGAIN on this device.', '');
   });
 
   installButtons.forEach(function (button) {
@@ -128,32 +135,31 @@
         return;
       }
 
-      if (deferredInstallPrompt) {
-        deferredInstallPrompt.prompt();
-        deferredInstallPrompt.userChoice.then(function (choiceResult) {
-          if (choiceResult.outcome === 'accepted') {
+      if (installPromptEvent) {
+        var promptEvent = installPromptEvent;
+        installPromptEvent = null;
+        promptEvent.prompt();
+        promptEvent.userChoice.then(function (choice) {
+          if (choice.outcome === 'accepted') {
             markInstalled();
           } else {
             setStatus('You can install FRANGAIN anytime from this page.', '');
           }
-          deferredInstallPrompt = null;
-          hideInstallButtons();
         });
         return;
       }
 
       if (isIos) {
-        showIosGuidance();
+        showIosInstallHelp();
         return;
       }
 
       if (isChromiumInstallBrowser) {
-        setStatus('Install FRANGAIN is preparing. Please try again in a moment.', '');
+        setStatus('FRANGAIN installation will open as soon as your browser confirms the app is ready to install.', '');
         return;
       }
 
-      showInstallButtons();
-      setStatus('Use your browser menu to install FRANGAIN on this device.', '');
+      showUnsupportedInstallHelp();
     });
   });
 
@@ -170,9 +176,7 @@
   if (isStandalone) {
     markInstalled();
   } else if (isIos) {
-    showIosGuidance();
-  } else if (isChromiumInstallBrowser) {
-    hideInstallButtons();
+    showIosInstallHelp();
   } else {
     showInstallButtons();
   }

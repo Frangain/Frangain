@@ -1,8 +1,8 @@
-const CACHE_VERSION = 'frangain-pwa-v2';
-const CACHE_PREFIX = 'frangain-pwa-';
-const OFFLINE_URL = '/offline.html';
-const APP_SHELL_ASSETS = [
-  OFFLINE_URL,
+const FRANGAIN_CACHE = 'frangain-pwa-2026-07-16';
+const FRANGAIN_CACHE_PREFIX = 'frangain-pwa-';
+const OFFLINE_PAGE = '/offline.html';
+const PRECACHE_URLS = [
+  OFFLINE_PAGE,
   '/manifest.webmanifest',
   '/css/bootstrap.min.css',
   '/css/font-awesome.min.css',
@@ -13,30 +13,30 @@ const APP_SHELL_ASSETS = [
   '/js/owl.carousel.min.js',
   '/js/main.js',
   '/js/pwa.js',
-  '/img/favicon.ico',
   '/img/Frangain.png',
+  '/img/favicon.ico',
   '/img/hero-bg.png',
   '/img/page-info-bg.png'
 ];
-const HTML_CONTENT_TYPE = 'text/html';
-const STATIC_ASSET_EXTENSIONS = [
-  '.css',
-  '.js',
-  '.png',
-  '.jpg',
-  '.jpeg',
-  '.svg',
-  '.ico',
-  '.webp',
-  '.gif',
-  '.woff',
-  '.woff2',
-  '.ttf',
-  '.eot',
-  '.otf'
-];
+const STATIC_FILE_PATTERN = /\.(?:css|js|png|jpg|jpeg|svg|ico|webp|gif|woff2?|ttf|eot|otf)$/i;
 
-function offlineApiResponse() {
+function isSameOrigin(url) {
+  return url.origin === self.location.origin;
+}
+
+function isApiRequest(url) {
+  return url.pathname.startsWith('/api/');
+}
+
+function isHtmlRequest(request) {
+  return request.mode === 'navigate' || (request.headers.get('accept') || '').includes('text/html');
+}
+
+function isStaticRequest(url) {
+  return STATIC_FILE_PATTERN.test(url.pathname);
+}
+
+function jsonOfflineResponse() {
   return new Response(
     JSON.stringify({
       success: false,
@@ -53,53 +53,39 @@ function offlineApiResponse() {
   );
 }
 
-function isSuccessfulResponse(response) {
+function canCache(response) {
   return response && response.ok && (response.type === 'basic' || response.type === 'default');
 }
 
-function isHtmlRequest(request) {
-  return request.mode === 'navigate' || (request.headers.get('accept') || '').includes(HTML_CONTENT_TYPE);
-}
-
-function isStaticAsset(pathname) {
-  return STATIC_ASSET_EXTENSIONS.some(function (extension) {
-    return pathname.endsWith(extension);
-  });
-}
-
-function fetchFresh(request) {
-  return fetch(request, { cache: 'reload' });
-}
-
-function cacheResponse(request, response) {
-  if (!isSuccessfulResponse(response)) {
+function writeToCache(request, response) {
+  if (!canCache(response)) {
     return Promise.resolve();
   }
 
-  return caches.open(CACHE_VERSION).then(function (cache) {
+  return caches.open(FRANGAIN_CACHE).then(function (cache) {
     return cache.put(request, response.clone());
   });
 }
 
 function networkFirst(request) {
-  return fetchFresh(request)
+  return fetch(request, { cache: 'no-store' })
     .then(function (response) {
-      return cacheResponse(request, response).then(function () {
+      return writeToCache(request, response).then(function () {
         return response;
       });
     })
     .catch(function () {
       return caches.match(request).then(function (cachedResponse) {
-        return cachedResponse || caches.match(OFFLINE_URL);
+        return cachedResponse || caches.match(OFFLINE_PAGE);
       });
     });
 }
 
 function staleWhileRevalidate(request) {
   return caches.match(request).then(function (cachedResponse) {
-    const networkFetch = fetchFresh(request)
+    const networkResponse = fetch(request)
       .then(function (response) {
-        return cacheResponse(request, response).then(function () {
+        return writeToCache(request, response).then(function () {
           return response;
         });
       })
@@ -107,16 +93,16 @@ function staleWhileRevalidate(request) {
         return cachedResponse;
       });
 
-    return cachedResponse || networkFetch;
+    return cachedResponse || networkResponse;
   });
 }
 
 self.addEventListener('install', function (event) {
   event.waitUntil(
-    caches.open(CACHE_VERSION).then(function (cache) {
+    caches.open(FRANGAIN_CACHE).then(function (cache) {
       return Promise.all(
-        APP_SHELL_ASSETS.map(function (asset) {
-          return cache.add(asset).catch(function () {
+        PRECACHE_URLS.map(function (url) {
+          return cache.add(url).catch(function () {
             return null;
           });
         })
@@ -132,7 +118,7 @@ self.addEventListener('activate', function (event) {
       return Promise.all(
         cacheNames
           .filter(function (cacheName) {
-            return cacheName.startsWith(CACHE_PREFIX) && cacheName !== CACHE_VERSION;
+            return cacheName.startsWith(FRANGAIN_CACHE_PREFIX) && cacheName !== FRANGAIN_CACHE;
           })
           .map(function (cacheName) {
             return caches.delete(cacheName);
@@ -145,16 +131,16 @@ self.addEventListener('activate', function (event) {
 
 self.addEventListener('fetch', function (event) {
   const request = event.request;
-  const requestUrl = new URL(request.url);
+  const url = new URL(request.url);
 
-  if (requestUrl.origin !== self.location.origin) {
+  if (!isSameOrigin(url)) {
     return;
   }
 
-  if (requestUrl.pathname.startsWith('/api/')) {
+  if (isApiRequest(url)) {
     event.respondWith(
       fetch(request).catch(function () {
-        return offlineApiResponse();
+        return jsonOfflineResponse();
       })
     );
     return;
@@ -169,7 +155,7 @@ self.addEventListener('fetch', function (event) {
     return;
   }
 
-  if (isStaticAsset(requestUrl.pathname)) {
+  if (isStaticRequest(url)) {
     event.respondWith(staleWhileRevalidate(request));
     return;
   }

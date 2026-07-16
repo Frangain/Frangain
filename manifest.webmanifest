@@ -1,26 +1,24 @@
 {
+  "id": "/ecosystem/",
   "name": "FRANGAIN Ecosystem",
   "short_name": "FRANGAIN",
-  "description": "Install the FRANGAIN Ecosystem to mine FRANG, grow your Memory Reserve, and stay connected to The Coin Remembers.",
-  "id": "/ecosystem/",
+  "description": "Install the FRANGAIN Ecosystem to access Memory Mining, your Memory Reserve, and The Coin Remembers.",
+  "lang": "en",
+  "dir": "ltr",
   "start_url": "/ecosystem/",
   "scope": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui", "browser"],
   "orientation": "portrait-primary",
-  "background_color": "#f3f7f9",
   "theme_color": "#20509e",
-  "categories": ["finance", "productivity", "utilities"],
+  "background_color": "#f3f7f9",
+  "categories": ["finance", "utilities"],
   "icons": [
     {
       "src": "/img/Frangain.png",
-      "sizes": "1536x1536",
+      "sizes": "192x192 512x512 1536x1536",
       "type": "image/png",
       "purpose": "any maskable"
-    },
-    {
-      "src": "/img/favicon.ico",
-      "sizes": "16x16 32x32 48x48",
-      "type": "image/x-icon"
     }
   ],
   "shortcuts": [
@@ -32,8 +30,9 @@
       "icons": [
         {
           "src": "/img/Frangain.png",
-          "sizes": "1536x1536",
-          "type": "image/png"
+          "sizes": "192x192 512x512 1536x1536",
+          "type": "image/png",
+          "purpose": "any maskable"
         }
       ]
     },
@@ -45,8 +44,9 @@
       "icons": [
         {
           "src": "/img/Frangain.png",
-          "sizes": "1536x1536",
-          "type": "image/png"
+          "sizes": "192x192 512x512 1536x1536",
+          "type": "image/png",
+          "purpose": "any maskable"
         }
       ]
     }
