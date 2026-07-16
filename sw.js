@@ -15,7 +15,6 @@ const APP_SHELL_ASSETS = [
   '/js/pwa.js',
   '/img/favicon.ico',
   '/img/Frangain.png',
-  '/img/logo.png',
   '/img/hero-bg.png',
   '/img/page-info-bg.png'
 ];
