@@ -21,6 +21,12 @@
     });
   }
 
+  function hideInstallButtons() {
+    installButtons.forEach(function (button) {
+      button.hidden = true;
+    });
+  }
+
   function setInstallLabel(button, label) {
     var paragraph = button.querySelector('p');
 
@@ -131,6 +137,7 @@
             setStatus('You can install FRANGAIN anytime from this page.', '');
           }
           deferredInstallPrompt = null;
+          hideInstallButtons();
         });
         return;
       }
@@ -164,6 +171,8 @@
     markInstalled();
   } else if (isIos) {
     showIosGuidance();
+  } else if (isChromiumInstallBrowser) {
+    hideInstallButtons();
   } else {
     showInstallButtons();
   }
