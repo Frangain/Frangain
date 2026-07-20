@@ -1,4 +1,4 @@
-const FRANGAIN_CACHE = 'frangain-pwa-2026-07-16';
+const FRANGAIN_CACHE = 'frangain-pwa-2026-07-20';
 const FRANGAIN_CACHE_PREFIX = 'frangain-pwa-';
 const OFFLINE_PAGE = '/offline.html';
 const PRECACHE_URLS = [
@@ -13,6 +13,7 @@ const PRECACHE_URLS = [
   '/js/owl.carousel.min.js',
   '/js/main.js',
   '/js/pwa.js',
+  '/js/notifications.js',
   '/img/Frangain.png',
   '/img/favicon.ico',
   '/img/hero-bg.png',
@@ -161,4 +162,55 @@ self.addEventListener('fetch', function (event) {
   }
 
   event.respondWith(networkFirst(request));
+});
+
+self.addEventListener('push', function (event) {
+  let payload = {
+    title: 'FRANGAIN Ecosystem',
+    body: 'The Coin Remembers.',
+    url: '/ecosystem/dashboard.html',
+    type: 'frangainAnnouncements',
+  };
+
+  if (event.data) {
+    try {
+      payload = Object.assign(payload, event.data.json());
+    } catch (error) {
+      payload.body = event.data.text();
+    }
+  }
+
+  event.waitUntil(
+    self.registration.showNotification(payload.title || 'FRANGAIN Ecosystem', {
+      body: payload.body || 'The Coin Remembers.',
+      icon: '/img/Frangain.png',
+      badge: '/img/Frangain.png',
+      tag: payload.type || 'frangain-ecosystem',
+      data: {
+        url: payload.url || '/ecosystem/dashboard.html',
+        type: payload.type || 'frangainAnnouncements',
+      },
+    })
+  );
+});
+
+self.addEventListener('notificationclick', function (event) {
+  const targetUrl = new URL(event.notification.data && event.notification.data.url ? event.notification.data.url : '/ecosystem/dashboard.html', self.location.origin).href;
+
+  event.notification.close();
+  event.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(function (clientList) {
+      for (const client of clientList) {
+        if (client.url === targetUrl && 'focus' in client) {
+          return client.focus();
+        }
+      }
+
+      if (self.clients.openWindow) {
+        return self.clients.openWindow(targetUrl);
+      }
+
+      return null;
+    })
+  );
 });

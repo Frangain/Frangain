@@ -309,6 +309,45 @@ Milestone 8 should be defined and approved before additional ecosystem functiona
 
 ---
 
+## Milestone 8 - Push Notification System
+
+Status:
+
+Completed ✅
+
+Files Created:
+
+- `api/notifications/status.js`
+- `api/notifications/subscribe.js`
+- `api/notifications/unsubscribe.js`
+- `lib/pushNotifications.js`
+- `js/notifications.js`
+
+Files Modified:
+
+- `ecosystem/dashboard.html`
+- `models/User.js`
+- `sw.js`
+- `package.json`
+- `package-lock.json`
+- `PROJECT_PROGRESS.md`
+
+Completed Work:
+
+- Added authenticated notification status, subscribe, and unsubscribe endpoints.
+- Added user notification preferences and push subscription storage with backward-compatible defaults.
+- Added reusable Web Push infrastructure using environment-based VAPID configuration.
+- Added a Dashboard Settings notification section for enabling, disabling, viewing status, and saving notification type preferences.
+- Added support for Memory Mining ready to claim, Mining session available, and FRANGAIN announcement notification types.
+- Added service worker push and notification click handling.
+- Preserved existing authentication, Memory Mining behavior, dashboard mining logic, and PWA offline browsing behavior.
+
+Next Milestone:
+
+Milestone 9 should be defined and approved before additional ecosystem functionality is added.
+
+---
+
 ## Future Rule
 
 At the end of every completed milestone, automatically update PROJECT_PROGRESS.md with:

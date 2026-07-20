@@ -21,6 +21,20 @@ const EMAIL_VERIFICATION_DEFAULTS = {
   emailVerificationExpiresAt: null,
 };
 
+const NOTIFICATION_TYPE_DEFAULTS = {
+  memoryMiningReady: true,
+  miningSessionAvailable: true,
+  frangainAnnouncements: true,
+};
+
+const NOTIFICATION_DEFAULTS = {
+  enabled: false,
+  permission: 'default',
+  pushSubscription: null,
+  types: NOTIFICATION_TYPE_DEFAULTS,
+  updatedAt: null,
+};
+
 function getUsersCollection(db) {
   return db.collection('users');
 }
@@ -120,6 +134,81 @@ async function findUserById(db, id) {
   }
 
   return getUsersCollection(db).findOne({ _id: new ObjectId(id) });
+}
+
+function normalizeNotificationTypes(types = {}) {
+  return {
+    memoryMiningReady: types.memoryMiningReady !== false,
+    miningSessionAvailable: types.miningSessionAvailable !== false,
+    frangainAnnouncements: types.frangainAnnouncements !== false,
+  };
+}
+
+function normalizeNotifications(notifications = {}) {
+  return {
+    enabled: notifications.enabled === true,
+    permission: notifications.permission || NOTIFICATION_DEFAULTS.permission,
+    pushSubscription: notifications.pushSubscription || NOTIFICATION_DEFAULTS.pushSubscription,
+    types: normalizeNotificationTypes(notifications.types),
+    updatedAt: notifications.updatedAt || NOTIFICATION_DEFAULTS.updatedAt,
+  };
+}
+
+function validatePushSubscription(subscription) {
+  const errors = {};
+
+  if (!subscription || typeof subscription !== 'object') {
+    errors.subscription = 'A valid push subscription is required.';
+    return errors;
+  }
+
+  if (!subscription.endpoint || typeof subscription.endpoint !== 'string') {
+    errors.endpoint = 'Subscription endpoint is required.';
+  }
+
+  if (!subscription.keys || typeof subscription.keys !== 'object') {
+    errors.keys = 'Subscription keys are required.';
+    return errors;
+  }
+
+  if (!subscription.keys.p256dh || typeof subscription.keys.p256dh !== 'string') {
+    errors.p256dh = 'Subscription public key is required.';
+  }
+
+  if (!subscription.keys.auth || typeof subscription.keys.auth !== 'string') {
+    errors.auth = 'Subscription auth secret is required.';
+  }
+
+  return errors;
+}
+
+async function updateNotificationSettings(db, id, settings = {}) {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+
+  const users = getUsersCollection(db);
+  const userId = new ObjectId(id);
+  const now = new Date();
+  const notificationSettings = {
+    enabled: settings.enabled === true,
+    permission: settings.permission || 'default',
+    pushSubscription: settings.pushSubscription || null,
+    types: normalizeNotificationTypes(settings.types),
+    updatedAt: now,
+  };
+
+  await users.updateOne(
+    { _id: userId },
+    {
+      $set: {
+        notifications: notificationSettings,
+        updatedAt: now,
+      },
+    }
+  );
+
+  return users.findOne({ _id: userId });
 }
 
 async function startMiningSession(db, id, startedAt = new Date()) {
@@ -260,6 +349,7 @@ function sanitizeUser(user) {
     miningStartedAt: user.miningStartedAt ?? MEMORY_MINING_DEFAULTS.miningStartedAt,
     lastClaimAt: user.lastClaimAt ?? MEMORY_MINING_DEFAULTS.lastClaimAt,
     lastMiningCompletedAt: user.lastMiningCompletedAt ?? MEMORY_MINING_DEFAULTS.lastMiningCompletedAt,
+    notifications: normalizeNotifications(user.notifications),
     circleMembers: user.circleMembers,
     miningBonus: user.miningBonus,
     totalMined: user.totalMined,
@@ -279,6 +369,7 @@ async function createUser(db, userData) {
     emailVerificationTokenHash: userData.emailVerificationTokenHash || null,
     emailVerificationExpiresAt: userData.emailVerificationExpiresAt || null,
     ...MEMORY_MINING_DEFAULTS,
+    notifications: normalizeNotifications(),
     circleMembers: 0,
     miningBonus: 0,
     totalMined: 0,
@@ -348,10 +439,14 @@ module.exports = {
   findUserByVerificationTokenHash,
   findUserByUsernameOrEmail,
   normalizeLoginInput,
+  normalizeNotifications,
+  normalizeNotificationTypes,
   normalizeUserInput,
   sanitizeUser,
   startMiningSession,
+  updateNotificationSettings,
   updateEmailVerificationToken,
+  validatePushSubscription,
   verifyUserEmail,
   validateLoginInput,
   validateRegistrationInput,

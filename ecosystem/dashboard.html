@@ -385,6 +385,64 @@
         color: #20509e;
       }
 
+      .notification-type-list {
+        display: grid;
+        gap: 12px;
+        margin: 18px 0;
+      }
+
+      .notification-type-list label {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin: 0;
+        color: #75849a;
+        line-height: 1.45;
+      }
+
+      .notification-type-list input {
+        margin-top: 4px;
+      }
+
+      .notification-type-list strong {
+        display: block;
+        color: #20509e;
+        font-family: "Futura", sans-serif;
+      }
+
+      .notification-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .notification-actions .site-btn {
+        border: 0;
+      }
+
+      .notification-actions .secondary-action {
+        color: #20509e;
+        background: #fff;
+        box-shadow: 0 12px 28px rgba(33, 54, 61, 0.12);
+      }
+
+      .notification-message {
+        min-height: 22px;
+        margin: 12px 0 0;
+        color: #75849a;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .notification-message.success {
+        color: #20509e;
+      }
+
+      .notification-message.error {
+        color: #d9534f;
+      }
+
       .timeline {
         list-style: none;
         position: relative;
@@ -637,6 +695,7 @@
           <a href="#mining"><i class="fa fa-bolt"></i> Memory Mining</a>
           <a href="#circle"><i class="fa fa-users"></i> Circle of Trust</a>
           <a href="#activity"><i class="fa fa-history"></i> Recent Activity</a>
+          <a href="#settings"><i class="fa fa-cog"></i> Settings</a>
           <a href="../whitepaper.html"><i class="fa fa-file-text-o"></i> Whitepaper</a>
           <a href="../how_to_buy.html"><i class="fa fa-shopping-cart"></i> How to Buy FRANG</a>
           <button id="logoutButton" type="button"><i class="fa fa-sign-out"></i> Logout</button>
@@ -660,7 +719,7 @@
             </button>
             <div id="userDropdown" class="topbar-user-menu" aria-label="User menu">
               <a href="#overview"><i class="fa fa-user-o"></i> My Profile</a>
-              <a href="#overview"><i class="fa fa-cog"></i> Settings</a>
+              <a href="#settings"><i class="fa fa-cog"></i> Settings</a>
               <button id="topbarLogoutButton" type="button"><i class="fa fa-sign-out"></i> Logout</button>
             </div>
           </div>
@@ -671,6 +730,7 @@
           <a href="#mining">Memory Mining</a>
           <a href="#circle">Circle of Trust</a>
           <a href="#activity">Recent Activity</a>
+          <a href="#settings">Settings</a>
           <a href="../whitepaper.html">Whitepaper</a>
           <a href="../how_to_buy.html">How to Buy FRANG</a>
           <button id="mobileLogoutButton" type="button">Logout</button>
@@ -753,8 +813,38 @@
             </div>
           </section>
 
+          <section id="settings" class="dashboard-card">
+            <h3>Settings</h3>
+            <p>Manage FRANGAIN Ecosystem notifications for Memory Mining updates and future announcements.</p>
+            <ul class="info-list">
+              <li><span>Notifications</span><strong id="notificationStatus">Loading...</strong></li>
+              <li><span>Browser Permission</span><strong id="notificationPermission">Checking...</strong></li>
+              <li><span>Delivery Status</span><strong id="notificationDelivery">Checking...</strong></li>
+            </ul>
+            <div class="notification-type-list" aria-label="Notification types">
+              <label>
+                <input type="checkbox" data-notification-type="memoryMiningReady" checked />
+                <span><strong>Memory Mining ready to claim</strong>Receive an alert when a Mining Session reaches its completion window.</span>
+              </label>
+              <label>
+                <input type="checkbox" data-notification-type="miningSessionAvailable" checked />
+                <span><strong>Mining session available</strong>Receive a reminder when it is time to begin a new Mining Session.</span>
+              </label>
+              <label>
+                <input type="checkbox" data-notification-type="frangainAnnouncements" checked />
+                <span><strong>FRANGAIN announcements</strong>Receive important FRANGAIN Ecosystem updates.</span>
+              </label>
+            </div>
+            <div class="notification-actions">
+              <button id="enableNotificationsButton" class="site-btn sb-gradients" type="button">Enable Notifications</button>
+              <button id="disableNotificationsButton" class="site-btn secondary-action" type="button">Disable Notifications</button>
+              <button id="saveNotificationPreferencesButton" class="site-btn secondary-action" type="button">Save Preferences</button>
+            </div>
+            <p id="notificationMessage" class="notification-message" role="status" aria-live="polite"></p>
+          </section>
+
           <section class="quick-actions" aria-label="Quick actions">
-            <a class="quick-action" href="#activity"><i class="fa fa-bell-o"></i><span><strong>Notifications</strong><span>Never miss your next mining session.</span></span></a>
+            <a class="quick-action" href="#settings"><i class="fa fa-bell-o"></i><span><strong>Notifications</strong><span>Never miss your next mining session.</span></span></a>
             <a class="quick-action" href="#circle"><i class="fa fa-users"></i><span><strong>Circle of Trust</strong><span>View community status</span></span></a>
             <a class="quick-action" href="../whitepaper.html"><i class="fa fa-file-text-o"></i><span><strong>Whitepaper</strong><span>Read the FRANGAIN vision</span></span></a>
             <a class="quick-action" href="../how_to_buy.html"><i class="fa fa-shopping-cart"></i><span><strong>How to Buy FRANG</strong><span>Open the buying guide</span></span></a>
@@ -765,6 +855,7 @@
     </div>
 
     <script src="../js/pwa.js"></script>
+    <script src="../js/notifications.js"></script>
     <script>
       (function () {
         var profileUsername = document.getElementById('profileUsername');
