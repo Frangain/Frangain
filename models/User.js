@@ -281,6 +281,59 @@ async function updateUserProfile(db, id, profileData = {}) {
   return users.findOne({ _id: userId });
 }
 
+async function updateUserPassword(db, id, hashedPassword) {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+
+  const users = getUsersCollection(db);
+  const userId = new ObjectId(id);
+  const now = new Date();
+
+  await users.updateOne(
+    { _id: userId },
+    {
+      $set: {
+        password: hashedPassword,
+        updatedAt: now,
+      },
+    }
+  );
+
+  return users.findOne({ _id: userId });
+}
+
+async function updateUserEmail(db, id, emailData = {}) {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+
+  const users = getUsersCollection(db);
+  const userId = new ObjectId(id);
+  const now = new Date();
+  const update = {
+    $set: {
+      email: normalizeEmail(emailData.email),
+      emailVerified: emailData.emailVerified === true,
+      updatedAt: now,
+    },
+  };
+
+  if (emailData.emailVerificationTokenHash && emailData.emailVerificationExpiresAt) {
+    update.$set.emailVerificationTokenHash = emailData.emailVerificationTokenHash;
+    update.$set.emailVerificationExpiresAt = emailData.emailVerificationExpiresAt;
+  } else {
+    update.$unset = {
+      emailVerificationTokenHash: '',
+      emailVerificationExpiresAt: '',
+    };
+  }
+
+  await users.updateOne({ _id: userId }, update);
+
+  return users.findOne({ _id: userId });
+}
+
 async function startMiningSession(db, id, startedAt = new Date()) {
   if (!ObjectId.isValid(id)) {
     return {
@@ -521,6 +574,8 @@ module.exports = {
   sanitizeUser,
   startMiningSession,
   updateNotificationSettings,
+  updateUserEmail,
+  updateUserPassword,
   updateUserProfile,
   updateEmailVerificationToken,
   validateProfileInput,

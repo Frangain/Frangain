@@ -1,10 +1,11 @@
-const FRANGAIN_CACHE = 'frangain-pwa-2026-07-21-profile-polish';
+const FRANGAIN_CACHE = 'frangain-pwa-2026-07-21-settings';
 const FRANGAIN_CACHE_PREFIX = 'frangain-pwa-';
 const OFFLINE_PAGE = '/offline.html';
 const PRECACHE_URLS = [
   OFFLINE_PAGE,
   '/manifest.webmanifest',
   '/ecosystem/profile.html',
+  '/ecosystem/settings.html',
   '/css/bootstrap.min.css',
   '/css/font-awesome.min.css',
   '/css/themify-icons.css',
@@ -16,6 +17,7 @@ const PRECACHE_URLS = [
   '/js/pwa.js',
   '/js/notifications.js',
   '/js/profile.js',
+  '/js/settings.js',
   '/img/Frangain.png',
   '/img/favicon.ico',
   '/img/hero-bg.png',
