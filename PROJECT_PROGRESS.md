@@ -348,6 +348,48 @@ Milestone 9 should be defined and approved before additional ecosystem functiona
 
 ---
 
+## Milestone 9 - User Profile
+
+Status:
+
+Completed ✅
+
+Files Created:
+
+- `api/profile.js`
+- `ecosystem/profile.html`
+- `js/profile.js`
+
+Files Modified:
+
+- `ecosystem/dashboard.html`
+- `models/User.js`
+- `sw.js`
+- `PROJECT_PROGRESS.md`
+
+Database Changes:
+
+- Added optional profile fields to existing `users` documents:
+  - `displayName`
+  - `walletAddress`
+  - `country`
+  - `profileImage`
+
+Completed Work:
+
+- Created a dedicated authenticated User Profile page inside the FRANGAIN Ecosystem.
+- Added profile picture upload/change UI using the existing user document.
+- Displayed display name, username, email address, wallet address, country, join date, FRANG balance, Memory Mining statistics, and existing account statistics.
+- Added an authenticated profile API for reading and updating editable profile fields.
+- Kept username, email, password, JWT, login, logout, mining, notifications, and authorization behavior unchanged.
+- Preserved the existing dashboard design language and responsive ecosystem layout.
+
+Next Milestone:
+
+Milestone 10 should be defined and approved before additional ecosystem functionality is added.
+
+---
+
 ## Future Rule
 
 At the end of every completed milestone, automatically update PROJECT_PROGRESS.md with:

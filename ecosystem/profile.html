@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Frangain | User Profile</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#20509e" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/img/Frangain.png" />
+    <link href="../img/favicon.ico" rel="shortcut icon" />
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../css/themify-icons.css" />
+    <link rel="stylesheet" href="../css/owl.carousel.css" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <style>
+      body {
+        min-height: 100vh;
+        background: #f3f7f9;
+      }
+
+      .profile-loading {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f3f7f9;
+        color: #20509e;
+        font-family: "Futura", sans-serif;
+        font-size: 20px;
+      }
+
+      body.profile-ready .profile-loading {
+        display: none;
+      }
+
+      .dashboard-shell {
+        display: grid;
+        grid-template-columns: 280px minmax(0, 1fr);
+        min-height: 100vh;
+      }
+
+      .dashboard-sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        padding: 28px 24px;
+        background: #fff;
+        box-shadow: 0 14px 43px rgba(33, 54, 61, 0.12);
+        z-index: 5;
+      }
+
+      .dashboard-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 34px;
+      }
+
+      .dashboard-brand img {
+        width: 46px;
+        height: 46px;
+      }
+
+      .dashboard-brand strong {
+        display: block;
+        color: #20509e;
+        font-family: "Futura", sans-serif;
+        font-size: 18px;
+      }
+
+      .dashboard-brand span {
+        color: #75849a;
+        font-size: 13px;
+      }
+
+      .dashboard-nav a,
+      .dashboard-nav button {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        margin-bottom: 8px;
+        padding: 13px 14px;
+        border: 0;
+        border-radius: 8px;
+        background: transparent;
+        color: #20509e;
+        cursor: pointer;
+        font-family: "Futura", sans-serif;
+        text-align: left;
+      }
+
+      .dashboard-nav a:hover,
+      .dashboard-nav button:hover,
+      .dashboard-nav a.active {
+        background: #f3f7f9;
+        color: #16d0c5;
+      }
+
+      .dashboard-main {
+        min-width: 0;
+      }
+
+      .dashboard-topbar {
+        position: sticky;
+        top: 0;
+        z-index: 4;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 22px 34px;
+        background: rgba(243, 247, 249, 0.94);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid #e5edf2;
+      }
+
+      .dashboard-topbar h1 {
+        margin-bottom: 6px;
+        color: #20509e;
+        font-size: 42px;
+        line-height: 1.08;
+        letter-spacing: 0;
+      }
+
+      .dashboard-topbar p {
+        margin: 0;
+        color: #75849a;
+        font-size: 16px;
+        line-height: 1.55;
+      }
+
+      .topbar-user {
+        position: relative;
+        flex: 0 0 auto;
+      }
+
+      .topbar-user-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 11px;
+        min-width: 0;
+        padding: 8px 12px 8px 8px;
+        border: 1px solid #e5edf2;
+        border-radius: 8px;
+        background: #fff;
+        color: #20509e;
+        box-shadow: 0 10px 24px rgba(33, 54, 61, 0.1);
+        cursor: pointer;
+        font-family: "Futura", sans-serif;
+      }
+
+      .topbar-avatar {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        flex: 0 0 38px;
+        border-radius: 50%;
+        background: linear-gradient(to right, #3e2bce, #2dd3aa);
+        background-position: center;
+        background-size: cover;
+        color: #fff;
+        font-size: 16px;
+      }
+
+      .topbar-avatar.has-image {
+        color: transparent;
+      }
+
+      .topbar-username {
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .topbar-user-menu {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        width: 210px;
+        padding: 8px;
+        border: 1px solid #e5edf2;
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: 0 18px 38px rgba(33, 54, 61, 0.16);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-6px);
+        transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+        z-index: 20;
+      }
+
+      .topbar-user.open .topbar-user-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .topbar-user-menu a,
+      .topbar-user-menu button {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding: 11px 12px;
+        border: 0;
+        border-radius: 8px;
+        background: transparent;
+        color: #20509e;
+        cursor: pointer;
+        font-family: "Futura", sans-serif;
+        text-align: left;
+      }
+
+      .topbar-user-menu a:hover,
+      .topbar-user-menu button:hover,
+      .topbar-user-button:hover,
+      .topbar-user.open .topbar-user-button {
+        background: #f3f7f9;
+        color: #16d0c5;
+      }
+
+      .mobile-menu-toggle {
+        display: none;
+        border: 0;
+        background: #fff;
+        color: #20509e;
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        box-shadow: 0 8px 20px rgba(33, 54, 61, 0.12);
+      }
+
+      .dashboard-mobile-nav {
+        display: none;
+      }
+
+      .profile-content {
+        padding: 34px;
+      }
+
+      .profile-hero,
+      .profile-card,
+      .profile-stat {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 18px 36px rgba(33, 54, 61, 0.1);
+      }
+
+      .profile-hero {
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 28px;
+        align-items: center;
+        padding: 30px 34px;
+        margin-bottom: 26px;
+      }
+
+      .profile-avatar-large {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 132px;
+        height: 132px;
+        border-radius: 50%;
+        background: linear-gradient(to right, #3e2bce, #2dd3aa);
+        background-position: center;
+        background-size: cover;
+        color: #fff;
+        font-family: "Futura", sans-serif;
+        font-size: 48px;
+      }
+
+      .profile-avatar-large.has-image {
+        color: transparent;
+      }
+
+      .profile-hero h2 {
+        margin-bottom: 10px;
+        color: #20509e;
+        font-size: 36px;
+        line-height: 1.08;
+      }
+
+      .profile-hero p {
+        margin-bottom: 0;
+        color: #75849a;
+      }
+
+      .profile-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .profile-badges span {
+        padding: 8px 14px;
+        border-radius: 50px;
+        background: rgba(22, 208, 197, 0.12);
+        color: #20509e;
+        font-family: "Futura", sans-serif;
+      }
+
+      .profile-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+        gap: 24px;
+        margin-bottom: 24px;
+      }
+
+      .profile-card {
+        padding: 26px;
+      }
+
+      .profile-card h3 {
+        margin-bottom: 18px;
+        font-size: 25px;
+      }
+
+      .profile-form label {
+        display: block;
+        margin-bottom: 8px;
+        color: #20509e;
+        font-family: "Futura", sans-serif;
+      }
+
+      .profile-form input {
+        width: 100%;
+        height: 50px;
+        border: 1px solid #ebebeb;
+        border-radius: 4px;
+        padding: 0 16px;
+        color: #20509e;
+        font-size: 16px;
+      }
+
+      .profile-form input:focus {
+        border-color: #16d0c5;
+      }
+
+      .profile-form input[readonly] {
+        background: #f3f7f9;
+        color: #75849a;
+      }
+
+      .field-group {
+        margin-bottom: 18px;
+      }
+
+      .avatar-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        margin: 10px 0 20px;
+      }
+
+      .avatar-actions input {
+        max-width: 260px;
+        height: auto;
+        padding: 12px;
+        background: #f3f7f9;
+      }
+
+      .secondary-action {
+        border: 0;
+        color: #20509e;
+        background: #fff;
+        box-shadow: 0 12px 28px rgba(33, 54, 61, 0.12);
+      }
+
+      .profile-message {
+        min-height: 22px;
+        margin: 14px 0 0;
+        color: #75849a;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .profile-message.success {
+        color: #20509e;
+      }
+
+      .profile-message.error {
+        color: #d9534f;
+      }
+
+      .info-list {
+        list-style: none;
+      }
+
+      .info-list li {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 13px 0;
+        border-bottom: 1px solid #ebebeb;
+        color: #75849a;
+      }
+
+      .info-list strong {
+        color: #20509e;
+        text-align: right;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .profile-stat {
+        padding: 22px;
+      }
+
+      .profile-stat i {
+        color: #16d0c5;
+        font-size: 28px;
+      }
+
+      .profile-stat span {
+        display: block;
+        margin: 14px 0 6px;
+        color: #75849a;
+        font-size: 14px;
+      }
+
+      .profile-stat strong {
+        color: #20509e;
+        font-family: "Futura", sans-serif;
+        font-size: 24px;
+      }
+
+      .profile-form .site-btn {
+        border: 0;
+      }
+
+      @media (max-width: 1199px) {
+        .stats-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 991px) {
+        .dashboard-shell {
+          display: block;
+        }
+
+        .dashboard-sidebar {
+          display: none;
+        }
+
+        .mobile-menu-toggle {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .dashboard-mobile-nav {
+          display: none;
+          padding: 0 34px 20px;
+          background: #f3f7f9;
+        }
+
+        .dashboard-mobile-nav.open {
+          display: grid;
+          gap: 10px;
+        }
+
+        .dashboard-mobile-nav a,
+        .dashboard-mobile-nav button {
+          padding: 13px 14px;
+          border: 0;
+          border-radius: 8px;
+          background: #fff;
+          color: #20509e;
+          font-family: "Futura", sans-serif;
+          text-align: left;
+        }
+
+        .profile-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 767px) {
+        .dashboard-topbar,
+        .profile-content {
+          padding: 22px;
+        }
+
+        .dashboard-topbar {
+          align-items: flex-start;
+        }
+
+        .dashboard-topbar h1 {
+          font-size: 30px;
+        }
+
+        .topbar-username {
+          display: none;
+        }
+
+        .profile-hero {
+          grid-template-columns: 1fr;
+          padding: 24px;
+        }
+
+        .profile-hero h2 {
+          font-size: 30px;
+        }
+
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .info-list li {
+          display: block;
+        }
+
+        .info-list strong {
+          display: block;
+          margin-top: 4px;
+          text-align: left;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="profile-loading">Loading FRANGAIN Profile...</div>
+
+    <div class="dashboard-shell">
+      <aside class="dashboard-sidebar">
+        <a href="/ecosystem/" class="dashboard-brand">
+          <img src="../img/Frangain.png" alt="Frangain" />
+          <span><strong>FRANGAIN</strong><span>Ecosystem</span></span>
+        </a>
+        <nav class="dashboard-nav">
+          <a href="/ecosystem/dashboard.html"><i class="fa fa-th-large"></i> Dashboard</a>
+          <a href="/ecosystem/profile.html" class="active"><i class="fa fa-user-o"></i> My Profile</a>
+          <a href="/ecosystem/dashboard.html#mining"><i class="fa fa-bolt"></i> Memory Mining</a>
+          <a href="/ecosystem/dashboard.html#circle"><i class="fa fa-users"></i> Circle of Trust</a>
+          <a href="/ecosystem/dashboard.html#settings"><i class="fa fa-cog"></i> Settings</a>
+          <a href="../whitepaper.html"><i class="fa fa-file-text-o"></i> Whitepaper</a>
+          <a href="../how_to_buy.html"><i class="fa fa-shopping-cart"></i> How to Buy FRANG</a>
+          <button id="logoutButton" type="button"><i class="fa fa-sign-out"></i> Logout</button>
+        </nav>
+      </aside>
+
+      <main class="dashboard-main">
+        <header class="dashboard-topbar">
+          <button id="mobileMenuToggle" class="mobile-menu-toggle" type="button" aria-label="Open profile menu">
+            <i class="fa fa-bars"></i>
+          </button>
+          <div>
+            <h1>User Profile</h1>
+            <p>Manage your FRANGAIN Ecosystem identity and account details.</p>
+          </div>
+          <div id="topbarUser" class="topbar-user">
+            <button id="userMenuButton" class="topbar-user-button" type="button" aria-haspopup="true" aria-expanded="false">
+              <span id="topbarAvatar" class="topbar-avatar">F</span>
+              <span id="topbarUsername" class="topbar-username">Username</span>
+              <i class="fa fa-angle-down"></i>
+            </button>
+            <div id="userDropdown" class="topbar-user-menu" aria-label="User menu">
+              <a href="/ecosystem/profile.html"><i class="fa fa-user-o"></i> My Profile</a>
+              <a href="/ecosystem/dashboard.html#settings"><i class="fa fa-cog"></i> Settings</a>
+              <button id="topbarLogoutButton" type="button"><i class="fa fa-sign-out"></i> Logout</button>
+            </div>
+          </div>
+        </header>
+
+        <nav id="mobileNav" class="dashboard-mobile-nav">
+          <a href="/ecosystem/dashboard.html">Dashboard</a>
+          <a href="/ecosystem/profile.html">My Profile</a>
+          <a href="/ecosystem/dashboard.html#mining">Memory Mining</a>
+          <a href="/ecosystem/dashboard.html#circle">Circle of Trust</a>
+          <a href="/ecosystem/dashboard.html#settings">Settings</a>
+          <a href="../whitepaper.html">Whitepaper</a>
+          <a href="../how_to_buy.html">How to Buy FRANG</a>
+          <button id="mobileLogoutButton" type="button">Logout</button>
+        </nav>
+
+        <div class="profile-content">
+          <section class="profile-hero">
+            <div id="avatarPreview" class="profile-avatar-large"><span id="avatarInitial">F</span></div>
+            <div>
+              <h2 id="displayNameValue">FRANGAIN User</h2>
+              <p>Username: <strong id="usernameValue">username</strong></p>
+              <p id="emailValue">email@example.com</p>
+              <div class="profile-badges">
+                <span>Joined <strong id="joinDateValue">Loading...</strong></span>
+                <span>FRANG Balance <strong id="frangBalanceValue">0.00 FRANG</strong></span>
+              </div>
+            </div>
+          </section>
+
+          <section class="profile-grid">
+            <div class="profile-card">
+              <h3>Profile Details</h3>
+              <form id="profileForm" class="profile-form">
+                <div class="field-group">
+                  <label for="profileImageInput">Profile Picture</label>
+                  <div class="avatar-actions">
+                    <input id="profileImageInput" type="file" accept="image/png,image/jpeg,image/webp" />
+                    <button id="removeImageButton" class="site-btn secondary-action" type="button">Remove Picture</button>
+                  </div>
+                </div>
+                <div class="field-group">
+                  <label for="displayName">Display Name</label>
+                  <input id="displayName" name="displayName" type="text" maxlength="60" autocomplete="name" />
+                </div>
+                <div class="field-group">
+                  <label for="usernameReadonly">Username</label>
+                  <input id="usernameReadonly" type="text" value="Saved on account" readonly aria-describedby="usernameValue" />
+                </div>
+                <div class="field-group">
+                  <label for="emailReadonly">Email Address</label>
+                  <input id="emailReadonly" type="text" value="Protected by authentication" readonly aria-describedby="emailValue" />
+                </div>
+                <div class="field-group">
+                  <label for="walletAddress">Wallet Address</label>
+                  <input id="walletAddress" name="walletAddress" type="text" maxlength="120" autocomplete="off" placeholder="Add your wallet address" />
+                </div>
+                <div class="field-group">
+                  <label for="country">Country</label>
+                  <input id="country" name="country" type="text" maxlength="80" autocomplete="country-name" placeholder="Add your country" />
+                </div>
+                <button id="saveProfileButton" class="site-btn sb-gradients" type="submit">Save Profile</button>
+                <p id="profilePageMessage" class="profile-message" role="status" aria-live="polite"></p>
+              </form>
+            </div>
+
+            <div class="profile-card">
+              <h3>Account Summary</h3>
+              <ul class="info-list">
+                <li><span>Account Status</span><strong id="accountStatusValue">Registered</strong></li>
+                <li><span>Join Date</span><strong id="createdAtValue">Loading...</strong></li>
+                <li><span>Last Updated</span><strong id="updatedAtValue">Loading...</strong></li>
+                <li><span>Circle of Trust</span><strong id="circleMembersValue">0</strong></li>
+                <li><span>Mining Bonus</span><strong id="miningBonusValue">0.0x</strong></li>
+                <li><span>Legacy Total Mined</span><strong id="legacyTotalMinedValue">0 FRANG</strong></li>
+                <li><span>Last Legacy Mining Time</span><strong id="lastMiningTimeValue">Not available</strong></li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="stats-grid" aria-label="Memory Mining statistics">
+            <div class="profile-stat"><i class="ti-server"></i><span>Memory Reserve</span><strong id="memoryReserveValue">0.00 FRANG</strong></div>
+            <div class="profile-stat"><i class="ti-pulse"></i><span>Mining Rate</span><strong id="miningRateValue">1.0x</strong></div>
+            <div class="profile-stat"><i class="ti-cup"></i><span>Total FRANG Mined</span><strong id="totalFrangMinedValue">0.00 FRANG</strong></div>
+            <div class="profile-stat"><i class="ti-bolt"></i><span>Mining Status</span><strong id="miningStatusValue">Ready</strong></div>
+          </section>
+
+          <section class="profile-grid" style="margin-top: 24px;">
+            <div class="profile-card">
+              <h3>Memory Mining Details</h3>
+              <ul class="info-list">
+                <li><span>Last Mining Completed</span><strong id="lastMiningCompletedValue">Not available</strong></li>
+                <li><span>FRANG Balance</span><strong id="frangBalanceDetailValue">0.00 FRANG</strong></li>
+                <li><span>Mining Sessions</span><strong>Daily Memory Mining</strong></li>
+              </ul>
+            </div>
+            <div class="profile-card">
+              <h3>Profile Guidance</h3>
+              <p>Keep your FRANGAIN Ecosystem profile current as you grow your Memory Reserve, build your Circle of Trust, and prepare for future FRANG migration events.</p>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <script src="../js/pwa.js"></script>
+    <script src="../js/profile.js"></script>
+  </body>
+</html>

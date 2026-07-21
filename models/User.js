@@ -35,6 +35,13 @@ const NOTIFICATION_DEFAULTS = {
   updatedAt: null,
 };
 
+const PROFILE_DEFAULTS = {
+  displayName: '',
+  walletAddress: '',
+  country: '',
+  profileImage: '',
+};
+
 function getUsersCollection(db) {
   return db.collection('users');
 }
@@ -154,6 +161,43 @@ function normalizeNotifications(notifications = {}) {
   };
 }
 
+function normalizeProfileInput(input = {}) {
+  return {
+    displayName: typeof input.displayName === 'string' ? input.displayName.trim() : '',
+    walletAddress: typeof input.walletAddress === 'string' ? input.walletAddress.trim() : '',
+    country: typeof input.country === 'string' ? input.country.trim() : '',
+    profileImage: typeof input.profileImage === 'string' ? input.profileImage.trim() : '',
+  };
+}
+
+function validateProfileInput(input) {
+  const errors = {};
+
+  if (input.displayName && input.displayName.length > 60) {
+    errors.displayName = 'Display name must be 60 characters or fewer.';
+  }
+
+  if (input.walletAddress && input.walletAddress.length > 120) {
+    errors.walletAddress = 'Wallet address must be 120 characters or fewer.';
+  }
+
+  if (input.country && input.country.length > 80) {
+    errors.country = 'Country must be 80 characters or fewer.';
+  }
+
+  if (input.profileImage) {
+    const validImage = /^data:image\/(png|jpeg|jpg|webp);base64,[A-Za-z0-9+/=]+$/.test(input.profileImage);
+
+    if (!validImage) {
+      errors.profileImage = 'Profile picture must be a PNG, JPG, or WEBP image.';
+    } else if (input.profileImage.length > 750000) {
+      errors.profileImage = 'Profile picture must be smaller than 500 KB.';
+    }
+  }
+
+  return errors;
+}
+
 function validatePushSubscription(subscription) {
   const errors = {};
 
@@ -203,6 +247,32 @@ async function updateNotificationSettings(db, id, settings = {}) {
     {
       $set: {
         notifications: notificationSettings,
+        updatedAt: now,
+      },
+    }
+  );
+
+  return users.findOne({ _id: userId });
+}
+
+async function updateUserProfile(db, id, profileData = {}) {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+
+  const users = getUsersCollection(db);
+  const userId = new ObjectId(id);
+  const now = new Date();
+  const input = normalizeProfileInput(profileData);
+
+  await users.updateOne(
+    { _id: userId },
+    {
+      $set: {
+        displayName: input.displayName,
+        walletAddress: input.walletAddress,
+        country: input.country,
+        profileImage: input.profileImage,
         updatedAt: now,
       },
     }
@@ -341,6 +411,10 @@ function sanitizeUser(user) {
     id: user._id ? user._id.toString() : user.id.toString(),
     username: user.username,
     email: user.email,
+    displayName: user.displayName ?? PROFILE_DEFAULTS.displayName,
+    walletAddress: user.walletAddress ?? PROFILE_DEFAULTS.walletAddress,
+    country: user.country ?? PROFILE_DEFAULTS.country,
+    profileImage: user.profileImage ?? PROFILE_DEFAULTS.profileImage,
     emailVerified: user.emailVerified ?? EMAIL_VERIFICATION_DEFAULTS.emailVerified,
     memoryReserve: user.memoryReserve ?? MEMORY_MINING_DEFAULTS.memoryReserve,
     totalFrangMined: user.totalFrangMined ?? MEMORY_MINING_DEFAULTS.totalFrangMined,
@@ -368,6 +442,7 @@ async function createUser(db, userData) {
     emailVerified: userData.emailVerified === true,
     emailVerificationTokenHash: userData.emailVerificationTokenHash || null,
     emailVerificationExpiresAt: userData.emailVerificationExpiresAt || null,
+    ...PROFILE_DEFAULTS,
     ...MEMORY_MINING_DEFAULTS,
     notifications: normalizeNotifications(),
     circleMembers: 0,
@@ -441,11 +516,14 @@ module.exports = {
   normalizeLoginInput,
   normalizeNotifications,
   normalizeNotificationTypes,
+  normalizeProfileInput,
   normalizeUserInput,
   sanitizeUser,
   startMiningSession,
   updateNotificationSettings,
+  updateUserProfile,
   updateEmailVerificationToken,
+  validateProfileInput,
   validatePushSubscription,
   verifyUserEmail,
   validateLoginInput,

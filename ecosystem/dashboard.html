@@ -152,8 +152,14 @@
         flex: 0 0 38px;
         border-radius: 50%;
         background: linear-gradient(to right, #3e2bce, #2dd3aa);
+        background-position: center;
+        background-size: cover;
         color: #fff;
         font-size: 16px;
+      }
+
+      .topbar-avatar.has-image {
+        color: transparent;
       }
 
       .topbar-username {
@@ -247,9 +253,15 @@
         height: 106px;
         border-radius: 50%;
         background: linear-gradient(to right, #3e2bce, #2dd3aa);
+        background-position: center;
+        background-size: cover;
         color: #fff;
         font-family: "Futura", sans-serif;
         font-size: 40px;
+      }
+
+      .profile-avatar.has-image {
+        color: transparent;
       }
 
       .profile-details h2 {
@@ -692,6 +704,7 @@
         </a>
         <nav class="dashboard-nav">
           <a href="#overview" class="active"><i class="fa fa-th-large"></i> Overview</a>
+          <a href="/ecosystem/profile.html"><i class="fa fa-user-o"></i> My Profile</a>
           <a href="#mining"><i class="fa fa-bolt"></i> Memory Mining</a>
           <a href="#circle"><i class="fa fa-users"></i> Circle of Trust</a>
           <a href="#activity"><i class="fa fa-history"></i> Recent Activity</a>
@@ -718,7 +731,7 @@
               <i class="fa fa-angle-down"></i>
             </button>
             <div id="userDropdown" class="topbar-user-menu" aria-label="User menu">
-              <a href="#overview"><i class="fa fa-user-o"></i> My Profile</a>
+              <a href="/ecosystem/profile.html"><i class="fa fa-user-o"></i> My Profile</a>
               <a href="#settings"><i class="fa fa-cog"></i> Settings</a>
               <button id="topbarLogoutButton" type="button"><i class="fa fa-sign-out"></i> Logout</button>
             </div>
@@ -727,6 +740,7 @@
 
         <nav id="mobileNav" class="dashboard-mobile-nav">
           <a href="#overview">Overview</a>
+          <a href="/ecosystem/profile.html">My Profile</a>
           <a href="#mining">Memory Mining</a>
           <a href="#circle">Circle of Trust</a>
           <a href="#activity">Recent Activity</a>
@@ -1074,13 +1088,25 @@
         }
 
         function renderUser(user) {
-          var username = user.username || 'FRANGAIN User';
+          var username = user.displayName || user.username || 'FRANGAIN User';
+          var avatarInitial = username.slice(0, 1).toUpperCase();
           profileUsername.textContent = username;
           profileEmail.textContent = user.email || 'Email loading';
           profileCreatedAt.textContent = formatDate(user.createdAt);
-          profileAvatar.textContent = username.slice(0, 1).toUpperCase();
+          profileAvatar.textContent = avatarInitial;
           topbarUsername.textContent = username;
-          topbarAvatar.textContent = username.slice(0, 1).toUpperCase();
+          topbarAvatar.textContent = avatarInitial;
+          profileAvatar.style.backgroundImage = '';
+          topbarAvatar.style.backgroundImage = '';
+          profileAvatar.classList.remove('has-image');
+          topbarAvatar.classList.remove('has-image');
+
+          if (user.profileImage) {
+            profileAvatar.style.backgroundImage = 'url("' + user.profileImage + '")';
+            topbarAvatar.style.backgroundImage = 'url("' + user.profileImage + '")';
+            profileAvatar.classList.add('has-image');
+            topbarAvatar.classList.add('has-image');
+          }
 
           updateFrangStats(user);
           renderMiningState(user);
