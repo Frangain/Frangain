@@ -8,7 +8,12 @@
   var usernameReadonly = document.getElementById('usernameReadonly');
   var emailReadonly = document.getElementById('emailReadonly');
   var walletAddressInput = document.getElementById('walletAddress');
+  var walletDisplayValue = document.getElementById('walletDisplayValue');
+  var copyWalletButton = document.getElementById('copyWalletButton');
+  var bscScanLink = document.getElementById('bscScanLink');
   var countryInput = document.getElementById('country');
+  var countryOptions = document.getElementById('countryOptions');
+  var countryDisplayValue = document.getElementById('countryDisplayValue');
   var profileImageInput = document.getElementById('profileImageInput');
   var avatarPreview = document.getElementById('avatarPreview');
   var avatarInitial = document.getElementById('avatarInitial');
@@ -35,6 +40,115 @@
   var createdAtValue = document.getElementById('createdAtValue');
   var updatedAtValue = document.getElementById('updatedAtValue');
   var currentProfileImage = '';
+  var savedWalletAddress = '';
+  var countries = [
+    'Afghanistan',
+    'Albania',
+    'Algeria',
+    'Andorra',
+    'Angola',
+    'Argentina',
+    'Armenia',
+    'Australia',
+    'Austria',
+    'Azerbaijan',
+    'Bahamas',
+    'Bahrain',
+    'Bangladesh',
+    'Belarus',
+    'Belgium',
+    'Belize',
+    'Benin',
+    'Bhutan',
+    'Bolivia',
+    'Bosnia and Herzegovina',
+    'Botswana',
+    'Brazil',
+    'Brunei',
+    'Bulgaria',
+    'Burkina Faso',
+    'Cambodia',
+    'Cameroon',
+    'Canada',
+    'Chile',
+    'China',
+    'Colombia',
+    'Costa Rica',
+    'Croatia',
+    'Cyprus',
+    'Czech Republic',
+    'Denmark',
+    'Dominican Republic',
+    'Ecuador',
+    'Egypt',
+    'El Salvador',
+    'Estonia',
+    'Ethiopia',
+    'Finland',
+    'France',
+    'Georgia',
+    'Germany',
+    'Ghana',
+    'Greece',
+    'Guatemala',
+    'Honduras',
+    'Hong Kong',
+    'Hungary',
+    'Iceland',
+    'India',
+    'Indonesia',
+    'Iraq',
+    'Ireland',
+    'Italy',
+    'Japan',
+    'Jordan',
+    'Kazakhstan',
+    'Kenya',
+    'Kuwait',
+    'Latvia',
+    'Lebanon',
+    'Lithuania',
+    'Luxembourg',
+    'Malaysia',
+    'Malta',
+    'Mexico',
+    'Morocco',
+    'Netherlands',
+    'New Zealand',
+    'Nigeria',
+    'Norway',
+    'Oman',
+    'Pakistan',
+    'Panama',
+    'Peru',
+    'Philippines',
+    'Poland',
+    'Portugal',
+    'Qatar',
+    'Romania',
+    'Saudi Arabia',
+    'Serbia',
+    'Singapore',
+    'Slovakia',
+    'Slovenia',
+    'South Africa',
+    'South Korea',
+    'Spain',
+    'Sri Lanka',
+    'Sweden',
+    'Switzerland',
+    'Taiwan',
+    'Thailand',
+    'Tunisia',
+    'Turkey',
+    'Ukraine',
+    'United Arab Emirates',
+    'United Kingdom',
+    'United States',
+    'Uruguay',
+    'Venezuela',
+    'Vietnam',
+  ];
 
   function redirectToLogin() {
     window.location.href = '/ecosystem/login.html';
@@ -52,12 +166,12 @@
 
   function formatDate(value) {
     if (!value) {
-      return 'Not available';
+      return 'Not provided';
     }
 
     var date = new Date(value);
     if (Number.isNaN(date.getTime())) {
-      return 'Not available';
+      return 'Not provided';
     }
 
     return date.toLocaleDateString(undefined, {
@@ -69,12 +183,12 @@
 
   function formatDateTime(value) {
     if (!value) {
-      return 'Not available';
+      return 'Not provided';
     }
 
     var date = new Date(value);
     if (Number.isNaN(date.getTime())) {
-      return 'Not available';
+      return 'Not provided';
     }
 
     return date.toLocaleString();
@@ -88,8 +202,14 @@
     }) + ' FRANG';
   }
 
-  function formatMiningRate(value) {
-    var rate = Number(value) || 1;
+  function formatMiningRate(value, fallback) {
+    var numericValue = Number(value);
+    var rate = Number.isFinite(numericValue) ? numericValue : fallback;
+
+    if (!Number.isFinite(rate)) {
+      rate = 1;
+    }
+
     return rate.toLocaleString(undefined, {
       minimumFractionDigits: 1,
       maximumFractionDigits: 2,
@@ -98,6 +218,47 @@
 
   function getProfileName(user) {
     return user.displayName || user.username || 'FRANGAIN User';
+  }
+
+  function providedText(value) {
+    return value ? value : 'Not provided';
+  }
+
+  function shortenWalletAddress(address) {
+    if (!address) {
+      return 'Not provided';
+    }
+
+    if (address.length <= 14) {
+      return address;
+    }
+
+    return address.slice(0, 6) + '...' + address.slice(-4);
+  }
+
+  function isBnbSmartChainAddress(address) {
+    return /^0x[a-fA-F0-9]{40}$/.test(address || '');
+  }
+
+  function updateWalletTools(address) {
+    savedWalletAddress = address || '';
+    walletDisplayValue.textContent = shortenWalletAddress(savedWalletAddress);
+    copyWalletButton.classList.toggle('is-hidden', !savedWalletAddress);
+    bscScanLink.classList.toggle('is-hidden', !isBnbSmartChainAddress(savedWalletAddress));
+
+    if (isBnbSmartChainAddress(savedWalletAddress)) {
+      bscScanLink.href = 'https://bscscan.com/address/' + savedWalletAddress;
+    } else {
+      bscScanLink.href = '#';
+    }
+  }
+
+  function populateCountryOptions() {
+    countries.forEach(function (country) {
+      var option = document.createElement('option');
+      option.value = country;
+      countryOptions.appendChild(option);
+    });
   }
 
   function renderAvatar(user) {
@@ -132,23 +293,25 @@
     emailReadonly.value = user.email || 'Email not available';
     walletAddressInput.value = user.walletAddress || '';
     countryInput.value = user.country || '';
+    countryDisplayValue.textContent = providedText(user.country || '');
     topbarUsername.textContent = displayName || username;
     joinDateValue.textContent = formatDate(user.createdAt);
     frangBalanceValue.textContent = formatFrang(user.memoryReserve);
     frangBalanceDetailValue.textContent = formatFrang(user.memoryReserve);
     memoryReserveValue.textContent = formatFrang(user.memoryReserve);
-    miningRateValue.textContent = formatMiningRate(user.miningRate);
+    miningRateValue.textContent = formatMiningRate(user.miningRate, 1);
     totalFrangMinedValue.textContent = formatFrang(user.totalFrangMined);
     miningStatusValue.textContent = user.miningActive ? 'Mining in Progress' : 'Ready';
     lastMiningCompletedValue.textContent = formatDateTime(user.lastMiningCompletedAt);
     circleMembersValue.textContent = String(Number(user.circleMembers) || 0);
-    miningBonusValue.textContent = formatMiningRate(user.miningBonus || 0);
+    miningBonusValue.textContent = formatMiningRate(user.miningBonus, 0);
     legacyTotalMinedValue.textContent = formatFrang(user.totalMined);
     lastMiningTimeValue.textContent = formatDateTime(user.lastMiningTime);
     accountStatusValue.textContent = 'Registered';
     createdAtValue.textContent = formatDate(user.createdAt);
     updatedAtValue.textContent = formatDate(user.updatedAt);
     renderAvatar(user);
+    updateWalletTools(user.walletAddress || '');
     document.body.classList.add('profile-ready');
   }
 
@@ -292,6 +455,28 @@
     setMessage('Profile picture removed. Save your profile to keep this change.', 'success');
   });
 
+  copyWalletButton.addEventListener('click', function () {
+    if (!savedWalletAddress) {
+      setMessage('No wallet address has been saved yet.', 'error');
+      return;
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(savedWalletAddress)
+        .then(function () {
+          setMessage('Wallet address copied.', 'success');
+        })
+        .catch(function () {
+          setMessage('Unable to copy wallet address.', 'error');
+        });
+      return;
+    }
+
+    walletAddressInput.select();
+    document.execCommand('copy');
+    setMessage('Wallet address copied.', 'success');
+  });
+
   document.getElementById('logoutButton').addEventListener('click', logout);
   document.getElementById('mobileLogoutButton').addEventListener('click', logout);
   document.getElementById('topbarLogoutButton').addEventListener('click', logout);
@@ -312,5 +497,6 @@
   });
   profileForm.addEventListener('submit', saveProfile);
 
+  populateCountryOptions();
   loadProfile();
 })();

@@ -1,4 +1,4 @@
-const FRANGAIN_CACHE = 'frangain-pwa-2026-07-21';
+const FRANGAIN_CACHE = 'frangain-pwa-2026-07-21-profile-polish';
 const FRANGAIN_CACHE_PREFIX = 'frangain-pwa-';
 const OFFLINE_PAGE = '/offline.html';
 const PRECACHE_URLS = [
