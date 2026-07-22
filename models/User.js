@@ -15,12 +15,6 @@ const MEMORY_MINING_DEFAULTS = {
   lastMiningCompletedAt: null,
 };
 
-const EMAIL_VERIFICATION_DEFAULTS = {
-  emailVerified: false,
-  emailVerificationTokenHash: null,
-  emailVerificationExpiresAt: null,
-};
-
 const NOTIFICATION_TYPE_DEFAULTS = {
   memoryMiningReady: true,
   miningSessionAvailable: true,
@@ -129,14 +123,6 @@ async function findUserByUsernameOrEmail(db, username, email) {
 
 async function findUserByEmail(db, email) {
   return getUsersCollection(db).findOne({ email });
-}
-
-async function findUserByVerificationTokenHash(db, tokenHash) {
-  return getUsersCollection(db).findOne({ emailVerificationTokenHash: tokenHash });
-}
-
-async function findUserByPasswordResetTokenHash(db, tokenHash) {
-  return getUsersCollection(db).findOne({ passwordResetTokenHash: tokenHash });
 }
 
 async function findUserById(db, id) {
@@ -441,7 +427,6 @@ function sanitizeUser(user) {
     walletAddress: user.walletAddress ?? PROFILE_DEFAULTS.walletAddress,
     country: user.country ?? PROFILE_DEFAULTS.country,
     profileImage: user.profileImage ?? PROFILE_DEFAULTS.profileImage,
-    emailVerified: user.emailVerified ?? EMAIL_VERIFICATION_DEFAULTS.emailVerified,
     memoryReserve: user.memoryReserve ?? MEMORY_MINING_DEFAULTS.memoryReserve,
     totalFrangMined: user.totalFrangMined ?? MEMORY_MINING_DEFAULTS.totalFrangMined,
     miningRate: user.miningRate ?? MEMORY_MINING_DEFAULTS.miningRate,
@@ -465,9 +450,6 @@ async function createUser(db, userData) {
     username: userData.username,
     email: userData.email,
     password: userData.password,
-    emailVerified: userData.emailVerified === true,
-    emailVerificationTokenHash: userData.emailVerificationTokenHash || null,
-    emailVerificationExpiresAt: userData.emailVerificationExpiresAt || null,
     ...PROFILE_DEFAULTS,
     ...MEMORY_MINING_DEFAULTS,
     notifications: normalizeNotifications(),
@@ -484,125 +466,25 @@ async function createUser(db, userData) {
   return sanitizeUser({ ...user, _id: result.insertedId });
 }
 
-async function updateEmailVerificationToken(db, id, tokenHash, expiresAt) {
-  if (!ObjectId.isValid(id)) {
-    return null;
-  }
-
-  const users = getUsersCollection(db);
-  const userId = new ObjectId(id);
-
-  await users.updateOne(
-    { _id: userId },
-    {
-      $set: {
-        emailVerificationTokenHash: tokenHash,
-        emailVerificationExpiresAt: expiresAt,
-        updatedAt: new Date(),
-      },
-    }
-  );
-
-  return users.findOne({ _id: userId });
-}
-
-async function updatePasswordResetToken(db, id, tokenHash, expiresAt) {
-  if (!ObjectId.isValid(id)) {
-    return null;
-  }
-
-  const users = getUsersCollection(db);
-  const userId = new ObjectId(id);
-
-  await users.updateOne(
-    { _id: userId },
-    {
-      $set: {
-        passwordResetTokenHash: tokenHash,
-        passwordResetExpiresAt: expiresAt,
-        updatedAt: new Date(),
-      },
-    }
-  );
-
-  return users.findOne({ _id: userId });
-}
-
-async function resetUserPassword(db, id, hashedPassword, resetAt = new Date()) {
-  if (!ObjectId.isValid(id)) {
-    return null;
-  }
-
-  const users = getUsersCollection(db);
-  const userId = new ObjectId(id);
-
-  await users.updateOne(
-    { _id: userId },
-    {
-      $set: {
-        password: hashedPassword,
-        updatedAt: resetAt,
-      },
-      $unset: {
-        passwordResetTokenHash: '',
-        passwordResetExpiresAt: '',
-      },
-    }
-  );
-
-  return users.findOne({ _id: userId });
-}
-
-async function verifyUserEmail(db, id, verifiedAt = new Date()) {
-  if (!ObjectId.isValid(id)) {
-    return null;
-  }
-
-  const users = getUsersCollection(db);
-  const userId = new ObjectId(id);
-
-  await users.updateOne(
-    { _id: userId },
-    {
-      $set: {
-        emailVerified: true,
-        updatedAt: verifiedAt,
-      },
-      $unset: {
-        emailVerificationTokenHash: '',
-        emailVerificationExpiresAt: '',
-      },
-    }
-  );
-
-  return users.findOne({ _id: userId });
-}
-
 module.exports = {
   completeMiningSession,
   createUser,
   ensureUserIndexes,
   findUserByEmail,
   findUserById,
-  findUserByPasswordResetTokenHash,
-  findUserByVerificationTokenHash,
   findUserByUsernameOrEmail,
   normalizeLoginInput,
   normalizeNotifications,
   normalizeNotificationTypes,
   normalizeProfileInput,
   normalizeUserInput,
-  resetUserPassword,
   sanitizeUser,
   startMiningSession,
   updateNotificationSettings,
-  updatePasswordResetToken,
   updateUserPassword,
   updateUserProfile,
-  updateEmailVerificationToken,
   validateProfileInput,
   validatePushSubscription,
-  verifyUserEmail,
   validateLoginInput,
   validateRegistrationInput,
 };

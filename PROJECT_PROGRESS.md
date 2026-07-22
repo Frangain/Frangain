@@ -74,7 +74,7 @@ APIs Created:
 
 Database Model Created:
 
-- `users` collection model with username, email, hashed password, email verification status, Memory Reserve fields, Mining Rate fields, mining timestamps, and audit timestamps.
+- `users` collection model with username, email, hashed password, Memory Reserve fields, Mining Rate fields, mining timestamps, and audit timestamps.
 
 Completed Work:
 
@@ -85,9 +85,9 @@ Completed Work:
 - Added clear JSON success and error responses.
 - Created a standalone FRANGAIN registration page.
 - Added password and confirm-password show/hide controls.
-- Added the post-registration success message requesting email verification.
+- Added the post-registration success message.
 - Existing production pages preserved.
-- No login, JWT authentication, sessions, dashboard, Memory Mining, Circle of Trust, withdrawals, admin panel, wallet management, email sending, or email verification implemented.
+- No login, JWT authentication, sessions, dashboard, Memory Mining, Circle of Trust, withdrawals, admin panel, wallet management, or email sending implemented.
 
 Next Milestone:
 
@@ -135,8 +135,7 @@ Authentication Flow:
 - API searches the `users` collection by normalized email.
 - API compares the submitted password using bcrypt.
 - API rejects invalid credentials.
-- API rejects accounts where `emailVerified` is false.
-- API signs a 7-day JWT after successful verification.
+- API signs a 7-day JWT after successful credential validation.
 - API stores the JWT in an HttpOnly cookie with SameSite=Lax and Secure enabled in production.
 - Login page redirects successful users to `ecosystem/dashboard.html`.
 
@@ -147,7 +146,7 @@ Completed Work:
 - Added login page with email, password, show/hide password, Remember Me UI only, Sign In button, Create Account link, and Forgot Password placeholder.
 - Added dashboard placeholder only.
 - Preserved existing production pages.
-- No dashboard functionality, Memory Mining, mining timer, Circle of Trust, referral bonuses, withdrawals, admin panel, email verification, password reset, Remember Me functionality, wallet management, or future milestone features implemented.
+- No dashboard functionality, Memory Mining, mining timer, Circle of Trust, referral bonuses, withdrawals, admin panel, password reset, Remember Me functionality, wallet management, or future milestone features implemented.
 
 Next Milestone:
 
@@ -428,55 +427,6 @@ Total Serverless Functions:
 Next Milestone:
 
 Milestone 10 should be defined and approved before additional ecosystem functionality is added.
-
----
-
-## Final FRANGAIN Ecosystem V1 Milestone - Email Verification
-
-Status:
-
-Completed ✅
-
-Files Created:
-
-- `api/password/[action].js`
-- `ecosystem/forgot-password.html`
-- `ecosystem/reset-password.html`
-
-Files Modified:
-
-- `ecosystem/login.html`
-- `lib/email.js`
-- `lib/emailVerification.js`
-- `middleware/auth.js`
-- `models/User.js`
-- `sw.js`
-- `PROJECT_PROGRESS.md`
-
-Database Changes:
-
-- Reused the existing `users` collection.
-- Added password reset token fields only when a reset is requested:
-  - `passwordResetTokenHash`
-  - `passwordResetExpiresAt`
-
-Completed Work:
-
-- Made email verification required by default for FRANGAIN Ecosystem access.
-- Preserved secure registration email verification token generation, hashing, expiry, and one-time use.
-- Preserved login blocking for unverified users with resend support.
-- Added shared middleware protection so unverified users cannot access authenticated Ecosystem APIs.
-- Added verified-account Forgot Password and Reset Password flow using one dynamic password API.
-- Preserved authentication, sessions, dashboard functionality, Memory Mining, Profile, Notifications, Settings, and Vercel Hobby compatibility.
-- Removed development/test accounts before end-to-end verification.
-
-Total Serverless Functions:
-
-12
-
-Next Milestone:
-
-FRANGAIN Ecosystem V1 is complete. Future milestones should be defined and approved before additional ecosystem functionality is added.
 
 ---
 

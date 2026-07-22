@@ -1,19 +1,11 @@
 const bcrypt = require('bcrypt');
 const connectToDatabase = require('../lib/mongodb');
-const { sendVerificationEmail } = require('../lib/email');
-const {
-  createVerificationToken,
-  getVerificationExpiry,
-  hashVerificationToken,
-  isEmailVerificationRequired,
-} = require('../lib/emailVerification');
 const {
   createUser,
   ensureUserIndexes,
   findUserByUsernameOrEmail,
   normalizeUserInput,
   sanitizeUser,
-  updateEmailVerificationToken,
   validateRegistrationInput,
 } = require('../models/User');
 
@@ -33,25 +25,6 @@ function getRequestBody(req) {
   }
 
   return req.body;
-}
-
-async function resendVerificationForUser(db, user, req) {
-  const verificationToken = createVerificationToken();
-  const updatedUser = await updateEmailVerificationToken(
-    db,
-    user._id,
-    hashVerificationToken(verificationToken),
-    getVerificationExpiry()
-  );
-
-  await sendVerificationEmail({
-    to: updatedUser.email,
-    username: updatedUser.username,
-    token: verificationToken,
-    req,
-  });
-
-  return updatedUser;
 }
 
 module.exports = async function registerHandler(req, res) {
@@ -88,23 +61,8 @@ module.exports = async function registerHandler(req, res) {
     await ensureUserIndexes(db);
 
     const existingUser = await findUserByUsernameOrEmail(db, input.username, input.email);
-    const verificationRequired = isEmailVerificationRequired();
 
     if (existingUser) {
-      if (existingUser.email === input.email && existingUser.emailVerified === false && verificationRequired) {
-        const updatedUser = await resendVerificationForUser(db, existingUser, req);
-
-        return res.status(409).json({
-          success: false,
-          message: 'This email is already registered but not verified. We sent a new verification email.',
-          errors: { email: 'Please verify your email address to activate this account.' },
-          data: {
-            allowResend: true,
-            email: updatedUser.email,
-          },
-        });
-      }
-
       const errors = {};
 
       if (existingUser.username === input.username) {
@@ -122,35 +80,18 @@ module.exports = async function registerHandler(req, res) {
       });
     }
 
-    const verificationToken = verificationRequired ? createVerificationToken() : null;
     const hashedPassword = await bcrypt.hash(input.password, SALT_ROUNDS);
     const user = await createUser(db, {
       username: input.username,
       email: input.email,
       password: hashedPassword,
-      emailVerified: !verificationRequired,
-      emailVerificationTokenHash: verificationToken ? hashVerificationToken(verificationToken) : null,
-      emailVerificationExpiresAt: verificationToken ? getVerificationExpiry() : null,
     });
-
-    if (verificationRequired) {
-      await sendVerificationEmail({
-        to: input.email,
-        username: input.username,
-        token: verificationToken,
-        req,
-      });
-    }
 
     return res.status(201).json({
       success: true,
-      message: verificationRequired
-        ? 'Welcome to the FRANGAIN Ecosystem. Your account has been created successfully. Please verify your email to activate your account.'
-        : 'Welcome to the FRANGAIN Ecosystem. Your account has been created successfully.',
+      message: 'Welcome to the FRANGAIN Ecosystem. Your account has been created successfully.',
       user: sanitizeUser(user),
-      data: {
-        emailVerificationRequired: verificationRequired,
-      },
+      data: {},
     });
   } catch (error) {
     if (error && error.code === 11000) {

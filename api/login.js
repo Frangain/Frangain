@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt');
 const connectToDatabase = require('../lib/mongodb');
 const { createAuthToken, serializeAuthCookie } = require('../lib/auth');
-const { isEmailVerificationRequired } = require('../lib/emailVerification');
 const {
   findUserByEmail,
   normalizeLoginInput,
@@ -75,18 +74,6 @@ module.exports = async function loginHandler(req, res) {
         success: false,
         message: 'Invalid email or password.',
         errors: { credentials: 'Invalid email or password.' },
-      });
-    }
-
-    if (isEmailVerificationRequired() && !user.emailVerified) {
-      return res.status(403).json({
-        success: false,
-        message: 'Please verify your email before signing in. You can resend the verification email below.',
-        errors: { emailVerified: 'Email verification is required before login.' },
-        data: {
-          allowResend: true,
-          email: user.email,
-        },
       });
     }
 
