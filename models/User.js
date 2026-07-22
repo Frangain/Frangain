@@ -135,6 +135,10 @@ async function findUserByVerificationTokenHash(db, tokenHash) {
   return getUsersCollection(db).findOne({ emailVerificationTokenHash: tokenHash });
 }
 
+async function findUserByPasswordResetTokenHash(db, tokenHash) {
+  return getUsersCollection(db).findOne({ passwordResetTokenHash: tokenHash });
+}
+
 async function findUserById(db, id) {
   if (!ObjectId.isValid(id)) {
     return null;
@@ -502,6 +506,53 @@ async function updateEmailVerificationToken(db, id, tokenHash, expiresAt) {
   return users.findOne({ _id: userId });
 }
 
+async function updatePasswordResetToken(db, id, tokenHash, expiresAt) {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+
+  const users = getUsersCollection(db);
+  const userId = new ObjectId(id);
+
+  await users.updateOne(
+    { _id: userId },
+    {
+      $set: {
+        passwordResetTokenHash: tokenHash,
+        passwordResetExpiresAt: expiresAt,
+        updatedAt: new Date(),
+      },
+    }
+  );
+
+  return users.findOne({ _id: userId });
+}
+
+async function resetUserPassword(db, id, hashedPassword, resetAt = new Date()) {
+  if (!ObjectId.isValid(id)) {
+    return null;
+  }
+
+  const users = getUsersCollection(db);
+  const userId = new ObjectId(id);
+
+  await users.updateOne(
+    { _id: userId },
+    {
+      $set: {
+        password: hashedPassword,
+        updatedAt: resetAt,
+      },
+      $unset: {
+        passwordResetTokenHash: '',
+        passwordResetExpiresAt: '',
+      },
+    }
+  );
+
+  return users.findOne({ _id: userId });
+}
+
 async function verifyUserEmail(db, id, verifiedAt = new Date()) {
   if (!ObjectId.isValid(id)) {
     return null;
@@ -533,6 +584,7 @@ module.exports = {
   ensureUserIndexes,
   findUserByEmail,
   findUserById,
+  findUserByPasswordResetTokenHash,
   findUserByVerificationTokenHash,
   findUserByUsernameOrEmail,
   normalizeLoginInput,
@@ -540,9 +592,11 @@ module.exports = {
   normalizeNotificationTypes,
   normalizeProfileInput,
   normalizeUserInput,
+  resetUserPassword,
   sanitizeUser,
   startMiningSession,
   updateNotificationSettings,
+  updatePasswordResetToken,
   updateUserPassword,
   updateUserProfile,
   updateEmailVerificationToken,

@@ -431,6 +431,55 @@ Milestone 10 should be defined and approved before additional ecosystem function
 
 ---
 
+## Final FRANGAIN Ecosystem V1 Milestone - Email Verification
+
+Status:
+
+Completed ✅
+
+Files Created:
+
+- `api/password/[action].js`
+- `ecosystem/forgot-password.html`
+- `ecosystem/reset-password.html`
+
+Files Modified:
+
+- `ecosystem/login.html`
+- `lib/email.js`
+- `lib/emailVerification.js`
+- `middleware/auth.js`
+- `models/User.js`
+- `sw.js`
+- `PROJECT_PROGRESS.md`
+
+Database Changes:
+
+- Reused the existing `users` collection.
+- Added password reset token fields only when a reset is requested:
+  - `passwordResetTokenHash`
+  - `passwordResetExpiresAt`
+
+Completed Work:
+
+- Made email verification required by default for FRANGAIN Ecosystem access.
+- Preserved secure registration email verification token generation, hashing, expiry, and one-time use.
+- Preserved login blocking for unverified users with resend support.
+- Added shared middleware protection so unverified users cannot access authenticated Ecosystem APIs.
+- Added verified-account Forgot Password and Reset Password flow using one dynamic password API.
+- Preserved authentication, sessions, dashboard functionality, Memory Mining, Profile, Notifications, Settings, and Vercel Hobby compatibility.
+- Removed development/test accounts before end-to-end verification.
+
+Total Serverless Functions:
+
+12
+
+Next Milestone:
+
+FRANGAIN Ecosystem V1 is complete. Future milestones should be defined and approved before additional ecosystem functionality is added.
+
+---
+
 ## Future Rule
 
 At the end of every completed milestone, automatically update PROJECT_PROGRESS.md with:

@@ -1,6 +1,7 @@
 ﻿const { ObjectId } = require('mongodb');
 const connectToDatabase = require('../lib/mongodb');
 const { getAuthTokenFromRequest, verifyAuthToken } = require('../lib/auth');
+const { isEmailVerificationRequired } = require('../lib/emailVerification');
 const { findUserById, sanitizeUser } = require('../models/User');
 
 async function authenticateRequest(req) {
@@ -62,6 +63,18 @@ async function authenticateRequest(req) {
   }
 
   req.user = sanitizeUser(user);
+
+  if (isEmailVerificationRequired() && req.user.emailVerified !== true) {
+    return {
+      authenticated: false,
+      status: 401,
+      response: {
+        success: false,
+        message: 'Email verification is required before accessing the FRANGAIN Ecosystem.',
+        errors: { emailVerified: 'Please verify your email address before continuing.' },
+      },
+    };
+  }
 
   return {
     authenticated: true,

@@ -1,4 +1,4 @@
-const FRANGAIN_CACHE = 'frangain-pwa-2026-07-22-settings-v1';
+const FRANGAIN_CACHE = 'frangain-pwa-2026-07-22-email-v1';
 const FRANGAIN_CACHE_PREFIX = 'frangain-pwa-';
 const OFFLINE_PAGE = '/offline.html';
 const PRECACHE_URLS = [
@@ -8,6 +8,8 @@ const PRECACHE_URLS = [
   '/ecosystem/settings.html',
   '/ecosystem/notifications.html',
   '/ecosystem/account.html',
+  '/ecosystem/forgot-password.html',
+  '/ecosystem/reset-password.html',
   '/css/bootstrap.min.css',
   '/css/font-awesome.min.css',
   '/css/themify-icons.css',
