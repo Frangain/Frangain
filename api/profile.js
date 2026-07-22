@@ -1,25 +1,15 @@
 const bcrypt = require('bcrypt');
 const connectToDatabase = require('../lib/mongodb');
-const { sendVerificationEmail } = require('../lib/email');
-const {
-  createVerificationToken,
-  getVerificationExpiry,
-  hashVerificationToken,
-  isEmailVerificationRequired,
-} = require('../lib/emailVerification');
 const { requireAuth } = require('../middleware/auth');
 const {
-  findUserByEmail,
   findUserById,
   sanitizeUser,
-  updateUserEmail,
   updateUserPassword,
   updateUserProfile,
   normalizeProfileInput,
   validateProfileInput,
 } = require('../models/User');
 
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const SALT_ROUNDS = 12;
 
 function getRequestBody(req) {
@@ -44,7 +34,6 @@ function normalizeAccountInput(body = {}) {
     currentPassword: typeof body.currentPassword === 'string' ? body.currentPassword : '',
     newPassword: typeof body.newPassword === 'string' ? body.newPassword : '',
     confirmPassword: typeof body.confirmPassword === 'string' ? body.confirmPassword : '',
-    newEmail: typeof body.newEmail === 'string' ? body.newEmail.trim().toLowerCase() : '',
   };
 }
 
@@ -130,96 +119,6 @@ async function handleChangePassword(req, res, input) {
   });
 }
 
-async function handleChangeEmail(req, res, input) {
-  const errors = {};
-
-  if (!input.currentPassword) {
-    errors.currentPassword = 'Current password is required.';
-  }
-
-  if (!input.newEmail) {
-    errors.newEmail = 'New email address is required.';
-  } else if (!EMAIL_PATTERN.test(input.newEmail)) {
-    errors.newEmail = 'Please enter a valid email address.';
-  }
-
-  if (Object.keys(errors).length > 0) {
-    return res.status(400).json({
-      success: false,
-      message: 'Please correct the highlighted email fields.',
-      errors,
-    });
-  }
-
-  const { db } = await connectToDatabase();
-  const user = await loadAuthenticatedUser(db, req.user.id);
-
-  if (!user) {
-    return res.status(404).json({
-      success: false,
-      message: 'Account was not found.',
-      errors: { account: 'Authenticated account was not found.' },
-    });
-  }
-
-  const passwordMatches = await verifyCurrentPassword(user, input.currentPassword);
-
-  if (!passwordMatches) {
-    return res.status(401).json({
-      success: false,
-      message: 'Current password is incorrect.',
-      errors: { currentPassword: 'Enter your current password.' },
-    });
-  }
-
-  if (input.newEmail === user.email) {
-    return res.status(400).json({
-      success: false,
-      message: 'This email address is already on your account.',
-      errors: { newEmail: 'Enter a different email address.' },
-    });
-  }
-
-  const existingUser = await findUserByEmail(db, input.newEmail);
-
-  if (existingUser) {
-    return res.status(409).json({
-      success: false,
-      message: 'This email address is already registered.',
-      errors: { newEmail: 'Use a different email address.' },
-    });
-  }
-
-  const verificationRequired = isEmailVerificationRequired();
-  const verificationToken = verificationRequired ? createVerificationToken() : null;
-  const updatedUser = await updateUserEmail(db, req.user.id, {
-    email: input.newEmail,
-    emailVerified: !verificationRequired,
-    emailVerificationTokenHash: verificationToken ? hashVerificationToken(verificationToken) : null,
-    emailVerificationExpiresAt: verificationToken ? getVerificationExpiry() : null,
-  });
-
-  if (verificationRequired) {
-    await sendVerificationEmail({
-      to: updatedUser.email,
-      username: updatedUser.username,
-      token: verificationToken,
-      req,
-    });
-  }
-
-  return res.status(200).json({
-    success: true,
-    message: verificationRequired
-      ? 'Email changed successfully. Please verify your new email address.'
-      : 'Email changed successfully.',
-    data: {
-      emailVerificationRequired: verificationRequired,
-      user: sanitizeUser(updatedUser),
-    },
-  });
-}
-
 module.exports = requireAuth(async function profileHandler(req, res) {
   if (req.method === 'GET') {
     return res.status(200).json({
@@ -258,14 +157,10 @@ module.exports = requireAuth(async function profileHandler(req, res) {
         return handleChangePassword(req, res, input);
       }
 
-      if (input.action === 'change-email') {
-        return handleChangeEmail(req, res, input);
-      }
-
       return res.status(400).json({
         success: false,
         message: 'Unsupported account action.',
-        errors: { action: 'Supported actions are change-password and change-email.' },
+        errors: { action: 'Supported action is change-password.' },
       });
     } catch (error) {
       return res.status(500).json({

@@ -1,4 +1,7 @@
 (function () {
+  var changePasswordForm = document.getElementById('changePasswordForm');
+  var changePasswordButton = document.getElementById('changePasswordButton');
+  var passwordMessage = document.getElementById('passwordSettingsMessage');
   var mobileNav = document.getElementById('mobileNav');
   var topbarUser = document.getElementById('topbarUser');
   var userMenuButton = document.getElementById('userMenuButton');
@@ -7,6 +10,11 @@
 
   function redirectToLogin() {
     window.location.href = '/ecosystem/login.html';
+  }
+
+  function setPasswordMessage(message, type) {
+    passwordMessage.textContent = message || '';
+    passwordMessage.className = 'settings-message' + (type ? ' ' + type : '');
   }
 
   function requestJson(url, options) {
@@ -41,7 +49,7 @@
     });
   }
 
-  function loadSettingsShell() {
+  function loadAccountShell() {
     requestJson('/api/profile', {
       method: 'GET',
       credentials: 'same-origin',
@@ -60,6 +68,47 @@
       });
   }
 
+  function handleChangePassword(event) {
+    event.preventDefault();
+
+    var payload = {
+      action: 'change-password',
+      currentPassword: document.getElementById('currentPassword').value,
+      newPassword: document.getElementById('newPassword').value,
+      confirmPassword: document.getElementById('confirmPassword').value,
+    };
+
+    changePasswordButton.disabled = true;
+    setPasswordMessage('Changing password...', '');
+
+    requestJson('/api/profile', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+      .then(function (result) {
+        if (result.status === 401 && !(result.data.errors && result.data.errors.currentPassword)) {
+          redirectToLogin();
+          return;
+        }
+
+        if (!result.ok || !result.data.success) {
+          throw new Error(result.data.message || 'Unable to change password.');
+        }
+
+        changePasswordForm.reset();
+        setPasswordMessage(result.data.message || 'Password changed successfully.', 'success');
+      })
+      .catch(function (error) {
+        setPasswordMessage(error.message || 'Unable to change password.', 'error');
+      })
+      .finally(function () {
+        changePasswordButton.disabled = false;
+      });
+  }
+
+  changePasswordForm.addEventListener('submit', handleChangePassword);
   document.getElementById('logoutButton').addEventListener('click', logout);
   document.getElementById('mobileLogoutButton').addEventListener('click', logout);
   document.getElementById('topbarLogoutButton').addEventListener('click', logout);
@@ -79,5 +128,5 @@
     event.stopPropagation();
   });
 
-  loadSettingsShell();
+  loadAccountShell();
 })();

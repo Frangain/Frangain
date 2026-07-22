@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Frangain | Settings</title>
+    <title>Frangain | Notifications</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#20509e" />
@@ -42,69 +42,43 @@
       .mobile-menu-toggle { display: none; border: 0; background: #fff; color: #20509e; width: 44px; height: 44px; border-radius: 8px; box-shadow: 0 8px 20px rgba(33, 54, 61, 0.12); }
       .dashboard-mobile-nav { display: none; }
       .settings-content { padding: 28px 34px; }
-      .settings-menu-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
-      .settings-menu-card { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 18px; align-items: center; min-height: 150px; padding: 28px; background: #fff; border-radius: 8px; box-shadow: 0 18px 36px rgba(33, 54, 61, 0.1); color: #20509e; transition: transform 0.18s ease, box-shadow 0.18s ease; }
-      .settings-menu-card:hover { transform: translateY(-3px); box-shadow: 0 24px 42px rgba(33, 54, 61, 0.14); color: #20509e; }
-      .settings-menu-card i { display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 52px; border-radius: 50%; background: rgba(22, 208, 197, 0.12); color: #16d0c5; font-size: 24px; }
-      .settings-menu-card strong { display: block; margin-bottom: 6px; color: #20509e; font-family: "Futura", sans-serif; font-size: 22px; }
-      .settings-menu-card span { display: block; color: #75849a; line-height: 1.45; }
+      .settings-card { max-width: 860px; padding: 24px; background: #fff; border-radius: 8px; box-shadow: 0 18px 36px rgba(33, 54, 61, 0.1); }
+      .settings-card h3 { margin-bottom: 10px; color: #20509e; font-size: 25px; }
+      .settings-card p { margin-bottom: 20px; color: #75849a; line-height: 1.55; }
+      .settings-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 18px 0; border-bottom: 1px solid #ebebeb; }
+      .settings-row:last-child { border-bottom: 0; }
+      .settings-row strong { display: block; margin-bottom: 4px; color: #20509e; font-family: "Futura", sans-serif; }
+      .settings-row span { color: #75849a; line-height: 1.45; }
+      .toggle-switch { position: relative; flex: 0 0 auto; width: 58px; height: 32px; }
+      .toggle-switch input { position: absolute; opacity: 0; }
+      .toggle-switch span { position: absolute; inset: 0; border-radius: 50px; background: #dfe9ee; cursor: pointer; transition: background 0.18s ease; }
+      .toggle-switch span:before { position: absolute; content: ""; width: 24px; height: 24px; left: 4px; top: 4px; border-radius: 50%; background: #fff; box-shadow: 0 4px 10px rgba(33, 54, 61, 0.16); transition: transform 0.18s ease; }
+      .toggle-switch input:checked + span { background: #16d0c5; }
+      .toggle-switch input:checked + span:before { transform: translateX(26px); }
+      .toggle-switch input:disabled + span { opacity: 0.55; cursor: not-allowed; }
+      .settings-message { min-height: 22px; margin: 14px 0 0; color: #75849a; font-size: 14px; line-height: 1.5; }
+      .settings-message.success { color: #20509e; }
+      .settings-message.error { color: #d9534f; }
       @media (max-width: 991px) { .dashboard-shell { display: block; } .dashboard-sidebar { display: none; } .mobile-menu-toggle { display: inline-flex; align-items: center; justify-content: center; } .dashboard-mobile-nav { display: none; padding: 0 34px 20px; background: #f3f7f9; } .dashboard-mobile-nav.open { display: grid; gap: 10px; } .dashboard-mobile-nav a, .dashboard-mobile-nav button { padding: 13px 14px; border: 0; border-radius: 8px; background: #fff; color: #20509e; font-family: "Futura", sans-serif; text-align: left; } }
-      @media (max-width: 767px) { .dashboard-topbar, .settings-content { padding: 22px; } .dashboard-topbar { align-items: flex-start; } .dashboard-topbar h1 { font-size: 30px; } .topbar-username { display: none; } .settings-menu-grid { grid-template-columns: 1fr; } }
+      @media (max-width: 767px) { .dashboard-topbar, .settings-content { padding: 22px; } .dashboard-topbar { align-items: flex-start; } .dashboard-topbar h1 { font-size: 30px; } .topbar-username { display: none; } .settings-row { align-items: flex-start; } }
     </style>
   </head>
-
   <body>
-    <div class="settings-loading">Loading FRANGAIN Settings...</div>
+    <div class="settings-loading">Loading FRANGAIN Notifications...</div>
     <div class="dashboard-shell">
       <aside class="dashboard-sidebar">
         <a href="/ecosystem/" class="dashboard-brand"><img src="../img/Frangain.png" alt="Frangain" /><span><strong>FRANGAIN</strong><span>Ecosystem</span></span></a>
         <nav class="dashboard-nav">
-          <a href="/ecosystem/dashboard.html"><i class="fa fa-th-large"></i> Dashboard</a>
-          <a href="/ecosystem/profile.html"><i class="fa fa-user-o"></i> My Profile</a>
-          <a href="/ecosystem/dashboard.html#mining"><i class="fa fa-bolt"></i> Memory Mining</a>
-          <a href="/ecosystem/dashboard.html#circle"><i class="fa fa-users"></i> Circle of Trust</a>
-          <a href="/ecosystem/settings.html" class="active"><i class="fa fa-cog"></i> Settings</a>
-          <a href="../whitepaper.html"><i class="fa fa-file-text-o"></i> Whitepaper</a>
-          <a href="../how_to_buy.html"><i class="fa fa-shopping-cart"></i> How to Buy FRANG</a>
-          <button id="logoutButton" type="button"><i class="fa fa-sign-out"></i> Logout</button>
+          <a href="/ecosystem/dashboard.html"><i class="fa fa-th-large"></i> Dashboard</a><a href="/ecosystem/profile.html"><i class="fa fa-user-o"></i> My Profile</a><a href="/ecosystem/dashboard.html#mining"><i class="fa fa-bolt"></i> Memory Mining</a><a href="/ecosystem/dashboard.html#circle"><i class="fa fa-users"></i> Circle of Trust</a><a href="/ecosystem/settings.html" class="active"><i class="fa fa-cog"></i> Settings</a><a href="../whitepaper.html"><i class="fa fa-file-text-o"></i> Whitepaper</a><a href="../how_to_buy.html"><i class="fa fa-shopping-cart"></i> How to Buy FRANG</a><button id="logoutButton" type="button"><i class="fa fa-sign-out"></i> Logout</button>
         </nav>
       </aside>
-
       <main class="dashboard-main">
-        <header class="dashboard-topbar">
-          <button id="mobileMenuToggle" class="mobile-menu-toggle" type="button" aria-label="Open settings menu"><i class="fa fa-bars"></i></button>
-          <div><h1>Settings</h1><p>Choose a settings area to manage your FRANGAIN Ecosystem account.</p></div>
-          <div id="topbarUser" class="topbar-user">
-            <button id="userMenuButton" class="topbar-user-button" type="button" aria-haspopup="true" aria-expanded="false"><span id="topbarAvatar" class="topbar-avatar">F</span><span id="topbarUsername" class="topbar-username">Username</span><i class="fa fa-angle-down"></i></button>
-            <div id="userDropdown" class="topbar-user-menu" aria-label="User menu">
-              <a href="/ecosystem/profile.html"><i class="fa fa-user-o"></i> My Profile</a>
-              <a href="/ecosystem/settings.html"><i class="fa fa-cog"></i> Settings</a>
-              <button id="topbarLogoutButton" type="button"><i class="fa fa-sign-out"></i> Logout</button>
-            </div>
-          </div>
-        </header>
-
-        <nav id="mobileNav" class="dashboard-mobile-nav">
-          <a href="/ecosystem/dashboard.html">Dashboard</a>
-          <a href="/ecosystem/profile.html">My Profile</a>
-          <a href="/ecosystem/dashboard.html#mining">Memory Mining</a>
-          <a href="/ecosystem/dashboard.html#circle">Circle of Trust</a>
-          <a href="/ecosystem/settings.html">Settings</a>
-          <a href="../whitepaper.html">Whitepaper</a>
-          <a href="../how_to_buy.html">How to Buy FRANG</a>
-          <button id="mobileLogoutButton" type="button">Logout</button>
-        </nav>
-
-        <div class="settings-content">
-          <section class="settings-menu-grid" aria-label="Settings navigation">
-            <a class="settings-menu-card" href="/ecosystem/notifications.html"><i class="fa fa-bell-o"></i><span><strong>Notifications</strong><span>Manage browser notifications, Mining Reminders, and FRANGAIN Announcements.</span></span><i class="fa fa-angle-right"></i></a>
-            <a class="settings-menu-card" href="/ecosystem/account.html"><i class="fa fa-lock"></i><span><strong>Account</strong><span>Manage your FRANGAIN Ecosystem password.</span></span><i class="fa fa-angle-right"></i></a>
-          </section>
-        </div>
+        <header class="dashboard-topbar"><button id="mobileMenuToggle" class="mobile-menu-toggle" type="button" aria-label="Open notifications menu"><i class="fa fa-bars"></i></button><div><h1>Notifications</h1><p>Manage FRANGAIN Ecosystem notification preferences.</p></div><div id="topbarUser" class="topbar-user"><button id="userMenuButton" class="topbar-user-button" type="button" aria-haspopup="true" aria-expanded="false"><span id="topbarAvatar" class="topbar-avatar">F</span><span id="topbarUsername" class="topbar-username">Username</span><i class="fa fa-angle-down"></i></button><div id="userDropdown" class="topbar-user-menu" aria-label="User menu"><a href="/ecosystem/profile.html"><i class="fa fa-user-o"></i> My Profile</a><a href="/ecosystem/settings.html"><i class="fa fa-cog"></i> Settings</a><button id="topbarLogoutButton" type="button"><i class="fa fa-sign-out"></i> Logout</button></div></div></header>
+        <nav id="mobileNav" class="dashboard-mobile-nav"><a href="/ecosystem/dashboard.html">Dashboard</a><a href="/ecosystem/profile.html">My Profile</a><a href="/ecosystem/dashboard.html#mining">Memory Mining</a><a href="/ecosystem/dashboard.html#circle">Circle of Trust</a><a href="/ecosystem/settings.html">Settings</a><a href="../whitepaper.html">Whitepaper</a><a href="../how_to_buy.html">How to Buy FRANG</a><button id="mobileLogoutButton" type="button">Logout</button></nav>
+        <div class="settings-content"><section class="settings-card"><h3>Notifications</h3><p>Control browser notifications, Mining Reminders, and FRANGAIN Announcements.</p><div class="settings-row"><span><strong>Browser Notifications</strong><span id="browserNotificationStatus">Checking notification status...</span></span><label class="toggle-switch" aria-label="Browser Notifications"><input id="browserNotificationsToggle" type="checkbox" /><span></span></label></div><div class="settings-row"><span><strong>Mining Reminders</strong><span>Receive reminders to begin your next Mining Session.</span></span><label class="toggle-switch" aria-label="Mining Reminders"><input id="miningRemindersToggle" type="checkbox" /><span></span></label></div><div class="settings-row"><span><strong>FRANGAIN Announcements</strong><span>Receive important FRANGAIN Ecosystem updates.</span></span><label class="toggle-switch" aria-label="FRANGAIN Announcements"><input id="announcementsToggle" type="checkbox" /><span></span></label></div><p id="notificationSettingsMessage" class="settings-message" role="status" aria-live="polite"></p></section></div>
       </main>
     </div>
-
     <script src="../js/pwa.js"></script>
-    <script src="../js/settings.js"></script>
+    <script src="../js/notifications-settings.js"></script>
   </body>
 </html>

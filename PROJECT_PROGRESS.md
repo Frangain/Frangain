@@ -390,6 +390,47 @@ Milestone 10 should be defined and approved before additional ecosystem function
 
 ---
 
+## Settings V1 Refactor - Final FRANGAIN Ecosystem Design
+
+Status:
+
+Completed ✅
+
+Files Created:
+
+- `ecosystem/notifications.html`
+- `ecosystem/account.html`
+- `js/notifications-settings.js`
+- `js/account-settings.js`
+
+Files Modified:
+
+- `ecosystem/settings.html`
+- `js/settings.js`
+- `api/profile.js`
+- `models/User.js`
+- `sw.js`
+- `PROJECT_PROGRESS.md`
+
+Completed Work:
+
+- Converted Settings into a simple navigation page with Notifications and Account entries.
+- Moved notification preferences to a dedicated authenticated Notifications page.
+- Moved Change Password to a dedicated authenticated Account page.
+- Removed Change Email from the Settings frontend and unsupported backend account actions.
+- Kept Logout available from the existing left navigation and mobile navigation.
+- Preserved the existing notification backend, Change Password behavior, authentication, sessions, and Vercel Hobby function count.
+
+Total Serverless Functions:
+
+11
+
+Next Milestone:
+
+Milestone 10 should be defined and approved before additional ecosystem functionality is added.
+
+---
+
 ## Future Rule
 
 At the end of every completed milestone, automatically update PROJECT_PROGRESS.md with:
