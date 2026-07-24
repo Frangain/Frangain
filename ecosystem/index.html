@@ -18,13 +18,19 @@
       .portal-hero {
         min-height: 760px;
         padding: 190px 0 120px;
-        background: #f3f7f9 url("../img/hero-bg.png") no-repeat right top / cover;
+        background-color: #f3f7f9;
+        background-image: linear-gradient(90deg, rgba(243, 247, 249, 0.98) 0%, rgba(243, 247, 249, 0.93) 48%, rgba(243, 247, 249, 0.72) 100%), url("../img/hero-bg.png");
+        background-position: right top;
+        background-repeat: no-repeat;
+        background-size: cover;
         overflow: hidden;
       }
 
       .portal-hero h1 {
         margin-bottom: 24px;
+        color: #12356d;
         font-size: 68px;
+        text-shadow: 0 2px 10px rgba(255, 255, 255, 0.72);
       }
 
       .portal-hero h1 span,
@@ -35,6 +41,7 @@
       .portal-hero p {
         max-width: 620px;
         margin-bottom: 34px;
+        color: #41526b;
         font-size: 22px;
       }
 
@@ -47,9 +54,10 @@
 
       .hero-subtitle span {
         display: block;
-        color: #75849a;
+        color: #41526b;
         font-size: 22px;
         line-height: 1.45;
+        text-shadow: 0 1px 8px rgba(255, 255, 255, 0.78);
       }
 
       .portal-actions {
@@ -292,8 +300,10 @@
       .pwa-status {
         min-height: 24px;
         margin-top: 18px;
-        color: #75849a;
+        color: #41526b;
         font-size: 15px;
+        font-weight: 700;
+        line-height: 1.5;
       }
 
       .pwa-status.success {
@@ -302,6 +312,14 @@
 
       .pwa-status.error {
         color: #f44336;
+      }
+
+      .pwa-browser-action {
+        margin-top: 12px;
+        border: 0;
+        color: #20509e;
+        background: #fff;
+        box-shadow: 0 12px 28px rgba(33, 54, 61, 0.12);
       }
 
       .reserve-highlight {
@@ -323,7 +341,7 @@
         .portal-hero {
           min-height: auto;
           padding: 150px 0 80px;
-          background-image: linear-gradient(90deg, rgba(243, 247, 249, 0.98) 0%, rgba(243, 247, 249, 0.94) 58%, rgba(243, 247, 249, 0.86) 100%), url("../img/hero-bg.png");
+          background-image: linear-gradient(90deg, rgba(243, 247, 249, 0.99) 0%, rgba(243, 247, 249, 0.96) 58%, rgba(243, 247, 249, 0.9) 100%), url("../img/hero-bg.png");
           background-position: right top;
         }
 
@@ -504,11 +522,11 @@
         </div>
         <div class="row justify-content-center">
           <div class="col-lg-9">
-            <div class="faq-item"><h4>What is Memory Mining?</h4><p>Memory Mining is the planned mechanism for users to mine FRANG and build their FRANG Reserve. It is not active on this portal page.</p></div>
-            <div class="faq-item"><h4>Is FRANGAIN free?</h4><p>Creating an ecosystem account is designed to be simple and accessible. Token purchases remain separate from account registration.</p></div>
-            <div class="faq-item"><h4>Do I need crypto experience?</h4><p>No. The ecosystem is being built to introduce concepts clearly and gradually.</p></div>
-            <div class="faq-item"><h4>What is the Circle of Trust?</h4><p>It is the planned community layer for trusted participation and future social features.</p></div>
-            <div class="faq-item"><h4>How do I install FRANGAIN?</h4><p>Use the Install FRANGAIN action when your browser supports native installation. On iPhone, use Share and Add to Home Screen.</p></div>
+            <div class="faq-item"><h4>What is Memory Mining?</h4><p>Memory Mining lets registered users start a free daily Mining Session inside the FRANGAIN Ecosystem. No mining hardware, technical setup, or payment is required. When a session is active, FRANG grows in your Memory Reserve according to your Mining Rate.</p></div>
+            <div class="faq-item"><h4>Is FRANGAIN free?</h4><p>Creating an account and using Memory Mining are free. You do not need to buy FRANG to register, sign in, or start using the Ecosystem. Buying FRANG is optional and separate from the free account experience.</p></div>
+            <div class="faq-item"><h4>Do I need crypto experience?</h4><p>No. You can create an account with a username, email address, and password. The dashboard explains your Memory Reserve, Mining Rate, and Mining Sessions in simple terms, so you can participate without using wallets, exchanges, or mining equipment.</p></div>
+            <div class="faq-item"><h4>What is the Circle of Trust?</h4><p>The Circle of Trust is the planned community layer of the FRANGAIN Ecosystem. It is designed to help users invite trusted people, build their community, and prepare for future benefits. It does not require payment to understand or join when the feature is available.</p></div>
+            <div class="faq-item"><h4>How do I install FRANGAIN?</h4><p>Installation depends on your browser. On Android, open FRANGAIN in Chrome or another supported browser and use the Install FRANGAIN button when it appears. On iPhone, open FRANGAIN in Safari, tap Share, then Add to Home Screen. Facebook, Messenger, Instagram, and other in-app browsers may not support installation.</p></div>
           </div>
         </div>
       </div>

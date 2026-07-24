@@ -1,4 +1,4 @@
-const FRANGAIN_CACHE = 'frangain-pwa-2026-07-22-auth-restore-v1';
+const FRANGAIN_CACHE = 'frangain-pwa-2026-07-24-stability-v1';
 const FRANGAIN_CACHE_PREFIX = 'frangain-pwa-';
 const OFFLINE_PAGE = '/offline.html';
 const PRECACHE_URLS = [
