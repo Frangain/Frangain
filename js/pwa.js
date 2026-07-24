@@ -15,6 +15,14 @@
     return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
   }
 
+  function logInstallLifecycle(eventName, details) {
+    if (!window.console || !window.console.info) {
+      return;
+    }
+
+    window.console.info('[FRANGAIN PWA install]', eventName, details || {});
+  }
+
   function createBrowserOpenButton(target) {
     var button = document.createElement('button');
     button.type = 'button';
@@ -92,6 +100,23 @@
     hideInstallButtons();
     hideBrowserOpenButtons();
     setStatus('FRANGAIN is installed on this device.', 'success');
+  }
+
+  function showInstallPendingVerification() {
+    if (installCompletionTimer) {
+      window.clearTimeout(installCompletionTimer);
+    }
+
+    hideInstallButtons();
+    hideBrowserOpenButtons();
+    setStatus('Chrome accepted the installation request. Open FRANGAIN from your home screen after Chrome finishes adding it.', '');
+    installCompletionTimer = window.setTimeout(function () {
+      installCompletionTimer = null;
+
+      if (!isStandaloneMode()) {
+        setStatus('If FRANGAIN was not added to your device, refresh this page and try installing again.', 'error');
+      }
+    }, 30000);
   }
 
   function showIosInstallHelp() {
@@ -187,6 +212,11 @@
   window.addEventListener('beforeinstallprompt', function (event) {
     event.preventDefault();
     installPromptEvent = event;
+    logInstallLifecycle('beforeinstallprompt', {
+      standalone: isStandaloneMode(),
+      inAppBrowser: isInAppBrowser,
+      platforms: event.platforms || []
+    });
 
     if (!isInAppBrowser && !isStandaloneMode()) {
       showInstallButtons();
@@ -208,20 +238,33 @@
         installPromptEvent = null;
         hideInstallButtons();
         setStatus('', '');
+        logInstallLifecycle('prompt-started', {
+          standalone: isStandaloneMode()
+        });
         promptEvent.prompt();
         promptEvent.userChoice.then(function (choice) {
+          logInstallLifecycle('prompt-user-choice', {
+            outcome: choice.outcome,
+            platform: choice.platform,
+            standalone: isStandaloneMode()
+          });
+
           if (choice.outcome === 'accepted') {
             setStatus('Completing FRANGAIN installation...', '');
             installCompletionTimer = window.setTimeout(function () {
               installCompletionTimer = null;
-              showInstallButtons();
-              setStatus('FRANGAIN installation did not complete. Please try again.', 'error');
+              if (!isStandaloneMode()) {
+                setStatus('If FRANGAIN was not added to your device, refresh this page and try installing again.', 'error');
+              }
             }, 30000);
           } else {
             showInstallButtons();
             setStatus('You can install FRANGAIN anytime from this page.', '');
           }
         }).catch(function () {
+          logInstallLifecycle('prompt-error', {
+            standalone: isStandaloneMode()
+          });
           showInstallButtons();
           setStatus('FRANGAIN installation did not start. Please try again.', 'error');
         });
@@ -242,7 +285,18 @@
     });
   });
 
-  window.addEventListener('appinstalled', markInstalled);
+  window.addEventListener('appinstalled', function () {
+    logInstallLifecycle('appinstalled', {
+      standalone: isStandaloneMode()
+    });
+
+    if (isStandaloneMode()) {
+      markInstalled();
+      return;
+    }
+
+    showInstallPendingVerification();
+  });
 
   window.addEventListener('online', function () {
     setStatus('You are back online. FRANGAIN Ecosystem actions are available.', 'success');
