@@ -9,25 +9,10 @@
   var isAndroid = /android/i.test(userAgent);
   var isInAppBrowser = /(FBAN|FBAV|FBIOS|FB_IAB|Messenger|Instagram|Line\/|Twitter|TikTok|Snapchat|Pinterest)/i.test(userAgent);
   var originalFetch = window.fetch ? window.fetch.bind(window) : null;
-  var installStorageKey = 'frangain_pwa_installed';
   var installCompletionTimer = null;
 
   function isStandaloneMode() {
     return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-  }
-
-  function isRememberedInstalled() {
-    try {
-      return window.localStorage.getItem(installStorageKey) === 'true';
-    } catch (error) {
-      return false;
-    }
-  }
-
-  function rememberInstalled() {
-    try {
-      window.localStorage.setItem(installStorageKey, 'true');
-    } catch (error) {}
   }
 
   function createBrowserOpenButton(target) {
@@ -104,7 +89,6 @@
       installCompletionTimer = null;
     }
 
-    rememberInstalled();
     hideInstallButtons();
     hideBrowserOpenButtons();
     setStatus('FRANGAIN is installed on this device.', 'success');
@@ -204,7 +188,7 @@
     event.preventDefault();
     installPromptEvent = event;
 
-    if (!isInAppBrowser && !isStandaloneMode() && !isRememberedInstalled()) {
+    if (!isInAppBrowser && !isStandaloneMode()) {
       showInstallButtons();
       setStatus('Install FRANGAIN on this device.', '');
     }
@@ -214,7 +198,7 @@
     button.addEventListener('click', function (event) {
       event.preventDefault();
 
-      if (isStandaloneMode() || isRememberedInstalled()) {
+      if (isStandaloneMode()) {
         markInstalled();
         return;
       }
@@ -268,7 +252,7 @@
     setStatus('You are offline. Previously visited pages remain available for browsing.', 'error');
   });
 
-  if (isStandaloneMode() || isRememberedInstalled()) {
+  if (isStandaloneMode()) {
     markInstalled();
   } else if (isInAppBrowser) {
     showInAppBrowserHelp();
